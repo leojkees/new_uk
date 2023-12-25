@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+            
+            
+            <div class="container text-left">
+              <div class="row">
+
+                  <div id="contain" class="col-12">
+                    <div class="row mb-3">
+                      <div class="col">
+                      <h3>ПУБЛИКАЦИИ</h3>
+                      </div>
+                    </div>
+
+                      {% for post in post_list %}
+                        <div id="card" class="card mb-3 p-3 border-bottom border-0">
+                          <div class="row g-0">
+
+                            <div class="col-lg-2">
+                              <div class="card-body">
+                              <h5>{{ post.year }}</h5>
+                              <hr>
+                              <h5>{{ post.month }}</h5>
+                              </div>
+                            </div>
+                            
+                            <div class="col-lg-4 mb-4 mb-lg-0 d-flex align-items-center justify-content-lg-center justify-content-start">
+                              <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}">
+                            </div>
+                            
+                            <div class="col-lg-6">
+                              <div class="card-body p-0 p-lg-3">
+                                
+                                  <h5 class="card-title">{{ post.title }}</h5>
+                                
+                                <hr>
+
+
+                                <!-- <p>Categories:
+                                  {% for category in post.category.all %}
+                                    <a href="{% url 'category_posts' category_slug=category.slug %}">{{ category.name }}</a>
+                                    {% if not forloop.last %}, {% endif %}
+                                  {% endfor %}
+                                </p> -->
+                                <p>Рубрика:
+                                  {% if post.category.count > 1 %}
+                                    <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                  {% else %}
+                                    <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                  {% endif %}
+                                </p>
+
+
+                                <p class="card-text">{{ post.content_preview|safe }}
+                                
+
+
+
+                                  <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                              {% if post.category.count > 1 %}
+                                                {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                              {% else %}
+                                                {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                              {% endif %}
+                                            {% else %}
+                                              {% url 'paid_view' %}
+                                            {% endif %}">
+                                            {% if not post.is_paid %}
+                                              Читать далее
+                                            {% elif user.is_authenticated and user.subscribe %}
+                                              Читать далее
+                                            {% else %}
+                                              Оплатить
+                                            {% endif %}
+                                  </a>
+
+
+
+                                </p>
+
+
+                                  <p>
+                                    <form method="post" action="{% url 'manage_favorite' post.id %}">
+                                      {% csrf_token %}
+                                      {% if is_favorite %}
+                                        <p>Уже добавлен в избранное</p>
+                                      {% else %}
+                                        <button type="submit" name="add_to_favorite" class="btn btn-custom rounded-0">Добавить в избранное</button>
+                                      {% endif %}
+                                    </form>
+                                  </p>
+
+                                  
+                                  <p>Теги:
+                                    {% for tag in post.tags.all %}
+                                      <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+                                    {% endfor %}
+                                  </p>
+                                  
+
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                          {% if post_list.has_previous %}
+                            <li class="page-item">
+                              <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">Первая страница</span>
+                              </a>
+                            </li>
+                            <li class="page-item">
+                              <a class="page-link" href="?page={{ post_list.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                              </a>
+                            </li>
+                          {% else %}
+                            <li class="page-item disabled">
+                              <span class="page-link" aria-hidden="true">&laquo;&laquo;</span>
+                            </li>
+                            <li class="page-item disabled">
+                              <span class="page-link" aria-hidden="true">&laquo;</span>
+                            </li>
+                          {% endif %}
+                      
+                          {% for i in post_list.paginator.page_range %}
+                            {% if post_list.number == i %}
+                              <li class="page-item active" aria-current="page">
+                                <span class="page-link">{{ i }} <span class="sr-only"></span></span>
+                              </li>
+                            {% else %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                              </li>
+                            {% endif %}
+                          {% endfor %}
+                      
+                          {% if post_list.has_next %}
+                            <li class="page-item">
+                              <a class="page-link" href="?page={{ post_list.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                              </a>
+                            </li>
+                            <li class="page-item">
+                              <a class="page-link" href="?page={{ post_list.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">Последняя страница</span>
+                              </a>
+                            </li>
+                          {% else %}
+                            <li class="page-item disabled">
+                              <span class="page-link" aria-hidden="true">&raquo;</span>
+                            </li>
+                            <li class="page-item disabled">
+                              <span class="page-link" aria-hidden="true">&raquo;&raquo;</span>
+                            </li>
+                          {% endif %}
+                        </ul>
+                      </nav>
+
+                      
+            
+           
+
+        
+
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base-account.html' %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+
+
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                        <h2 class="text-uppercase text-center mb-5">Создать аккаунт</h2>
+
+                        <form method="post" action="{% url 'custom_signup' %}">
+                            {% csrf_token %}
+                            
+                            {{ form.as_p }}
+                        
+
+                        
+                            {% if form.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>Error(s):</strong>
+                                    <ul>
+                                        {% for error in form.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                        {% for field, errors in form.errors.items %}
+                                            {% if field == 'email' %}
+                                                {% for error in errors %}
+                                                    <li>Email: {{ error }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if field == 'username' %}
+                                                {% for error in errors %}
+                                                    <li>Username: {{ error }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                            {% if field == 'password1' %}
+                                                {% for error in errors %}
+                                                    <li>Password: {{ error }}</li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                            </div>
+
+                            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="{% url 'custom-login' %}"
+                                class="fw-bold text-body"><u>Login here</u></a></p>
+                        </form>
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

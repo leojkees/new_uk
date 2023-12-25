@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% if slider %}
+            {{ slider.generate_slider_html|safe }}
+        {% else %}
+            <!-- Обработка случая, когда слайдер не найден -->
+        {% endif %}
+    </body>
+</html>
+
+

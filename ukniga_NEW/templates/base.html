@@ -1,0 +1,554 @@
+{% load static %}
+{% load slider_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <html lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400&family=Play:wght@400&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" media="all" />
+	{% comment %} <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css"> {% endcomment %}
+	<link rel="stylesheet" href="{% static 'css/slider.css' %}" type="text/css" media="all" />
+	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <link rel="shortcut icon" href="css/images/favicon.ico" />
+    <meta name='description' content='{{ post.description }}'>
+	
+
+</head>
+<body>
+
+
+	<div class="container d-none d-sm-block">
+	<div id='slider' class="row">
+		<div class="col">
+		{% render_slider 1 %}
+		</div>
+	</div>
+	</div>
+
+	<div class="container d-block d-sm-none mt-5 mb-3">
+	<div id='slider-mob' class="row">
+		<div class="col">
+		{% render_slider 2 %}
+		</div>
+	</div>
+	</div>
+
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm d-none d-sm-block">
+				{% if breadcrumbs %}
+				<nav id="breadcrumbs" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						{% for crumb in breadcrumbs %}
+							{% if not forloop.last %}
+								<li class="breadcrumb-item"><a href="{{ crumb.url }}">{{ crumb.title }}</a></li>
+							{% else %}
+								<li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+							{% endif %}
+						{% endfor %}
+					</ol>
+				</nav>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<header>
+			<nav class="navbar navbar-expand-xl fixed-top shadow p-3 mb-5 bg-body rounded">
+				<div class="container">
+
+					<form id='search' class="" role="search" method="GET" action="{% url 'search_posts' %}">
+						<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="q" value="{{ query }}">
+						<button class="btn btn-outline-success" type="submit">Найти</button>
+					</form>
+
+
+					<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+					<span class="navbar-toggler-icon"></span>
+					</button>
+
+
+
+					<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+
+						<div class="offcanvas-header">
+
+							<a id='logo' class="navbar-brand" href="#">
+								<img src="{% static 'logo.jpg' %}" alt="Университетская книга" width="150">
+							</a>
+
+							<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+						</div>
+
+						<div class="offcanvas-body">
+							<ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
+								<li class="nav-item">
+									<a class="nav-link" href="{% url 'home' %}">ГЛАВНАЯ</a>
+								</li>
+								<li class="nav-item">
+									<a href="{% url 'about' %}" class="nav-link">О НАС</a>
+								</li>
+								<li class="nav-item">
+									<a href="{% url 'podpiska' %}" class="nav-link">ПОДПИСКА</a>
+								</li>
+								<li class="nav-item">
+									<a href="{% url 'reklama' %}" class="nav-link">РЕКЛАМОДАТЕЛЯМ</a>
+								</li>
+								<li class="nav-item">
+									<a href="{% url 'forautors' %}" class="nav-link">НАШИМ АВТОРАМ</a>
+								</li>
+								<li class="nav-item">
+									<a href="{% url 'contact' %}" class="nav-link">КОНТАКТЫ</a>
+								</li>
+							</ul>
+
+							<hr>
+							<form class="d-flex mt-2 m-xl-0" role="search" method="GET" action="{% url 'search_posts' %}">
+								<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="q" value="{{ query }}">
+								<button class="btn btn-outline-success" type="submit">Найти</button>
+							</form>
+							<hr>
+
+
+
+							<div id="mob-right">
+								<a href="#"><img src="{% static 'Artboard 7 copy.svg' %}" alt="Описание изображения" class="img-fluid w-90 mt-2 mb-1 ms-1 me-1"></a>
+								<a href="#"><img src="{% static 'Artboard 7.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static 'Artboard 1.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static 'Artboard 2.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<hr>
+								<a href="#"><img src="{% static '2-1.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static '2-2.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static '2-3.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static '2-4.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+								<a href="#"><img src="{% static '2-5.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+							</div>
+
+
+
+						</div>
+
+					</div>
+
+
+
+				</div>
+			</nav>
+
+
+
+	</header>
+
+
+
+
+
+
+
+
+
+
+	<main>
+		<div id='menu-down' class='container fixed-bottom shadow p-3 bg-body rounded'>
+			<div class="row">
+				
+				<div class="col text-center text-sm-start">
+
+					<div class="btn-group btn-group-sm" role="group" aria-label="Basic mixed styles example">
+
+						<button class="btn mt-1 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" style="border: 1px solid #0c1e7c;">РУБРИКИ</button>
+						<a href="{% url 'tag' %}" class="btn mt-1 " style="border: 1px solid #0c1e7c;">ТЕГИ</a>
+						<a href="{% url 'custom_signup' %}" class="btn mt-1 " style="border: 1px solid #0c1e7c;">КАБИНЕТ</a>
+						<a href="{% url 'posts_by_year' %}" class="btn mt-1 " style="background-color:#c01826; color: aliceblue;">АРХИВ</a>
+
+
+					</div>
+
+				</div>
+				
+
+
+				<!-- <div class="col-2 d- m-2 m-sm-1 text-end">
+					
+					<a href="https://vk.com"><img src="{% static 'ico-vk.png' %}" alt="Vkontakte"></a>
+					<a href="https://t.me/"><img src="{% static 'ico-tg.png' %}" alt="Telegram"></a>
+				
+				</div> -->
+
+
+					<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
+						
+						<button id='lft-menu-btn-close' type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
+
+						<div id='lft-menu-body' class="offcanvas-body" style="max-height: 80vh;">
+
+
+
+							<p><a href="#collapse1" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse1" data-bs-toggle="collapse">ИНТЕРВЬЮ</a></p>
+
+							<div class="collapse" id="collapse1">
+								<div class="card card-body mb-2">
+									<nav class="nav flex-column">
+
+									<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='face' %}">Действующие лица</a>
+									<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='personal-podhod' %}">Персональный подход</a>
+									<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='freemic' %}">Свободный микрофон</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="{% url 'category_posts' category_slug='ostraya-tema' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">ОСТРАЯ ТЕМА</a></p>
+
+							
+							<p><a href="#collapse2" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse2" data-bs-toggle="collapse">КНИЖНЫЙ РЫНОК</a></p>
+							
+							<div class="collapse" id="collapse2">
+								<div class="card card-body mb-2 pe-2">
+									<nav class="nav flex-column">
+
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='knigniy-rinok' %}">Книжный рынок</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookraspr' %}">Книгораспространение</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='mirizdat' %}">Мир издательств</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='zarubez' %}">Зарубежный опыт</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="#collapse3" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse3" data-bs-toggle="collapse">ИСКУССТВО ИЗДАВАТЬ</a></p>
+							
+							<div class="collapse" id="collapse3">
+								<div class="card card-body mb-2 pe-2">
+									<nav class="nav flex-column">
+
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuz' %}">Вузовские издательства</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='periodika' %}">Научная периодика</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='kultura' %}">Книжная культура</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="#collapse4" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse4" data-bs-toggle="collapse">БИБЛИОТЕКИ</a></p>
+							
+							<div class="collapse" id="collapse4">
+								<div class="card card-body mb-2 pe-2">
+									<nav class="nav flex-column">
+
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотечное дело</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='fonds' %}">Библиотечные фонды</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuzbiblio' %}">Вузовские библиотеки</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='biblworld' %}">Библиотеки мира</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='geniy-place' %}">Гений места</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='absolut-media' %}">Абсолютно медиа</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="{% url 'category_posts' category_slug='vishee' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">НАУКА И ОБРАЗОВАНИЕ</a></p>
+
+
+							<p><a href="#collapse5" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse5" data-bs-toggle="collapse">ИНОВАЦИОННЫЕ ТЕХНОЛОГИИ</a></p>
+							
+							<div class="collapse" id="collapse5">
+								<div class="card card-body mb-2 pe-2">
+									<nav class="nav flex-column">
+
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='tehnology' %}">Инновационные технологии</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='print' %}">Технологии печати</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='electron' %}">Электронные библиотеки</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookplus' %}">КНИГА+</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='ai' %}">ИИ и нейросети</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="{% url 'category_posts' category_slug='vistavki-konferents' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">ВЫСТАВКИ И КОНФЕРЕНЦИИ</a></p>
+
+
+							<p><a href="#collapse6" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border w-150" aria-expanded="false" aria-controls="collapse6" data-bs-toggle="collapse">КОНКУРСЫ И ПРЕМИИ</a></p>
+							
+							<div class="collapse" id="collapse6">
+								<div class="card card-body mb-2 pe-2">
+									<nav class="nav flex-column">
+
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='konkurs' %}">«Университетская книга»</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='laborotary-liderstva' %}">Лаборатория лидерства</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='otraslevye-konkurs' %}">Отраслевые конкурсы</a>
+										<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='premiya' %}">Премии</a>
+
+									</nav>
+								</div>
+							</div>
+
+
+							<p><a href="{% url 'category_posts' category_slug='copyright' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">COPYRIGHT</a></p>
+
+
+							<p><a href="{% url 'category_posts' category_slug='creativ-context' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">КРЕАТИВНЫЙ КОНТЕКСТ</a></p>
+
+
+							<p><a href="{% url 'category_posts' category_slug='biblio-kompetenciy' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">БИБЛИОТЕКА КОМПЕТЕНЦИЙ</a></p>
+
+
+							<p><a href="{% url 'category_posts' category_slug='news' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">НОВОСТИ</a></p>
+
+
+							<p><a href="{% url 'category_posts' category_slug='company-news' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">НОВОСТИ ПАРТНЕРОВ</a></p>
+
+
+							<p><a href="{% url 'category_posts' category_slug='anonsy' %}" class="d-inline-flex focus-ring focus-ring-secondary py-1 px-2 text-decoration-none border">АНОНСЫ</a></p>
+						
+
+
+						</div>
+					</div>
+				</div>
+
+
+
+
+				
+				
+
+			</div>
+		</div>
+
+		<nav id='left-panel' class="nav flex-column shadow p-1 mb-5 bg-body">
+			<div class="card" style="width: 15rem;">
+				<ul class="list-group list-group-flush">
+					
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
+					ИНТЕРВЬЮ
+				</a>
+				<div class="collapse" id="collapseNav1">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='face' %}">Действующие лица</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='personal-podhod' %}">Персональный подход</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='freemic' %}">Свободный микрофон</a>
+					</div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='ostraya-tema' %}">ОСТРАЯ ТЕМА</a>
+				</li>
+
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav" aria-expanded="false" aria-controls="collapseNav">
+					КНИЖНЫЙ РЫНОК
+				</a>
+				<div class="collapse" id="collapseNav">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='knigniy-rinok' %}">Книжный рынок</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookraspr' %}">Книгораспространение</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='mirizdat' %}">Мир издательств</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='zarubez' %}">Зарубежный опыт</a>
+					</div>
+					</div>
+				</li>
+
+
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav2" aria-expanded="false" aria-controls="collapseNav">
+					ИСКУССТВО ИЗДАВАТЬ
+				</a>
+				<div class="collapse" id="collapseNav2">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuz' %}">Вузовские издательства</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='periodika' %}">Научная периодика</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='kultura' %}">Книжная культура</a>
+					</div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav3" aria-expanded="false" aria-controls="collapseNav">
+					БИБЛИОТЕКИ
+				</a>
+				<div class="collapse" id="collapseNav3">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотечное дело</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='fonds' %}">Формирование библиотечных фондов</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuzbiblio' %}">Вузовские библиотеки</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='biblworld' %}">Библиотеки мира</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='geniy-place' %}">Гений места</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='absolut-media' %}">Абсолютно медиа</a>
+					</div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+				<a class="nav-link" href="{% url 'category_posts' category_slug='vishee' %}">НАУКА И ОБРАЗОВАНИЕ</a>
+				</li>
+				  
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav4" aria-expanded="false" aria-controls="collapseNav">
+					ИНОВАЦИОННЫЕ ТЕХНОЛОГИИ
+				</a>
+				<div class="collapse" id="collapseNav4">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='tehnology' %}">Инновационные технологии</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='print' %}">Технологии печати</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='electron' %}">Электронные библиотеки</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookplus' %}">КНИГА+</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='ai' %}">Искусственный интеллект и нейросети</a>
+					</div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='vistavki-konferents' %}">ВЫСТАВКИ И КОНФЕРЕНЦИИ</a>
+				</li>
+
+				<li class="list-group-item">
+				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav5" aria-expanded="false" aria-controls="collapseNav">
+					КОНКУРСЫ И ПРЕМИИ
+				</a>
+				<div class="collapse" id="collapseNav5">
+					<div class="card card-body">
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='konkurs' %}">Конкурс «Университетская книга»</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='laborotary-liderstva' %}">Лаборатория лидерства</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='otraslevye-konkurs' %}">Отраслевые конкурсы</a>
+						<a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='premiya' %}">Премии</a>
+					</div>
+					</div>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='copyright' %}">COPYRIGHT</a>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='creativ-context' %}">КРЕАТИВНЫЙ КОНТЕКСТ</a>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='biblio-kompetenciy' %}">БИБЛИОТЕКА КОМПЕТЕНЦИЙ</a>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='news' %}">НОВОСТИ</a>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='company-news' %}">НОВОСТИ ПАРТНЕРОВ</a>
+				</li>
+
+				<li class="list-group-item">
+					<a class="nav-link" href="{% url 'category_posts' category_slug='anonsy' %}">АНОНСЫ</a>
+				</li>
+
+			</div>
+		</nav>
+
+
+
+
+		<nav id='right-panel' class="nav flex-column shadow p-1 mb-5 bg-body">
+			<div class="card" style="width: 15rem;">
+				<ul class="list-group list-group-flush">
+
+
+
+					<li class="list-group-item" style="background-color:#c01826; border-top-left-radius: 0; border-top-right-radius: 0;">
+						<a class="nav-link" style="color: aliceblue;" href="{% url 'posts_by_year' %}">АРХИВ</a>
+					</li>
+
+					<li class="list-group-item">
+						<a class="nav-link" href="{% url 'category_posts' category_slug='gostinnaya-sitina' %}">ЛИТЕРАТУРНАЯ ГОСТИННАЯ</a>
+					</li>
+
+					
+					<li class="list-group-item">
+						<div class="container" id="login">
+							<h5>Вход</h5>
+							<hr>
+							{% if user.is_authenticated %}
+								<p>Вы вошли как: {{ user.username }}</p>
+								<p><a href="{% url 'account_profile' %}">Личный кабинет</a>
+								<a href="{% url 'account_logout' %}">Выйти</a></p>
+							{% else %}
+								<form method="post" action="{% url 'custom-login' %}" class="mb-3">
+									{% csrf_token %}
+									<div class="mb-3">
+										<label for="{{ form.login.id_for_label }}" class="form-label">Имя пользователя</label>
+										<input type="text" name="{{ form.login.name }}" class="form-control rounded-0" id="{{ form.login.id_for_label }}" placeholder="Введите логин">
+									</div>
+									<div class="mb-3">
+										<label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
+										<input type="password" name="{{ form.password.name }}" class="form-control rounded-0" id="{{ form.password.id_for_label }}" placeholder="Введите пароль">
+									</div>
+									<div class="mb-3 form-check">
+										<input type="checkbox" class="form-check-input" id="{{ form.remember.name }}" name="{{ form.remember.name }}">
+										<label class="form-check-label" for="{{ form.remember.name }}">Запомнить меня</label>
+									</div>
+									<button type="submit" class="btn btn-custom rounded-0">Войти</button>
+								</form>
+							{% endif %}
+						</div>
+					</li>
+
+					<li class="list-group-item">
+					<a href="#"><img src="{% static 'Artboard 7 copy.svg' %}" alt="Описание изображения" class="img-fluid w-90 mt-2 mb-1 ms-1 me-1"></a>
+					<a href="#"><img src="{% static 'Artboard 7.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static 'Artboard 1.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static 'Artboard 2.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<hr>
+					<a href="#"><img src="{% static '2-1.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static '2-2.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static '2-3.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static '2-4.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					<a href="#"><img src="{% static '2-5.svg' %}" alt="Описание изображения" class="img-fluid w-90 m-1"></a>
+					</li>	
+
+				</ul>
+			</div>
+
+
+
+		</nav>
+
+		<div id="scrollToTopBtn" class="d-none d-md-block">
+			<img src="{% static 'arrow-up-circle-svgrepo-com.svg' %}" style="width: 50px;" alt="Наверх">
+		</div>
+
+
+	</main>
+
+	
+
+
+{% block content %}
+{% endblock %}
+<footer id="footer" class="my-5">
+	<div class="container text-end">
+		<div class="row">
+			<div class="col-12">
+				<h4>Контакты</h4>
+				<p>Телефон: <a href="tel:+74952286458">+7 (495) 228-64-58</a></p>
+				<p>Email: <a href="mailto:unkniga@mail.ru">unkniga@mail.ru</a></p>
+				<br>
+			</div>
+		</div>
+	</div>
+</footer>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/script.js' %}"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+</body>
+</html>

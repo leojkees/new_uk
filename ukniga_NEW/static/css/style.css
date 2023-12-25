@@ -1,0 +1,379 @@
+/* Path: ukniga_NEW/static/css/style.css */
+@keyframes rainbow {
+    0% {background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);}
+    5% {background-image: linear-gradient(to left, indigo, blue, green, yellow, orange, red, violet);}
+    10% {background-image: linear-gradient(to left, blue, green, yellow, orange, red, violet, indigo);}
+    15% {background-image: linear-gradient(to left, green, yellow, orange, red, violet, indigo, blue);}
+    20% {background-image: linear-gradient(to left, yellow, orange, red, violet, indigo, blue, green);}
+    25% {background-image: linear-gradient(to left, orange, red, violet, indigo, blue, green, yellow);}
+    30% {background-image: linear-gradient(to left, red, violet, indigo, blue, green, yellow, orange);}
+    35% {background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);}
+    40% {background-image: linear-gradient(to left, indigo, blue, green, yellow, orange, red, violet);}
+    45% {background-image: linear-gradient(to left, blue, green, yellow, orange, red, violet, indigo);}
+    50% {background-image: linear-gradient(to left, green, yellow, orange, red, violet, indigo, blue);}
+    55% {background-image: linear-gradient(to left, yellow, orange, red, violet, indigo, blue, green);}
+    60% {background-image: linear-gradient(to left, orange, red, violet, indigo, blue, green, yellow);}
+    65% {background-image: linear-gradient(to left, red, violet, indigo, blue, green, yellow, orange);}
+    70% {background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);}
+    75% {background-image: linear-gradient(to left, indigo, blue, green, yellow, orange, red, violet);}
+    80% {background-image: linear-gradient(to left, blue, green, yellow, orange, red, violet, indigo);}
+    85% {background-image: linear-gradient(to left, green, yellow, orange, red, violet, indigo, blue);}
+    90% {background-image: linear-gradient(to left, yellow, orange, red, violet, indigo, blue, green);}
+    95% {background-image: linear-gradient(to left, orange, red, violet, indigo, blue, green, yellow);}
+    100% {background-image: linear-gradient(to left, red, violet, indigo, blue, green, yellow, orange);}
+}
+
+@keyframes verticalRainbow {
+    0% {background-image: linear-gradient(to bottom, violet, skyblue, lightblue, cyan, turquoise);}
+    5% {background-image: linear-gradient(to bottom, skyblue, lightblue, cyan, turquoise, violet);}
+    10% {background-image: linear-gradient(to bottom, lightblue, cyan, turquoise, violet, skyblue);}
+    15% {background-image: linear-gradient(to bottom, cyan, turquoise, violet, skyblue, lightblue);}
+    20% {background-image: linear-gradient(to bottom, turquoise, violet, skyblue, lightblue, cyan);}
+    25% {background-image: linear-gradient(to bottom, violet, skyblue, lightblue, cyan, turquoise);}
+    30% {background-image: linear-gradient(to bottom, skyblue, lightblue, cyan, turquoise, violet);}
+    35% {background-image: linear-gradient(to bottom, lightblue, cyan, turquoise, violet, skyblue);}
+    40% {background-image: linear-gradient(to bottom, cyan, turquoise, violet, skyblue, lightblue);}
+    45% {background-image: linear-gradient(to bottom, turquoise, violet, skyblue, lightblue, cyan);}
+    50% {background-image: linear-gradient(to bottom, violet, skyblue, lightblue, cyan, turquoise);}
+    55% {background-image: linear-gradient(to bottom, skyblue, lightblue, cyan, turquoise, violet);}
+    60% {background-image: linear-gradient(to bottom, lightblue, cyan, turquoise, violet, skyblue);}
+    65% {background-image: linear-gradient(to bottom, cyan, turquoise, violet, skyblue, lightblue);}
+    70% {background-image: linear-gradient(to bottom, turquoise, violet, skyblue, lightblue, cyan);}
+    75% {background-image: linear-gradient(to bottom, violet, skyblue, lightblue, cyan, turquoise);}
+    80% {background-image: linear-gradient(to bottom, skyblue, lightblue, cyan, turquoise, violet);}
+    85% {background-image: linear-gradient(to bottom, lightblue, cyan, turquoise, violet, skyblue);}
+    90% {background-image: linear-gradient(to bottom, cyan, turquoise, violet, skyblue, lightblue);}
+    95% {background-image: linear-gradient(to bottom, turquoise, violet, skyblue, lightblue, cyan);}
+    100% {background-image: linear-gradient(to bottom, violet, skyblue, lightblue, cyan, turquoise);}
+}
+
+@keyframes Rainbow {
+    0% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
+    5% {background-image: linear-gradient(to left, skyblue, lightblue, cyan, turquoise, violet);}
+    10% {background-image: linear-gradient(to left, lightblue, cyan, turquoise, violet, skyblue);}
+    15% {background-image: linear-gradient(to left, cyan, turquoise, violet, skyblue, lightblue);}
+    20% {background-image: linear-gradient(to left, turquoise, violet, skyblue, lightblue, cyan);}
+    25% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
+    30% {background-image: linear-gradient(to left, skyblue, lightblue, cyan, turquoise, violet);}
+    35% {background-image: linear-gradient(to left, lightblue, cyan, turquoise, violet, skyblue);}
+    40% {background-image: linear-gradient(to left, cyan, turquoise, violet, skyblue, lightblue);}
+    45% {background-image: linear-gradient(to left, turquoise, violet, skyblue, lightblue, cyan);}
+    50% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
+    55% {background-image: linear-gradient(to left, skyblue, lightblue, cyan, turquoise, violet);}
+    60% {background-image: linear-gradient(to left, lightblue, cyan, turquoise, violet, skyblue);}
+    65% {background-image: linear-gradient(to left, cyan, turquoise, violet, skyblue, lightblue);}
+    70% {background-image: linear-gradient(to left, turquoise, violet, skyblue, lightblue, cyan);}
+    75% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
+    80% {background-image: linear-gradient(to left, skyblue, lightblue, cyan, turquoise, violet);}
+    85% {background-image: linear-gradient(to left, lightblue, cyan, turquoise, violet, skyblue);}
+    90% {background-image: linear-gradient(to left, cyan, turquoise, violet, skyblue, lightblue);}
+    95% {background-image: linear-gradient(to left, turquoise, violet, skyblue, lightblue, cyan);}
+    100% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
+}
+
+
+body {
+    background-color: #f6f6f6;
+    font-family: Lato, sans-serif;
+    font-weight: 300;
+    padding-top: 70px;
+}
+
+#scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 13px;
+    left: 15px;
+    cursor: pointer;
+}
+
+#card {
+    transition: box-shadow 0.3s ease; /* Добавляем анимацию перехода для плавного эффекта */
+}
+
+#card:hover {
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3); /* Добавляем тень при наведении */
+}
+
+#breadcrumbs {
+    background-color: #ffffff;
+    height: 40px;
+    padding-top: 10px;
+    margin-bottom: 25px;
+}
+
+
+#login {
+    margin-top: 20px; /* Отступ сверху 20px */
+    margin-bottom: 20px; /* Отступ снизу 20px */
+}
+
+/* Медиазапрос для экранов с максимальной шириной 575px */
+@media (max-width: 575px) {
+    /* Изменение ширины элемента с id="search" */
+    #search {
+        width: 280px; /* Устанавливаем ширину 280px */
+    }
+}
+
+/* Медиазапрос для экранов с максимальной шириной 576px */
+@media (max-width: 576px) {
+    /* Скрытие элемента с id="info-block" */
+    #info-block {
+        display: none; /* Скрываем элемент */
+    }
+}
+
+
+
+/* Общие стили для элемента с id="menu-down" */
+#menu-down {
+    display: none; /* Изначально скрываем элемент */
+    position: fixed; /* Фиксированная позиция */
+    bottom: 5px; /* Отступ снизу 5px */
+    z-index: 1020; /* Устанавливаем индекс z для определения слоя */
+    transition: opacity 0.3s;
+}
+
+#menu-down.slide-out {
+    transform: translateY(100%);
+}
+
+/* Медиазапрос для экранов с максимальной шириной 1869px */
+@media (max-width: 1869px) {
+    /* Показываем элемент с id="menu-down" при ширине экрана меньше 1869px */
+    #menu-down {
+        display: block; /* Показываем элемент */
+    }
+}
+
+#lft-menu-btn-close {
+    position: absolute; /* Установите позиционирование элемента как абсолютное */
+    bottom: 30px; /* Прикрепите элемент к нижнему краю */
+    right: 30px; /* Прикрепите элемент к правому краю */
+}
+
+#lft-menu-body {
+    position: absolute; /* Установите позиционирование элемента как абсолютное */
+    top: 70px; /* Определите отступ от верхнего края */
+}
+
+#search {
+    display: none; /* Изначально скрыть элемент */
+}
+
+@media (min-width: 393px) and (max-width: 1199px) {
+    #search {
+        display: flex; /* Показать элемент с использованием flex при ширине экрана от 393px до 1199px */
+    }
+}
+
+#left-panel {
+    position: absolute;
+    top: 100px;
+    left: 10px;
+    z-index: 1020;
+}
+
+@media (max-width: 1869px) {
+    #left-panel {
+        display: none; /* Скрыть элемент при ширине экрана меньше или равной 1199px */
+    }
+}
+
+/* Правая панель */
+#right-panel {
+    position: absolute; /* Установите позиционирование элемента как абсолютное */
+    top: 100px; /* Прикрепите элемент к верхнему краю */
+    right: 10px; /* Прикрепите элемент к правому краю */
+    z-index: 1020; /* Устанавливаем индекс z для определения слоя */
+}
+
+@media (max-width: 1779px) {
+    #right-panel {
+        top: 400px; /* При ширине экрана меньше или равной 1779px, измените вертикальное положение элемента */
+        right: auto; /* Уберите прикрепление справа */
+        left: 10px; /* Прикрепите элемент к левому краю */
+    }
+}
+
+@media (max-width: 1869px) {
+    #right-panel {
+        display: none; /* Скрыть элемент при ширине экрана меньше или равной 1199px */
+    }
+}
+
+.list-group-item:hover {
+    background-color: #f6f6f6; /* Цвет фона при наведении */
+    color: #000; /* Цвет текста при наведении */
+}
+
+.card {
+    border-radius: 0%;
+    background-color: rgb(255, 255, 255);
+}
+
+#main {
+    margin-top: 100px; /* Отступ сверху 100px */
+    margin-bottom: 100px; /* Отступ снизу 100px */
+}
+
+
+
+/* position dots in carousel */
+.flickity-page-dots {
+    bottom: 20px;
+}
+
+/* dots are lines */
+.flickity-page-dots .dot {
+    height: 4px;
+    width: 40px;
+    margin: 0;
+    border-radius: 0;
+}
+
+  /* fill-in selected dot */
+.flickity-page-dots .dot.is-selected {
+    background: white;
+}
+
+.card-title::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px; /* Ширина вашего прямоугольника */
+    height: 100%; /* Высота вашего прямоугольника (здесь высота равна высоте строки) */
+    animation: verticalRainbow 80s cubic-bezier(0.25, 0.44, 0.37, 1.0) infinite;
+}
+
+
+.nav-link {
+    font-size: 13px;
+    position: relative;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px; /* ширина вашего прямоугольника */
+    height: 100%; /* высота вашего прямоугольника (здесь высота равна высоте строки) */
+    background-color: rgb(199, 0, 0); /* цвет прямоугольника */
+    opacity: 0; /* начальная прозрачность, чтобы его не было видно */
+    transition: opacity 0.3s ease; /* плавное изменение прозрачности */
+}
+
+.nav-link:hover::before {
+    opacity: 1; /* прозрачность при наведении на ссылку */
+}
+
+/* Скрыть полосу прокрутки, но разрешить прокрутку */
+.offcanvas-body {
+    overflow: auto;
+    -ms-overflow-style: none; /* IE и Edge */
+    scrollbar-width: none; /* Firefox */
+}
+  
+/* Скрыть полосу прокрутки в CR и сафари */
+.offcanvas-body::-webkit-scrollbar {
+    display: none;
+}
+
+#mob-right {
+    display: none; /* Или другие значения видимости, которые вы используете */
+}
+
+@media screen and (max-width: 1199px) {
+    #mob-right {
+      display: block;
+    }
+}
+
+#img-contact {
+    height: 100vh; /* 100% высоты экрана */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#img-contact {
+    height: 100%;
+    object-fit: cover;
+}
+
+#card-about-d {
+    background-color: #0c1e7c;
+    color: #ffffff;
+}
+
+.gradient-custom-3 {
+    /* fallback for old browsers */
+    background: #84fab0;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 0.5), rgba(143, 211, 244, 0.5))
+}
+
+.gradient-custom-4 {
+    /* fallback for old browsers */
+    background: #84fab0;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+}
+
+
+.btn-custom {
+    position: relative;
+    color: #000;
+    font-weight: 400;
+    border-width: 1px;
+    border-image: linear-gradient(45deg, #95efff, #ecbdff);
+    border-image-slice: 1;
+    overflow: hidden; /* Для обрезки псевдоэлемента внутри кнопки */
+    z-index: 0; /* Устанавливаем базовый z-index для текста */
+}
+
+.btn-custom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(45deg, #95efff, #ecbdff);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1; /* Устанавливаем z-index меньше, чем у текста */
+}
+
+.btn-custom:hover::before {
+    opacity: 1;
+}
+
+
+
+
+
+
+
+hr {
+    border: none;
+    height: 1px;
+    margin: 20px 0;
+    animation: rainbow 7s linear infinite;
+}
+
+h5 {
+    font-family: 'Play', sans-serif;
+}
