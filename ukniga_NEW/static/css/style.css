@@ -377,3 +377,7 @@ hr {
 h5 {
     font-family: 'Play', sans-serif;
 }
+
+.form-control-lg {
+    font-size: 14px;
+}

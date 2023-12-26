@@ -57,11 +57,18 @@ class CustomLoginForm(LoginForm):
         # Применяем классы к виджетам полей формы
         for field_name, field in self.fields.items():
             current_classes = field.widget.attrs.get('class', '')
-            field.widget.attrs['class'] = f'{current_classes} form-control form-control-lg'
+            field.widget.attrs['class'] = f'{current_classes} form-control form-control-lg rounded-0'
+
+            # Установка placeholders для каждого поля
+            if field_name == 'login':
+                field.widget.attrs['placeholder'] = 'Введите имя пользователя'
+            elif field_name == 'password':
+                field.widget.attrs['placeholder'] = 'Введите пароль'
 
         # Опционально, вы также можете добавить метки к полям
-        self.fields['login'].label = 'Username'
-        self.fields['password'].label = 'Password'
+        self.fields['login'].label = 'Имя пользователя'
+        self.fields['password'].label = 'Пароль'
+
 
 
 class UserProfileForm(forms.ModelForm):

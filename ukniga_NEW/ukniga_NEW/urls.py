@@ -18,11 +18,13 @@ from django.urls import path, include
 from django.conf import settings #импортируем настройки конфига
 from django.conf.urls.static import static
 from ckeditor_uploader import views as ckeditor_uploader_views
+from filebrowser.sites import site
 
 
 urlpatterns = [
         
     path('ckeditor/', include('ckeditor_uploader.urls')), #добавляем путь к ckeditor
+    path('admin/filebrowser/', site.urls),
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),

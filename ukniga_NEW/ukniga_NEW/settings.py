@@ -29,9 +29,12 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+FILEBROWSER_DIRECTORY = 'uploads/'
+
 # Application definition
 
 INSTALLED_APPS = [
+    'filebrowser',
     'jet.dashboard',
     'jet',
     'django.contrib.admin',

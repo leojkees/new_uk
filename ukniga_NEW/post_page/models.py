@@ -4,6 +4,8 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
+import os
+
 
 
 User.add_to_class('subscribe', models.BooleanField(default=False))
@@ -17,6 +19,20 @@ class MyPermissions(models.Model):
         ]
 
 
+class MyFile(models.Model):
+    name = models.CharField(max_length=100)
+    file = models.FileField(upload_to='uploads/')
+
+    def save(self, *args, **kwargs):
+        original_filename = self.file.name
+        extension = os.path.splitext(original_filename)[1]
+        # Сохраняем только расширение оригинального файла
+        self.file.name = self.name + extension
+        super(MyFile, self).save(*args, **kwargs)
+        
+    class Meta:
+        verbose_name = "Файл"
+        verbose_name_plural = "Файловый браузер"
 
 
 class Category(models.Model):
