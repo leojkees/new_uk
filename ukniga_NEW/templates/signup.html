@@ -6,51 +6,65 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
 
 
-                    <div class="card" style="border-radius: 15px;">
+                    <div class="card">
                         <div class="card-body p-5">
-                        <h2 class="text-uppercase text-center mb-5">Создать аккаунт</h2>
+                        <h5 class="text-uppercase text-center mb-5">Создать аккаунт</h5>
 
-                        <form method="post" action="{% url 'custom_signup' %}">
+                        <form method="post">
                             {% csrf_token %}
-                            
-                            {{ form.as_p }}
                         
-
+                            <!-- Поле email -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.email.id_for_label }}" class="mb-2">Ваш email</label>
+                                {{ form.email }}
+                                {% if form.email.errors %}
+                                    <div class="alert alert-danger">{{ form.email.errors }}</div>
+                                {% endif %}
+                            </div>
                         
-                            {% if form.errors %}
-                                <div class="alert alert-danger">
-                                    <strong>Error(s):</strong>
-                                    <ul>
-                                        {% for error in form.errors %}
-                                            <li>{{ error }}</li>
-                                        {% endfor %}
-                                        {% for field, errors in form.errors.items %}
-                                            {% if field == 'email' %}
-                                                {% for error in errors %}
-                                                    <li>Email: {{ error }}</li>
-                                                {% endfor %}
-                                            {% endif %}
-                                            {% if field == 'username' %}
-                                                {% for error in errors %}
-                                                    <li>Username: {{ error }}</li>
-                                                {% endfor %}
-                                            {% endif %}
-                                            {% if field == 'password1' %}
-                                                {% for error in errors %}
-                                                    <li>Password: {{ error }}</li>
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
+                            <!-- Поле password1 -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.password1.id_for_label }}" class="mb-2">Придумайте пароль</label>
+                                {{ form.password1 }}
+                                {% if form.password1.errors %}
+                                    <div class="alert alert-danger">{{ form.password1.errors }}</div>
+                                {% endif %}
+                            </div>
                         
+                            <!-- Поле password2 -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.password2.id_for_label }}" class="mb-2">Повторите пароль</label>
+                                {{ form.password2 }}
+                                {% if form.password2.errors %}
+                                    <div class="alert alert-danger">{{ form.password2.errors }}</div>
+                                {% endif %}
+                            </div>
+                        
+                            <!-- Поле username -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.username.id_for_label }}" class="mb-2">Ваше имя</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="alert alert-danger">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+                        
+                            <!-- Поле terms_accepted -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.terms_accepted.id_for_label }}" class="me-2">Я принимаю условия пользовательского соглашения</label>
+                                {{ form.terms_accepted }}
+                                {% if form.terms_accepted.errors %}
+                                    <div class="alert alert-danger">{{ form.terms_accepted.errors }}</div>
+                                {% endif %}
+                            </div>
+                        
+                            <!-- Кнопка отправки -->
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                                <button type="submit" class="btn btn-custom">Регистрация</button>
                             </div>
 
-                            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="{% url 'custom-login' %}"
-                                class="fw-bold text-body"><u>Login here</u></a></p>
+                            <p class="text-center text-muted mt-5 mb-0">Уже есть аккаунт? <a href="{% url 'custom-login' %}"
+                                class="fw-bold text-body"><u>Вход здесь</u></a></p>
                         </form>
 
                         </div>

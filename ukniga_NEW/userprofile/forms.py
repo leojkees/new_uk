@@ -24,7 +24,7 @@ from django.contrib.auth.models import User
 
 class CustomSignupForm(SignupForm):
     terms_accepted = forms.BooleanField(
-        label="I agree all statements in Terms of service",
+        label="Я принимаю условия пользовательского соглашения",
         widget=forms.CheckboxInput(attrs={'class': 'form-check-input me-2'}),
         required=True,
     )
@@ -34,20 +34,20 @@ class CustomSignupForm(SignupForm):
 
         # Добавляем классы к полям формы
         for field_name in ['email', 'password1', 'password2', 'username']:
-            self.fields[field_name].widget.attrs.update({'class': 'form-control form-control-lg'})
+            self.fields[field_name].widget.attrs.update({'class': 'form-control form-control-lg  rounded-0'})
 
         # Опционально, вы также можете добавить метки к полям
-        self.fields['email'].label = 'Your Email'
-        self.fields['password1'].label = 'Password'
-        self.fields['password2'].label = 'Repeat your password'
-        self.fields['username'].label = 'Your Name'
+        self.fields['email'].label = 'Ваш email'
+        self.fields['password1'].label = 'Придумайте пароль'
+        self.fields['password2'].label = 'Повторите пароль'
+        self.fields['username'].label = 'Ваше имя'
 
     def clean(self):
         cleaned_data = super().clean()
         terms_accepted = cleaned_data.get("terms_accepted")
 
         if not terms_accepted:
-            raise forms.ValidationError("You must agree to the terms of service.")
+            raise forms.ValidationError("Вам нужно принять условия пользовательского соглашения.")
         
         
 class CustomLoginForm(LoginForm):

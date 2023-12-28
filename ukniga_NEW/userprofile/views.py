@@ -25,7 +25,7 @@ class CustomSignupView(SignupView):
         terms_accepted = form.cleaned_data.get("terms_accepted")
         
         if not terms_accepted:
-            form.add_error("terms_accepted", "You must agree to the terms of service.")
+            form.add_error("terms_accepted", "Вам нужно принять условия пользовательского соглашения.")
             return self.form_invalid(form)
 
         # Продолжаем с обработкой, если галочка принята

@@ -72,9 +72,9 @@
 							</ul>
 
 							<hr>
-							<form class="d-flex mt-2 m-xl-0" role="search" method="GET" action="{% url 'search_posts' %}">
-								<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="q" value="{{ query }}">
-								<button class="btn btn-outline-success" type="submit">Найти</button>
+							<form id='search1' class="mt-3 m-xl-0" role="search" method="GET" action="{% url 'search_posts' %}">
+								<input class="rounded-0" type="search" placeholder="Поиск" aria-label="Search" name="q" value="{{ query }}">
+								<button type="submit" class="ms-1"></button>
 							</form>
 							<hr>
 
@@ -294,7 +294,12 @@
 		<nav id='left-panel' class="nav flex-column shadow p-1 mb-5 bg-body">
 			<div class="card" style="width: 15rem;">
 				<ul class="list-group list-group-flush">
-					
+				
+				<li>
+					<a href="{% url 'home' %}"><img src="{% static 'logo.jpg' %}" class="img-fluid p-3" alt="Университетская книга"></a>
+					<hr>
+				</li>	
+
 				<li class="list-group-item">
 				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
 					ИНТЕРВЬЮ
