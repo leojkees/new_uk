@@ -293,7 +293,7 @@ body {
     display: none; /* Или другие значения видимости, которые вы используете */
 }
 
-@media screen and (max-width: 1199px) {
+@media screen and (max-width: 1399px) {
     #mob-right {
       display: block;
     }
@@ -422,4 +422,8 @@ padding: 0; /* Убрать стандартные отступы */
 .form-control {
     font-family: 'Play', sans-serif;
     font-size: 13px;
+}
+
+strong {
+    font-weight: 600;
 }

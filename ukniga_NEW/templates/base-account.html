@@ -23,13 +23,14 @@
 
 
 	<header>
-			<nav class="navbar navbar-expand-xl fixed-top shadow p-3 mb-5 bg-body rounded">
+			<nav class="navbar navbar-expand-xxl fixed-top shadow p-3 mb-5 bg-body rounded">
 				<div class="container">
 
-					<form id='search' class="" role="search" method="GET" action="{% url 'search_posts' %}">
-						<input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search" name="q" value="{{ query }}">
-						<button class="btn btn-outline-success" type="submit">Найти</button>
-					</form>
+					<div class="col d-block d-xxl-none me-4">
+						<a class="navbar-brand" href="{% url 'home' %}">
+							<img  src="{% static 'logo.jpg' %}" alt="Университетская книга" width="120">
+						</a>
+					</div>
 
 
 					<button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -41,11 +42,6 @@
 					<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
 
 						<div class="offcanvas-header">
-
-							<a id='logo' class="navbar-brand" href="#">
-								<img src="{% static 'logo.jpg' %}" alt="Университетская книга" width="150">
-							</a>
-
 							<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 						</div>
 
@@ -295,10 +291,10 @@
 			<div class="card" style="width: 15rem;">
 				<ul class="list-group list-group-flush">
 				
-				<li>
+
 					<a href="{% url 'home' %}"><img src="{% static 'logo.jpg' %}" class="img-fluid p-3" alt="Университетская книга"></a>
 					<hr>
-				</li>	
+
 
 				<li class="list-group-item">
 				<a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
