@@ -206,6 +206,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'post_page.context_processors.menu_and_breadcrumbs',
+                'post_page.context_processors.latest_post_processor',
             ],
             # 'libraries': {
             #     'swiper_slider': 'post_page.templatetags.swiper_slider',

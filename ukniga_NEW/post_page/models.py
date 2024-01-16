@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 import os
+from django.utils import timezone
 
 
 
@@ -90,6 +91,8 @@ class Post(models.Model):
     image = models.ImageField('Обложка архива', upload_to='date_images/', default='', blank=True, null=True)
     is_paid = models.BooleanField('Платный материал', default=False)
     is_arhive = models.BooleanField('Архив', default=False)
+    published_date = models.DateTimeField('Дата публикации', null=True, blank=True)
+    is_published = models.BooleanField('Опубликовано', default=False)
 
 
     class Meta:
@@ -98,9 +101,19 @@ class Post(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
-        super(Post, self).save(*args, **kwargs)
+        # Получаем оригинальный объект из базы данных для сравнения
+        if self.pk:
+            original = Post.objects.get(pk=self.pk)
+        else:
+            original = None
+
+        # Автоматическая установка is_published в True, если наступила дата публикации
+        # и если поле is_published не было изменено вручную на False
+        if self.published_date and self.published_date <= timezone.now():
+            if original is None or original.is_published:
+                self.is_published = True
+
+        super().save(*args, **kwargs)
         
     
     def get_absolute_url(self):

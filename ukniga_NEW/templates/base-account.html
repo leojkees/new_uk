@@ -124,7 +124,7 @@
 						<button class="btn mt-1 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" style="border: 1px solid #0c1e7c;">РУБРИКИ</button>
 						<a href="{% url 'tag' %}" class="btn mt-1 " style="border: 1px solid #0c1e7c;">ТЕГИ</a>
 						<a href="{% url 'custom_signup' %}" class="btn mt-1 " style="border: 1px solid #0c1e7c;">КАБИНЕТ</a>
-						<a href="{% url 'posts_by_year' %}" class="btn mt-1 " style="background-color:#c01826; color: aliceblue;">АРХИВ</a>
+						<a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}" class="btn mt-1 " style="background-color:#c01826; color: aliceblue;">АРХИВ</a>
 
 
 					</div>
@@ -431,7 +431,16 @@
 
 
 					<li class="list-group-item" style="background-color:#c01826; border-top-left-radius: 0; border-top-right-radius: 0;">
-						<a class="nav-link" style="color: aliceblue;" href="{% url 'posts_by_year' %}">АРХИВ</a>
+						
+						<p class="px-3 pt-3" style="color: aliceblue;">Архив за {{ latest_post_month }} {{ latest_post_year }} года</p>
+
+						<a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
+							<img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3">
+						</a>
+						<p class="p-3"><a style="color: aliceblue;" href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">
+							{{ latest_post_title }}</a></p>		
+
+
 					</li>
 
 					<li class="list-group-item">

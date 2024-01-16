@@ -9,6 +9,7 @@ from django.db.models import Q, Count
 from .context_processors import menu_and_breadcrumbs
 from .forms import PostFilterForm, TagFilterForm, PasswordForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 
 
@@ -36,8 +37,10 @@ class PostView(View):
         if not request.session.get('is_verified', False):
             return redirect('password_protected')  # Перенаправление на страницу с вводом пароля
         
+        current_time = timezone.now()
+
         # Получите все посты
-        posts = Post.objects.all()
+        posts = Post.objects.filter(is_published=True, published_date__lte=current_time)
 
         #Paginator с 5 постами на странице
         paginator = Paginator(posts, 5)
@@ -113,7 +116,7 @@ class PostDetailView(View):
     def get(self, request, category_slug, slug, secondary_category_slug=None):
         if secondary_category_slug:
             # Если указан второй параметр, значит у поста есть две категории
-            category = get_object_or_404(Category, slug=secondary_category_slug)
+            category = get_object_or_404(Category, slug=secondary_category_slug, is_published=True)
         else:
             # Если второй параметр не указан, значит у поста одна категория
             category = get_object_or_404(Category, slug=category_slug)
@@ -246,8 +249,11 @@ def posts_by_year(request):
             # Получение изображения для выбранного месяца
             image_for_month = None
             if month:
-                # Выберите изображение в соответствии с вашей логикой, например, выберите первое изображение из постов в выбранном месяце
-                image_for_month = posts.filter(month=month).first().image if posts.filter(month=month).exists() else None
+                # Перебор всех постов выбранного месяца для поиска первого изображения
+                for post in posts.filter(month=month):
+                    if post.image:
+                        image_for_month = post.image
+                        break
 
             # Добавляем первые 30 слов текста в атрибут content_preview для каждого поста
             for post in posts:

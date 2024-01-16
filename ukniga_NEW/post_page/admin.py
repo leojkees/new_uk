@@ -42,21 +42,40 @@ class MyFileAdmin(admin.ModelAdmin):
     fields = ('name', 'file')
 
 
+
 # class PostAdmin(admin.ModelAdmin):
-#     list_display = ('title', 'description', 'year', 'month', 'category', 'is_paid', 'tags')
-#     list_filter = ('year', 'month', 'category', 'tags')
-#     search_fields = ('title', 'description', 'year', 'month', 'category__name', 'tags__name')
+#     list_display = ('title', 'description', 'display_categories', 'is_paid', 'display_tags', 'is_arhive', 'month', 'year', 'image')
+#     list_filter = ('category', 'tags')
+#     search_fields = ('title', 'description', 'category__name', 'tags__name')
+    
 #     formfield_overrides = {
 #         'models.TextField': {'widget': CKEditorWidget},
 #     }
+    
+#     def display_categories(self, obj):
+#         return format_html(", ".join([category.name for category in obj.category.all()]))
+#     display_categories.short_description = 'Категории'
+
+#     def display_tags(self, obj):
+#         return format_html(", ".join([tag.name for tag in obj.tags.all()]))
+#     display_tags.short_description = 'Теги'
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'description', 'display_categories', 'is_paid', 'display_tags', 'is_arhive', 'month', 'year', 'image')
-    list_filter = ('category', 'tags')
-    search_fields = ('title', 'description', 'category__name', 'tags__name')
+    list_display = (
+        'title', 'description', 'display_categories', 'is_paid', 
+        'display_tags', 'is_arhive', 'month', 'year', 'image',
+        'published_date', 'is_published'  # Добавленные поля
+    )
+    list_filter = (
+        'category', 'tags', 'is_published', 'published_date'  # Добавленные фильтры
+    )
+    search_fields = (
+        'title', 'description', 'category__name', 'tags__name',
+        'published_date'  
+    )
     formfield_overrides = {
         'models.TextField': {'widget': CKEditorWidget},
     }
-    
+
     def display_categories(self, obj):
         return format_html(", ".join([category.name for category in obj.category.all()]))
     display_categories.short_description = 'Категории'

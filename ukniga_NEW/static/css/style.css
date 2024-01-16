@@ -79,6 +79,11 @@ body {
     padding-top: 70px;
 }
 
+.custom-tooltip {
+    --bs-tooltip-bg: blue;
+    --bs-tooltip-color: white;
+}
+
 #scrollToTopBtn {
     display: none;
     position: fixed;
