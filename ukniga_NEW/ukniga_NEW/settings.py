@@ -57,125 +57,145 @@ INSTALLED_APPS = [
 ]
 
 CKEDITOR_UPLOAD_PATH = 'images/' # Папка для загруженных изображений
-# CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'  # Подключите jQuery или другой файл-менеджер
-# CKEDITOR_IMAGE_BACKEND = "pillow"  # Используйте Pillow для обработки изображений
-# CKEDITOR_CONFIGS = {
-#     "default": {
-#         # "toolbar": "Custom",  # Используйте свой собственный набор инструментов
-#         "height": 800,  # Высота редактора
-#         "width": 1200,   # Ширина редактора
-#         # Добавьте настройку для поддержки загрузки изображений
-#         "filebrowserImageUploadUrl": "/ckeditor/upload/",
-#         # 'uiColor' : '#9ccde5',
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'  # Подключите jQuery или другой файл-менеджер
+CKEDITOR_IMAGE_BACKEND = "pillow"  # Используйте Pillow для обработки изображений
+CKEDITOR_CONFIGS = {
+    "default": {
+        "toolbar": "Custom",  # Используйте свой собственный набор инструментов
+        "height": 800,  # Высота редактора
+        "width": 1200,   # Ширина редактора
+        # Добавьте настройку для поддержки загрузки изображений
+        "filebrowserImageUploadUrl": "/ckeditor/upload/",
+        'uiColor' : '#9ccde5',
 
-#         # "extraPlugins": "codemirror", #добавляем плагин    
+        # "extraPlugins": "codemirror", #добавляем плагин    
 
-
-#     },
-#     'awesome_ckeditor': {
-#             'toolbar': 'Custom',
-#             'toolbar_Custom': [
-#                 ['Bold', 'Italic', 'Underline'],
-#                 ['NumberedList', 'BulletedList', 'Link'],
-#                 ['Image', 'FileBrowser'],
-#             ],
-#             'filebrowserBrowseUrl': '/admin/filebrowser/browse/',
-#             'filebrowserUploadUrl': '/admin/filebrowser/upload/',
-#             'filebrowserImageBrowseUrl': '/admin/filebrowser/browse/?type=Image',
-#             'filebrowserImageUploadUrl': '/admin/filebrowser/upload/?type=Image',
-#     },
-# }
-customColorPalette = [
-        {
-            'color': 'hsl(4, 90%, 58%)',
-            'label': 'Red'
-        },
-        {
-            'color': 'hsl(340, 82%, 52%)',
-            'label': 'Pink'
-        },
-        {
-            'color': 'hsl(291, 64%, 42%)',
-            'label': 'Purple'
-        },
-        {
-            'color': 'hsl(262, 52%, 47%)',
-            'label': 'Deep Purple'
-        },
-        {
-            'color': 'hsl(231, 48%, 48%)',
-            'label': 'Indigo'
-        },
-        {
-            'color': 'hsl(207, 90%, 54%)',
-            'label': 'Blue'
-        },
-]
-
-
-CKEDITOR_5_CONFIGS = {
-    'default': {
-        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
-                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
 
     },
-    
-    'extends': {
-        'blockToolbar': [
-            'paragraph', 'heading1', 'heading2', 'heading3',
-            '|',
-            'bulletedList', 'numberedList',
-            '|',
-            'blockQuote',
-        ],
-        'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
-        'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
-                    'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
-                    'insertTable',],
-        'image': {
-            'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
-                        'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
-            'styles': [
-                'full',
-                'side',
-                'alignLeft',
-                'alignRight',
-                'alignCenter',
-            ]
-
-        },
-        'table': {
-            'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
-            'tableProperties', 'tableCellProperties' ],
-            'tableProperties': {
-                'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette
-            },
-            'tableCellProperties': {
-                'borderColors': customColorPalette,
-                'backgroundColors': customColorPalette
-            }
-        },
-        'heading' : {
-            'options': [
-                { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
-                { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
-                { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
-                { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
-            ]
-        },
+    'awesome_ckeditor': {
+            'toolbar': 'Custom',
+            'toolbar_Custom': [
+                ['Bold', 'Italic', 'Underline'],
+                ['NumberedList', 'BulletedList', 'Link'],
+                ['Image', 'FileBrowser'],
+            ],
+            'filebrowserBrowseUrl': '/admin/filebrowser/browse/',
+            'filebrowserUploadUrl': '/admin/filebrowser/upload/',
+            'filebrowserImageBrowseUrl': '/admin/filebrowser/browse/?type=Image',
+            'filebrowserImageUploadUrl': '/admin/filebrowser/upload/?type=Image',
     },
-    
-    'list': {
-        'properties': {
-            'styles': 'true',
-            'startIndex': 'true',
-            'reversed': 'true',
-        }
-    }
 }
+# customColorPalette = [
+#         {
+#             'color': 'hsl(4, 90%, 58%)',
+#             'label': 'Red'
+#         },
+#         {
+#             'color': 'hsl(340, 82%, 52%)',
+#             'label': 'Pink'
+#         },
+#         {
+#             'color': 'hsl(291, 64%, 42%)',
+#             'label': 'Purple'
+#         },
+#         {
+#             'color': 'hsl(262, 52%, 47%)',
+#             'label': 'Deep Purple'
+#         },
+#         {
+#             'color': 'hsl(231, 48%, 48%)',
+#             'label': 'Indigo'
+#         },
+#         {
+#             'color': 'hsl(207, 90%, 54%)',
+#             'label': 'Blue'
+#         },
+# ]
 
+# TINYMCE_DEFAULT_CONFIG = {
+#     'height': 360,
+#     'width': 'auto',
+#     'menubar': True,
+#     'toolbar': 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | outdent indent | link image | code',
+#     'plugins': [
+#         'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+#         'searchreplace wordcount visualblocks visualchars fullscreen code',
+#         'insertdatetime media nonbreaking save table contextmenu directionality',
+#         'emoticons template paste textcolor colorpicker textpattern'
+#     ],
+#     'content_css': [
+#         '//www.tiny.cloud/css/codepen.min.css'
+#     ],
+#     'browser_spellcheck': True,
+#     'link_context_toolbar': True,
+#     'automatic_uploads': True,
+#     'advcode_inline': True,
+#     'file_picker_types': 'image',
+#     'images_upload_url': 'images/',
+# }
+
+# CKEDITOR_5_CONFIGS = {
+#     'default': {
+#         'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+#                     'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+
+#     },
+    
+#     'extends': {
+#         'blockToolbar': [
+#             'paragraph', 'heading1', 'heading2', 'heading3',
+#             '|',
+#             'bulletedList', 'numberedList',
+#             '|',
+#             'blockQuote',
+#         ],
+#         'toolbar': ['heading', '|', 'outdent', 'indent', '|', 'bold', 'italic', 'link', 'underline', 'strikethrough',
+#         'code','subscript', 'superscript', 'highlight', '|', 'codeBlock', 'sourceEditing', 'insertImage',
+#                     'bulletedList', 'numberedList', 'todoList', '|',  'blockQuote', 'imageUpload', '|',
+#                     'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'mediaEmbed', 'removeFormat',
+#                     'insertTable',],
+#         'image': {
+#             'toolbar': ['imageTextAlternative', '|', 'imageStyle:alignLeft',
+#                         'imageStyle:alignRight', 'imageStyle:alignCenter', 'imageStyle:side',  '|'],
+#             'styles': [
+#                 'full',
+#                 'side',
+#                 'alignLeft',
+#                 'alignRight',
+#                 'alignCenter',
+#             ]
+
+#         },
+#         'table': {
+#             'contentToolbar': [ 'tableColumn', 'tableRow', 'mergeTableCells',
+#             'tableProperties', 'tableCellProperties' ],
+#             'tableProperties': {
+#                 'borderColors': customColorPalette,
+#                 'backgroundColors': customColorPalette
+#             },
+#             'tableCellProperties': {
+#                 'borderColors': customColorPalette,
+#                 'backgroundColors': customColorPalette
+#             }
+#         },
+#         'heading' : {
+#             'options': [
+#                 { 'model': 'paragraph', 'title': 'Paragraph', 'class': 'ck-heading_paragraph' },
+#                 { 'model': 'heading1', 'view': 'h1', 'title': 'Heading 1', 'class': 'ck-heading_heading1' },
+#                 { 'model': 'heading2', 'view': 'h2', 'title': 'Heading 2', 'class': 'ck-heading_heading2' },
+#                 { 'model': 'heading3', 'view': 'h3', 'title': 'Heading 3', 'class': 'ck-heading_heading3' }
+#             ]
+#         },
+#     },
+    
+#     'list': {
+#         'properties': {
+#             'styles': 'true',
+#             'startIndex': 'true',
+#             'reversed': 'true',
+#         }
+#     }
+# }
 
 
 

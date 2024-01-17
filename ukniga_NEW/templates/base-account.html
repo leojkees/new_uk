@@ -432,7 +432,7 @@
 
 					<li class="list-group-item" style="background-color:#c01826; border-top-left-radius: 0; border-top-right-radius: 0;">
 						
-						<p class="px-3 pt-3" style="color: aliceblue;">Архив за {{ latest_post_month }} {{ latest_post_year }} года</p>
+						<h5 class="ps-3 pe-5 pt-3" style="color: aliceblue;">Архив за {{ latest_post_month }} {{ latest_post_year }}</h5>
 
 						<a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
 							<img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3">

@@ -6,6 +6,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 import os
 from django.utils import timezone
+from ckeditor.fields import RichTextField
 
 
 
@@ -80,7 +81,7 @@ class Post(models.Model):
     
     title = models.CharField('Заголовок записи', max_length=150)
     description = models.CharField('Подзаголовок', max_length=150)
-    text = CKEditor5Field('Текст записи', config_name='extends')
+    text = RichTextField()
     img = models.ImageField('Главное изображение поста', upload_to='images/%Y/%m-%d')
     slug = models.SlugField(max_length=255, unique=True)
     category = models.ManyToManyField(Category, related_name='Category')
