@@ -40,7 +40,7 @@ class PostView(View):
         current_time = timezone.now()
 
         # Получите все посты
-        posts = Post.objects.filter(is_published=True, published_date__lte=current_time)
+        posts = Post.objects.filter(is_published=True, published_date__lte=current_time).order_by('-published_date')
 
         #Paginator с 5 постами на странице
         paginator = Paginator(posts, 5)
@@ -116,12 +116,12 @@ class PostDetailView(View):
     def get(self, request, category_slug, slug, secondary_category_slug=None):
         if secondary_category_slug:
             # Если указан второй параметр, значит у поста есть две категории
-            category = get_object_or_404(Category, slug=secondary_category_slug, is_published=True)
+            category = get_object_or_404(Category, slug=secondary_category_slug)
         else:
             # Если второй параметр не указан, значит у поста одна категория
             category = get_object_or_404(Category, slug=category_slug)
 
-        post = get_object_or_404(Post, category=category, slug=slug)
+        post = get_object_or_404(Post, category=category, slug=slug, is_published=True)
         year = post.year
         month = post.month
 
@@ -155,7 +155,7 @@ def category_posts(request, category_slug):
     posts = Post.objects.filter(category=category)
 
     #Paginator с 5 постами на странице
-    paginator = Paginator(posts, 5)
+    paginator = Paginator(posts, 10)
     
     # Получите номер текущей страницы из параметра GET
     page = request.GET.get('page')
@@ -243,7 +243,11 @@ def posts_by_year(request):
             if month:
                 posts = posts.filter(month=month)
 
-            if is_arhive:
+            # Фильтрация постов по is_arhive
+            if is_arhive is True:
+                posts = posts.filter(is_arhive=True)
+            else:
+                # Этот фильтр применяется, если is_arhive=False или is_arhive не указан
                 posts = posts.filter(is_arhive=True)
 
             # Получение изображения для выбранного месяца

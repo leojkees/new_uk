@@ -12,7 +12,7 @@
                 
                     <div class="m-1">
                        <h5>Фильтр по тегам</h5>
-                       <p>Можно выбрать несколько зажав CTRL / COMMAND</p>
+                       <p>Можно выбрать несколько</p>
                     </div>
                     
                     <div class="mt-2 mb-4">
@@ -26,7 +26,7 @@
 
 
                     <div class="mt-2 mb-2">
-                    <button type="submit" class="btn btn-primary">Применить фильтр</button>
+                    <button type="submit" class="btn btn-custom rounded-0">Применить фильтр</button>
                     </div>
 
 
@@ -42,22 +42,22 @@
                       <div id="card" class="card mb-3 border-bottom border-0">
                         <div class="row g-0">
       
-                            <div class="col-md-2">
+                            <div class="col-lg-2 pt-2">
                               <div class="card-body">
-                              <h4>{{ post.year }}</h4>
+                              <h5>{{ post.year }}</h5>
                               <hr>
-                              <p>{{ post.month }}</p>
+                              <h5>{{ post.month }}</h5>
                               </div>
                             </div>
       
-                            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                            <div class="col-lg-4 d-flex align-items-center justify-content-center">
                                 <img src="{{ post.img.url }}" class="img-fluid w-100" alt="{{ post.title }}">
                             </div>
       
-                            <div class="col-md-6">
+                            <div class="col-lg-6 ps-2 pt-2">
                                 <div class="card-body">
-                                    <h4 class="card-title">{{ post.title }}</h4>
-                                        
+                                    <h5 class="card-title">{{ post.title }}</h5>
+                                        <hr>
                                         <p>Рубрика:
                                         {% if post.category.count > 1 %}
                                           <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
@@ -94,7 +94,7 @@
                                             {% if is_favorite %}
                                                 <p>Уже добавлен в избранное</p>
                                             {% else %}
-                                                <button type="submit" name="add_to_favorite" class="btn btn-primary">Добавить в избранное</button>
+                                                <button type="submit" name="add_to_favorite" class="btn btn-custom rounded-0">Добавить в избранное</button>
                                             {% endif %}
                                         </form>
                                     </p>
