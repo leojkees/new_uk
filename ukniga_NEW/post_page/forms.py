@@ -3,7 +3,20 @@ from .models import Post, Tag
 
 
 
+class YearForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super(YearForm, self).__init__(*args, **kwargs)
 
+        # Динамически получаем список уникальных годов из модели Post
+        years = Post.objects.values_list('year', flat=True).distinct().order_by('year')
+
+        # Преобразуем список годов в выборы для поля формы
+        self.fields['year'] = forms.ChoiceField(
+            label='Выберите год',
+            choices=[(year, str(year)) for year in years],
+            widget=forms.Select(attrs={'class': 'form-select rounded-0'}),
+            initial=years.last()  # Устанавливаем значение по умолчанию в последний доступный год
+        )
 
     
 

@@ -21,6 +21,7 @@ urlpatterns = [
     path("podpiska/", views.podpiska, name='podpiska'),
     path("about/", views.about, name='about'),
     path('arhive/', views.posts_by_year, name='posts_by_year'),
+    path('arhiv/', views.images_by_year, name='arhiv-list'),
     path('search/', views.search_posts, name='search_posts'),
     path('tags/', views.tag, name='tag'),
     path('tags/<str:tag_name>/', views.tags, name='tags'),
@@ -30,7 +31,6 @@ urlpatterns = [
     path('', PostView.as_view(), name='home'), #Главная
     path('password/', PasswordView.as_view(), name='password_protected'),
     path('<slug:category_slug>/', views.category_posts, name='category_posts'),
-    
     
     path('<slug:category_slug>/<slug:secondary_category_slug>/<slug:slug>/', PostDetailView.as_view(), name='post_detail_multiple_categories'),
     path('<slug:category_slug>/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),

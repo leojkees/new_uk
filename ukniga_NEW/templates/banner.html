@@ -1,0 +1,17 @@
+<div id="banner-desc-{{ banner.id }}" class="banner d-none d-lg-block">
+    <a href="{{ banner.url }}">
+        <img src="{{ banner.image_desktop.url }}" alt="{{ banner.title }}" class="img-fluid">
+    </a>
+</div>
+
+<div id="banner-tab-{{ banner.id }}" class="banner d-none d-sm-block d-lg-none">
+    <a href="{{ banner.url }}">
+        <img src="{{ banner.image_tablet.url }}" alt="{{ banner.title }}" class="img-fluid">
+    </a>
+</div>
+
+<div id="banner-mob-{{ banner.id }}" class="banner d-block d-sm-none">
+    <a href="{{ banner.url }}">
+        <img src="{{ banner.image_mobile.url }}" alt="{{ banner.title }}" class="img-fluid">
+    </a>
+</div>

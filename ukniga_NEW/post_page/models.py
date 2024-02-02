@@ -95,6 +95,13 @@ class Post(models.Model):
     published_date = models.DateTimeField('Дата публикации', null=True, blank=True)
     is_published = models.BooleanField('Опубликовано', default=False)
 
+    CARD_DISPLAY_CHOICES = [
+        ('default', 'Фото + Заголовок'),
+        ('fullscreen', 'Фото на всю ширину с оверфлоу + Заголовок поверх фото'),
+    ]
+
+    card_display = models.CharField('Вид карточки', max_length=20, choices=CARD_DISPLAY_CHOICES, default='default')
+
 
     class Meta:
         verbose_name = 'Запись'

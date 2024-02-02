@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q, Count
 from .context_processors import menu_and_breadcrumbs
-from .forms import PostFilterForm, TagFilterForm, PasswordForm
+from .forms import PostFilterForm, TagFilterForm, PasswordForm, YearForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 
@@ -42,11 +42,44 @@ class PostView(View):
         # Получите все посты
         posts = Post.objects.filter(is_published=True, published_date__lte=current_time).order_by('-published_date')
 
-        #Paginator с 5 постами на странице
+        # Paginator с 5 постами на странице
         paginator = Paginator(posts, 5)
         
         # Получите номер текущей страницы из параметра GET
         page = request.GET.get('page')
+
+        # Получаем посты с категорией "Библиотеки"
+        library_posts = Post.objects.filter(category__name='Библиотеки', is_published=True)[:5]
+
+        # Получаем посты с категорией "Новости"
+        news_posts = Post.objects.filter(category__name='Новости', is_published=True)[:5]
+
+        # Получаем посты с категорией "Интервью"
+        interview_posts = Post.objects.filter(category__name='Интервью', is_published=True)[:5]
+
+        # Получаем посты с категорией "Книжный рынок"
+        bookrinok_posts = Post.objects.filter(category__name='Книжный рынок', is_published=True)[:5]
+
+        # Получаем посты с категорией "Острая тема"
+        ostraya_posts = Post.objects.filter(category__name='Острая тема', is_published=True)[:5]
+
+        # Получаем посты с категорией "Выставки и конференции"
+        vistavki_posts = Post.objects.filter(category__name='Выставки и конференции', is_published=True)[:5]
+
+        # Получаем посты с категорией "Новости партнеров"
+        partners_posts = Post.objects.filter(category__name='Новости партнеров', is_published=True)[:5]
+
+        # Получаем посты с категорией "Наука и образование"
+        nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True)[:5]
+
+        # Получаем посты с категорией "Иновационные технологии"
+        inovations_posts = Post.objects.filter(category__name='Иновационные технологии', is_published=True)[:5]
+
+        # Получаем посты с категорией "Креативный контекст"
+        сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True)[:5]
+
+        # Получаем посты с категорией "Анонсы"
+        anonced_posts = Post.objects.filter(category__name='Анонсы', is_published=True)[:5]
 
         try:
             # Получите текущую страницу
@@ -59,17 +92,30 @@ class PostView(View):
             posts = paginator.page(paginator.num_pages)
 
         for post in posts:
-            post.content_preview = " ".join(post.text.split()[:30]) + "..." if len(post.text.split()) > 30 else post.text
+            post.content_preview = " ".join(post.text.split()[:15]) + "..." if len(post.text.split()) > 15 else post.text
 
         form = LoginForm()  # Создание экземпляра формы для входа
 
         context = {
             'post_list': posts,
+            'library_posts': library_posts,
+            'interview_posts': interview_posts,
+            'bookrinok_posts': bookrinok_posts,
+            'ostraya_posts': ostraya_posts,
+            'news_posts': news_posts,
+            'vistavki_posts': vistavki_posts,
+            'partners_posts': partners_posts,
+            'nauka_posts': nauka_posts,
+            'inovations_posts': inovations_posts,
+            'сreative_posts': сreative_posts,
+            'anonced_posts': anonced_posts,
             'menu': menu,  # Ваша переменная menu
             'title': 'Главная страница',
             'form': form,  # Включение формы в контекст данных
         }
-        return render(request, 'arhiv/post_list.html', context=context)
+
+        return render(request, 'arhiv/index.html', context=context)
+
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -426,3 +472,46 @@ def tags(request, tag_name):
     context = {'tag': tag, 'posts': posts, 'form': form}
     
     return render(request, 'tags.html', context)
+
+
+# def images_by_year(request):
+#     # Получаем уникальные изображения для каждого месяца
+#     unique_images = (
+#         Post.objects.values('month')
+#                     .annotate(count=Count('image'))
+#                     .filter(count__gt=0)
+#     )
+
+#     # Получаем список объектов Post для каждого месяца
+#     posts_by_month = {}
+#     for month_data in unique_images:
+#         posts = Post.objects.filter(month=month_data['month'], image__isnull=False).order_by('?')[:1]
+#         posts_by_month[month_data['month']] = posts
+
+#     # Передаем данные в контекст представления
+#     context = {'posts_by_month': posts_by_month}
+
+#     return render(request, 'arhiv-list.html', context)
+def images_by_year(request):
+    form = YearForm(request.GET)
+    
+    if form.is_valid():
+        selected_year = form.cleaned_data['year']
+        
+        unique_images = (
+            Post.objects.filter(year=selected_year)
+                        .values('month')
+                        .annotate(count=Count('image'))
+                        .filter(count__gt=0)
+        )
+        
+        posts_by_month = {}
+        for month_data in unique_images:
+            posts = Post.objects.filter(year=selected_year, month=month_data['month'], image__isnull=False).order_by('?')[:1]
+            posts_by_month[month_data['month']] = posts
+        
+        context = {'form': form, 'selected_year': selected_year, 'posts_by_month': posts_by_month}
+        return render(request, 'arhiv-list.html', context)
+    
+    context = {'form': form}
+    return render(request, 'arhiv-list.html', context)

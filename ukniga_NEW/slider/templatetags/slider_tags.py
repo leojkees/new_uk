@@ -1,5 +1,5 @@
 from django import template
-from slider.models import Slider
+from slider.models import Slider, Banner
 
 
 register = template.Library()
@@ -12,3 +12,12 @@ def render_slider(slider_id):
         slider = None
     return {'slider': slider}
 
+
+@register.simple_tag
+def get_banners(place=None, order_by=None):
+    banners = Banner.objects.all()
+    if place:
+        banners = banners.filter(place=place)
+    if order_by:
+        banners = banners.order_by(order_by)
+    return banners

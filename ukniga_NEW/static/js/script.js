@@ -101,85 +101,289 @@ window.addEventListener("scroll", function() {
 //         panel.style.top = initialTop + 'px';
 //     }
 // });
-var panel = document.getElementById('left-panel');
-var initialTop = 100;
-var scrollThreshold = 300;
-var isScrollingDown = true;
-
-document.addEventListener('scroll', function () {
-    var scrollY = window.scrollY || window.pageYOffset;
-
-    if (scrollY > initialTop) {
-        // Проверка направления прокрутки
-        if (scrollY > initialTop + scrollThreshold && isScrollingDown) {
-            isScrollingDown = false;
-            panel.style.transition = 'top 0.3s ease';
-            panel.style.top = '0';
-        } else if (scrollY <= initialTop + scrollThreshold && !isScrollingDown) {
-            isScrollingDown = true;
-            panel.style.transition = 'top 0.3s ease';
-            panel.style.top = initialTop + 'px';
-        }
-    } else {
-        panel.style.transition = 'top 0.3s ease';
-        panel.style.top = initialTop + 'px';
-    }
-});
 
 
 
-var panel = document.getElementById('right-panel');
-var initialTop = 100;
-var scrollThreshold = 300;
-var isScrollingDown = true;
-
-document.addEventListener('scroll', function () {
-    var scrollY = window.scrollY || window.pageYOffset;
-
-    if (scrollY > initialTop) {
-        // Проверка направления прокрутки
-        if (scrollY > initialTop + scrollThreshold && isScrollingDown) {
-            isScrollingDown = false;
-            panel.style.transition = 'top 0.3s ease';
-            panel.style.top = '0';
-        } else if (scrollY <= initialTop + scrollThreshold && !isScrollingDown) {
-            isScrollingDown = true;
-            panel.style.transition = 'top 0.3s ease';
-            panel.style.top = initialTop + 'px';
-        }
-    } else {
-        panel.style.transition = 'top 0.3s ease';
-        panel.style.top = initialTop + 'px';
-    }
-});
 
 
+
+
+
+
+
+
+
+// var panel = document.getElementById('left-panel');
+// var initialTop = 100;
+// var scrollThreshold = 300;
+// var isScrollingDown = true;
+
+// document.addEventListener('scroll', function () {
+//     var scrollY = window.scrollY || window.pageYOffset;
+
+//     if (scrollY > initialTop) {
+//         // Проверка направления прокрутки
+//         if (scrollY > initialTop + scrollThreshold && isScrollingDown) {
+//             isScrollingDown = false;
+//             panel.style.transition = 'top 0.3s ease';
+//             panel.style.top = '0';
+//         } else if (scrollY <= initialTop + scrollThreshold && !isScrollingDown) {
+//             isScrollingDown = true;
+//             panel.style.transition = 'top 0.3s ease';
+//             panel.style.top = initialTop + 'px';
+//         }
+//     } else {
+//         panel.style.transition = 'top 0.3s ease';
+//         panel.style.top = initialTop + 'px';
+//     }
+// });
+
+
+
+// var panel = document.getElementById('right-panel');
+// var initialTop = 100;
+// var scrollThreshold = 300;
+// var isScrollingDown = true;
+
+// document.addEventListener('scroll', function () {
+//     var scrollY = window.scrollY || window.pageYOffset;
+
+//     if (scrollY > initialTop) {
+//         // Проверка направления прокрутки
+//         if (scrollY > initialTop + scrollThreshold && isScrollingDown) {
+//             isScrollingDown = false;
+//             panel.style.transition = 'top 0.3s ease';
+//             panel.style.top = '0';
+//         } else if (scrollY <= initialTop + scrollThreshold && !isScrollingDown) {
+//             isScrollingDown = true;
+//             panel.style.transition = 'top 0.3s ease';
+//             panel.style.top = initialTop + 'px';
+//         }
+//     } else {
+//         panel.style.transition = 'top 0.3s ease';
+//         panel.style.top = initialTop + 'px';
+//     }
+// });
+
+// //скролл бокового меню
+// document.addEventListener("DOMContentLoaded", function() {
+//     var scrollToTopBtn = document.getElementById("scrollToTopBtn");
+  
+//     // Показываем/скрываем кнопку при прокрутке
+//     window.onscroll = function() {
+//       if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+//         scrollToTopBtn.style.display = "block";
+//       } else {
+//         scrollToTopBtn.style.display = "none";
+//       }
+//     };
+  
+//     // Прокрутка страницы вверх при клике на кнопку
+//     scrollToTopBtn.addEventListener("click", function() {
+//       document.body.scrollTop = 0; // Для Safari
+//       document.documentElement.scrollTop = 0; // Для остальных браузеров
+//     });
+//   });
+  
+
+
+// const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+// const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+
+
+
+
+// //подгонка под экраны мака
+// function updateClass(elementId) {
+//     var element = document.getElementById(elementId);
+
+//     if (element) {
+//       if (window.innerWidth >= 340 && window.innerWidth <= 1586) {
+//         element.className = "col-12";
+//       } else if (window.innerWidth > 1586 && window.innerWidth <= 1810) {
+//         element.className = "col-10";
+//       } else if (window.innerWidth > 1810 && window.innerWidth <= 3440) {
+//         element.className = "col-12";
+//       }
+//     }
+//   }
+
+//   // Вызывается при загрузке страницы и изменении размера окна
+//   window.onload = function() {
+//     updateClass("content");
+//     updateClass("brcr");
+//     updateClass("dwnm");
+// };
+
+//   window.onresize = function() {
+//     updateClass("content");
+//     updateClass("brcr");
+//     updateClass("dwnm");
+// };
+
+// JavaScript для прокрутки ленты влево и вправо
+// document.addEventListener("DOMContentLoaded", function() {
+//   const cardContainer = document.querySelector('.card-container');
+//   const cardWidth = cardContainer.clientWidth / 3; // Получаем ширину одной карточки
+//   const prevBtn = document.querySelector('.prev-btn');
+//   const nextBtn = document.querySelector('.next-btn');
+
+//   // Функция для прокрутки влево
+//   prevBtn.addEventListener('click', function() {
+//       cardContainer.scrollBy({
+//           left: -cardWidth,
+//           behavior: 'smooth'
+//       });
+//   });
+
+//   // Функция для прокрутки вправо
+//   nextBtn.addEventListener('click', function() {
+//       cardContainer.scrollBy({
+//           left: cardWidth,
+//           behavior: 'smooth'
+//       });
+//   });
+// });
+// document.addEventListener("DOMContentLoaded", function() {
+//   function setupCardScroll(containerId, prevBtnId, nextBtnId) {
+//     const cardContainer = document.getElementById(containerId);
+//     const prevBtn = document.getElementById(prevBtnId);
+//     const nextBtn = document.getElementById(nextBtnId);
+
+//     if (!cardContainer || !prevBtn || !nextBtn) {
+//       console.error('Не удалось найти контейнер или кнопки.');
+//       return;
+//     }
+
+//     // Получаем ширину одной карточки
+//     const firstCard = cardContainer.querySelector('.card');
+//     const cardWidth = firstCard.offsetWidth + 8; // добавляем 8 пикселей
+
+//     // Функция для прокрутки влево
+//     prevBtn.addEventListener('click', function() {
+//       cardContainer.scrollBy({
+//         left: -cardWidth,
+//         behavior: 'smooth'
+//       });
+//     });
+
+//     // Функция для прокрутки вправо
+//     nextBtn.addEventListener('click', function() {
+//       cardContainer.scrollBy({
+//         left: cardWidth,
+//         behavior: 'smooth'
+//       });
+//     });
+//   }
+
+//   // Настройка для блока с id="index"
+//   setupCardScroll('index', 'prev-btn-index', 'next-btn-index');
+
+//   // Настройка для блока с id="index"
+//   setupCardScroll('bookrinok', 'prev-btn-bookrinok', 'next-btn-bookrinok');
+  
+//   // Настройка для блока с id="interview"
+//   setupCardScroll('interview', 'prev-btn-interview', 'next-btn-interview');
+// });
 document.addEventListener("DOMContentLoaded", function() {
-    var scrollToTopBtn = document.getElementById("scrollToTopBtn");
-  
-    // Показываем/скрываем кнопку при прокрутке
-    window.onscroll = function() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        scrollToTopBtn.style.display = "block";
-      } else {
-        scrollToTopBtn.style.display = "none";
+  function setupCardScroll(containerId, prevBtnId, nextBtnId) {
+    const cardContainer = document.getElementById(containerId);
+    const prevBtn = document.getElementById(prevBtnId);
+    const nextBtn = document.getElementById(nextBtnId);
+
+    if (!cardContainer || !prevBtn || !nextBtn) {
+      console.error('Не удалось найти контейнер или кнопки.');
+      return;
+    }
+
+    // Получаем ширину одной карточки
+    const firstCard = cardContainer.querySelector('.card');
+    const cardWidth = firstCard.offsetWidth + 8; // добавляем 8 пикселей
+
+    // Для хранения начальной позиции касания
+    let touchStartX = 0;
+
+    // Функция для обработки события начала касания
+    function onTouchStart(event) {
+      touchStartX = event.touches[0].clientX;
+    }
+
+    // Функция для обработки события окончания касания
+    function onTouchEnd(event) {
+      const touchEndX = event.changedTouches[0].clientX;
+      const deltaX = touchEndX - touchStartX;
+
+      if (deltaX > 50) {
+        // Свайп вправо, прокручиваем влево
+        cardContainer.scrollBy({
+          left: -cardWidth,
+          behavior: 'smooth'
+        });
+      } else if (deltaX < -50) {
+        // Свайп влево, прокручиваем вправо
+        cardContainer.scrollBy({
+          left: cardWidth,
+          behavior: 'smooth'
+        });
       }
-    };
-  
-    // Прокрутка страницы вверх при клике на кнопку
-    scrollToTopBtn.addEventListener("click", function() {
-      document.body.scrollTop = 0; // Для Safari
-      document.documentElement.scrollTop = 0; // Для остальных браузеров
+    }
+
+    // Добавляем обработчики событий касания
+    cardContainer.addEventListener('touchstart', onTouchStart);
+    cardContainer.addEventListener('touchend', onTouchEnd);
+
+    // Функция для прокрутки влево
+    prevBtn.addEventListener('click', function() {
+      cardContainer.scrollBy({
+        left: -cardWidth,
+        behavior: 'smooth'
+      });
     });
-  });
+
+    // Функция для прокрутки вправо
+    nextBtn.addEventListener('click', function() {
+      cardContainer.scrollBy({
+        left: cardWidth,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  // Настройка для блока с id="index"
+  setupCardScroll('index', 'prev-btn-index', 'next-btn-index');
+
+  // Настройка для блока с id="bookrinok"
+  setupCardScroll('bookrinok', 'prev-btn-bookrinok', 'next-btn-bookrinok');
+
+  // Настройка для блока с id="ostraya"
+  setupCardScroll('ostraya', 'prev-btn-ostraya', 'next-btn-ostraya');
+
+  // Настройка для блока с id="vistavki"
+  setupCardScroll('vistavki', 'prev-btn-vistavki', 'next-btn-vistavki');
+
+  // Настройка для блока с id="biblioteki"
+  setupCardScroll('biblioteki', 'prev-btn-biblioteki', 'next-btn-biblioteki');
+
+  // Настройка для блока с id="nauka"
+  setupCardScroll('nauka', 'prev-btn-nauka', 'next-btn-nauka');
   
+  // Настройка для блока с id="inovations"
+  setupCardScroll('inovations', 'prev-btn-inovations', 'next-btn-inovations');
+
+  // Настройка для блока с id="сreative"
+  setupCardScroll('сreative', 'prev-btn-сreative', 'next-btn-сreative');
+  
+  // Настройка для блока с id="interview"
+  setupCardScroll('interview', 'prev-btn-interview', 'next-btn-interview');
+});
 
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
 
+const panel = document.getElementById('left-menu');
+const speedFactor = -0.8; // Отрицательная скорость прокрутки панели
 
-
-
-
+window.addEventListener('scroll', function() {
+  const offset = window.pageYOffset * speedFactor;
+  panel.style.transform = 'translateY(' + offset + 'px)';
+});

@@ -60,3 +60,24 @@ class Slider(models.Model):
         slider_html += '\n</div>'
 
         return slider_html
+
+class Banner(models.Model):
+    DEPTH_CHOICES = (
+        ('main', 'Главная'),
+        ('all', 'Все'),
+    )
+
+    title = models.CharField(max_length=100, verbose_name='Заголовок')
+    image_mobile = models.ImageField(upload_to='banners/', verbose_name='Изображение (мобильное), размер 360*80 px')
+    image_tablet = models.ImageField(upload_to='banners/', verbose_name='Изображение (планшет), размер 670*150 px')
+    image_desktop = models.ImageField(upload_to='banners/', verbose_name='Изображение (десктоп), размер 940*150 px')
+    place = models.CharField(max_length=100, default='default', blank=True, verbose_name='Место расположения баннера')
+    url = models.URLField(verbose_name='URL')
+    show_on_main = models.BooleanField(default=True, verbose_name='Показывать на главной странице')
+
+    class Meta:
+        verbose_name = 'Баннер'
+        verbose_name_plural = 'Баннеры'
+
+    def get_depth_display(self):
+        return dict(self.DEPTH_CHOICES).get(self.place, self.place)

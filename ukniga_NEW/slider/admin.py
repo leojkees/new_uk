@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Image, Slider
+from .models import Image, Slider, Banner
 
 @admin.register(Image)
 class ImageAdmin(admin.ModelAdmin):
@@ -15,3 +15,7 @@ class SliderAdmin(admin.ModelAdmin):
 
     display_html_code.short_description = 'HTML Code'  # Задать заголовок для колонки
 
+
+@admin.register(Banner)
+class BannerAdmin(admin.ModelAdmin):
+    list_display = ('title', 'url', 'show_on_main')
