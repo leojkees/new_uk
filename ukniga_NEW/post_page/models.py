@@ -98,6 +98,7 @@ class Post(models.Model):
     CARD_DISPLAY_CHOICES = [
         ('default', 'Фото + Заголовок'),
         ('fullscreen', 'Фото на всю ширину с оверфлоу + Заголовок поверх фото'),
+        ('NoFoto', 'Без фото'),
     ]
 
     card_display = models.CharField('Вид карточки', max_length=20, choices=CARD_DISPLAY_CHOICES, default='default')

@@ -74,6 +74,21 @@ window.addEventListener("scroll", function() {
 });
 
 
+// Функция, которая будет выполняться после загрузки страницы
+window.onload = function() {
+  var button = document.getElementById('favoriteButton');
+  var image = button.querySelector('img');
+
+  button.addEventListener('click', function() {
+      if (image.src.endsWith('empty-1.png')) {
+          image.src = "/static/full.png";  // Изменяем изображение на full.png
+          image.alt = "В избранном";
+      } else {
+          image.src = "/static/empty-1.png";  // Изменяем изображение на empty-1.png
+          image.alt = "Не в избранном";
+      }
+  });
+};
 
 // var panel = document.getElementById('left-panel');
 

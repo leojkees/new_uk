@@ -4,51 +4,6 @@ import random
 from django.db.models import Max
 
 
-# def latest_post_processor(request):
-#     month_mapping = {
-#         'Январь': 1, 'Февраль': 2, 'Март': 3,
-#         'Апрель': 4, 'Май': 5, 'Июнь': 6,
-#         'Июль': 7, 'Август': 8, 'Сентябрь': 9,
-#         'Октябрь': 10, 'Ноябрь': 11, 'Декабрь': 12
-#     }
-
-#     latest_year = Post.objects.filter(is_arhive=True).aggregate(Max('year'))['year__max']
-
-#     if latest_year:
-#         # Фильтрация постов по году и is_arhive=True
-#         year_posts = Post.objects.filter(year=latest_year, is_arhive=True)
-#         latest_month = max(year_posts, key=lambda post: month_mapping[post.month]).month
-        
-#         # Фильтрация постов по году, месяцу и is_arhive=True
-#         latest_posts = year_posts.filter(month=latest_month)
-
-#         if latest_posts.exists():
-#             random_post = random.choice(latest_posts)
-#             title = random_post.title
-#             image_url = random_post.image.url if random_post.image else None
-#             post_slug = random_post.slug
-#             category_slug = random_post.category.first().slug if random_post.category.exists() else None
-#         else:
-#             title = None
-#             image_url = None
-#             post_slug = None
-#             category_slug = None
-#     else:
-#         title = None
-#         image_url = None
-#         post_slug = None
-#         category_slug = None
-#         latest_year = None
-#         latest_month = None
-
-#     return {
-#         'latest_post_title': title,
-#         'latest_post_image': image_url,
-#         'latest_post_slug': post_slug,
-#         'latest_post_category_slug': category_slug,
-#         'latest_post_year': latest_year,
-#         'latest_post_month': latest_month
-#     }
 def latest_post_processor(request):
     month_mapping = {
         'Январь': 1, 'Февраль': 2, 'Март': 3,

@@ -10,6 +10,8 @@ from .context_processors import menu_and_breadcrumbs
 from .forms import PostFilterForm, TagFilterForm, PasswordForm, YearForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
+from django.http import HttpResponseRedirect
+
 
 
 
@@ -39,8 +41,14 @@ class PostView(View):
         
         current_time = timezone.now()
 
-        # Получите все посты
-        posts = Post.objects.filter(is_published=True, published_date__lte=current_time).order_by('-published_date')
+        excluded_categories = ['Новости', 'Новости партнеров', 'Анонсы']
+
+        posts = Post.objects.filter(
+            is_published=True,
+            published_date__lte=current_time
+        ).exclude(
+            category__name__in=excluded_categories
+        ).order_by('-published_date')
 
         # Paginator с 5 постами на странице
         paginator = Paginator(posts, 5)
@@ -73,7 +81,7 @@ class PostView(View):
         nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True)[:5]
 
         # Получаем посты с категорией "Иновационные технологии"
-        inovations_posts = Post.objects.filter(category__name='Иновационные технологии', is_published=True)[:5]
+        inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True)[:5]
 
         # Получаем посты с категорией "Креативный контекст"
         сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True)[:5]
@@ -318,24 +326,45 @@ def posts_by_year(request):
 
 
 
+# @login_required
+# def manage_favorite(request, post_id):
+#     post = get_object_or_404(Post, pk=post_id)
+
+#     if request.method == 'POST':
+#         if 'add_to_favorite' in request.POST:
+#             existing_favorite = FavoritePost.objects.filter(user=request.user, post=post).first()
+#             if existing_favorite:
+#                 messages.error(request, 'Этот пост уже в избранном.')
+#             else:
+#                 FavoritePost.objects.create(user=request.user, post=post)
+#                 messages.success(request, 'Пост добавлен в избранное.')
+#         elif 'remove_from_favorite' in request.POST:
+#             favorites_to_remove = FavoritePost.objects.filter(user=request.user, post=post)
+#             favorites_to_remove.delete()
+
+#     return redirect('account_profile')
 @login_required
 def manage_favorite(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+    is_favorite = False
 
     if request.method == 'POST':
         if 'add_to_favorite' in request.POST:
+            # Выполните код для добавления в избранное
             existing_favorite = FavoritePost.objects.filter(user=request.user, post=post).first()
             if existing_favorite:
                 messages.error(request, 'Этот пост уже в избранном.')
             else:
                 FavoritePost.objects.create(user=request.user, post=post)
                 messages.success(request, 'Пост добавлен в избранное.')
+                is_favorite = True
         elif 'remove_from_favorite' in request.POST:
+            # Выполните код для удаления из избранного
             favorites_to_remove = FavoritePost.objects.filter(user=request.user, post=post)
             favorites_to_remove.delete()
-
-    return redirect('account_profile')
-
+    
+    print(is_favorite)  # Убедитесь, что is_favorite обновляется правильно
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # def search_posts(request):
 #     query = request.GET.get('q')  # Получение строки поиска из GET-параметра
