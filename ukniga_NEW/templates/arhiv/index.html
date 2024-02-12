@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 {% load slider_tags %}
-{% load custom_filter %}
 
 
 
@@ -218,11 +217,252 @@
 
             </div>
 
-            <!-- Вывод всех постов - 5 -->
-            <h5>Главное</h5>
+
+             <!-- Вывод всех постов - 5 -->
+             <h5>Главное</h5>
+             <hr>
+             <div id="index" class="card-container py-2 d-flex flex-row overflow-hidden">
+                 {% for post in post_list %}
+                 <div class="col-12 col-sm-6 col-xl-4 px-1">
+                     <div id="cards-index" class="card">
+                         
+                         
+                         
+                         <!-- Фуллскрин -->
+                         {% if post.card_display == 'fullscreen' %}
+ 
+                             <div class="card-body" id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                 
+                                 <div id="filter"></div>
+ 
+                                 <div class="text-start">
+                                     <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                 </div>
+ 
+                                 <div>
+                                 <div class="text-start">
+                                     <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                     {% if post.category.count > 1 %}
+                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                     {% else %}
+                                         {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                     {% endif %}
+                                 {% else %}
+                                     {% url 'paid_view' %}
+                                 {% endif %}">
+                                     <h5 class="mb-4">{{ post.title }}</h5></a>
+ 
+                                     <div class="container p-0">
+                                         <div class="row d-flex align-items-center">
+                                             <div class="col-10">
+                                                 {% if post.category.count > 1 %}
+                                                     <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                 {% else %}
+                                                     <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                 {% endif %} 
+                                             </div>
+     
+                                             <div class="col-2 text-end">
+                                                 <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                     {% csrf_token %}
+                                                     {% if is_favorite %}
+                                                         <p>Уже добавлен в избранное</p>
+                                                     {% else %}
+                                                         <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                             <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                         </button>
+                                                     {% endif %}
+                                                 </form>                                             
+                                             </div>
+                                         </div>
+                                     </div> 
+ 
+ 
+                                 </div>                               
+                                 </div>
+                                 
+                                            
+                             </div>
+ 
+ 
+ 
+ 
+ 
+                         <!-- Без фото -->
+                         {% elif post.card_display == 'NoFoto' %}
+ 
+                             <div class="card-body">
+                                 <div id="center-text">
+                                     
+                                         <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                     
+                                     
+ 
+                                     <div id="center-nf">
+                                         <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                         {% if post.category.count > 1 %}
+                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                         {% else %}
+                                             {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                         {% endif %}
+                                     {% else %}
+                                         {% url 'paid_view' %}
+                                     {% endif %}">
+                                     <h5>{{ post.title }}</h5>
+                                     <br>
+                                     <p>{{ post.description }}</p>
+                                     </a></div>   
+ 
+                                     <div class="container  p-0">
+                                         <div class="row d-flex align-items-center">
+                                             <div class="col-10">
+                                                 {% if post.category.count > 1 %}
+                                                     <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                 {% else %}
+                                                     <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                 {% endif %} 
+                                             </div>
+ 
+                                             <div class="col-2 text-end">
+                                                 <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                     {% csrf_token %}
+                                                     {% if is_favorite %}
+                                                         <p>Уже добавлен в избранное</p>
+                                                     {% else %}
+                                                         <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                             <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                         </button>
+                                                     {% endif %}
+                                                 </form>                                             
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         
+                         
+                         
+                         
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img id="half-foto" src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a id="full-txt" style="font-size: 12px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
+             </div>
+ 
+ 
+             
+             <div class="row justify-content-center mt-3">
+                 <div class="col-auto">
+                     
+                     <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-index" class="prev-btn">
+                     <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-index" class="next-btn">
+                 </div>
+             </div>
+ 
+
+
+            <!-- Вывод постов категории "Новости" в виде списка -->
+            <h5 class="mt-4">Новости</h5>
             <hr>
-            <div id="index" class="card-container d-flex flex-row overflow-hidden">
-                {% for post in post_list %}
+            <div id="news-block" class='mb-5'>
+                <div class="row">
+                    <div class="col">
+                        <ul>
+                            {% for post in news_posts %}
+                                <li>
+                                    {{ post.published_date|date:"d-m-Y" }} 
+                                    <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                        {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                        {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                        {% endif %}
+                                    {% else %}
+                                        {% url 'paid_view' %}
+                                    {% endif %}">: {{ post.title }}</a>
+                                    
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Второй баннер -->
+            <div class="my-3" id="banner-news">
+                {% get_banners 'news' as banners %}
+                
+                {% for banner in banners %}
+                    {% include "banner.html" %}
+                {% endfor %}
+            </div>
+
+
+
+            <!-- Вывод постов интервью -->
+            <h5 class="mt-4">Интервью</h5>
+            <hr>
+            <div id="interview" class="card-container py-2 d-flex flex-row overflow-hidden">
+                {% for post in interview_posts %}
                 <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
                         
@@ -254,7 +494,7 @@
 
                                     <div class="container p-0">
                                         <div class="row d-flex align-items-center">
-                                            <div class="col">
+                                            <div class="col-10">
                                                 {% if post.category.count > 1 %}
                                                     <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
                                                 {% else %}
@@ -262,14 +502,14 @@
                                                 {% endif %} 
                                             </div>
     
-                                            <div class="col text-end">
+                                            <div class="col-2 text-end">
                                                 <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
                                                     {% csrf_token %}
                                                     {% if is_favorite %}
                                                         <p>Уже добавлен в избранное</p>
                                                     {% else %}
                                                         <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
-                                                            <img src="{% static 'empty-1.png' %}" style="width: 20px;" alt="В избранном">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
                                                         </button>
                                                     {% endif %}
                                                 </form>                                             
@@ -315,7 +555,7 @@
 
                                     <div class="container  p-0">
                                         <div class="row d-flex align-items-center">
-                                            <div class="col">
+                                            <div class="col-10">
                                                 {% if post.category.count > 1 %}
                                                     <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
                                                 {% else %}
@@ -323,14 +563,14 @@
                                                 {% endif %} 
                                             </div>
 
-                                            <div class="col text-end">
+                                            <div class="col-2 text-end">
                                                 <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
                                                     {% csrf_token %}
                                                     {% if is_favorite %}
                                                         <p>Уже добавлен в избранное</p>
                                                     {% else %}
                                                         <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
-                                                            <img src="{% static 'empty-1.png' %}" style="width: 20px;" alt="В избранном">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
                                                         </button>
                                                     {% endif %}
                                                 </form>                                             
@@ -343,50 +583,68 @@
                         
                         
                         
-                        <!-- Фото в половину -->
-                        {% else %}
-                        
-                        <div id="img-card-default" style="position: relative;">
-                            <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
-                                <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
-                            </div>
-                            <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}">
-                        </div>
-                        
-                        <div class="card-body" id="card-half">
-
-                            <h5>{{ post.title }}</h5>
-
-                            <div class="container p-0">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col">
-                                        {% if post.category.count > 1 %}
-                                            <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} 
-                                    </div>
-
-                                    <div class="col text-end">
-                                        <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
-                                            {% csrf_token %}
-                                            {% if is_favorite %}
-                                                <p>Уже добавлен в избранное</p>
-                                            {% else %}
-                                                <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
-                                                    <img src="{% static 'empty-1.png' %}" style="width: 20px;" alt="В избранном">
-                                                </button>
-                                            {% endif %}
-                                        </form>                                             
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
 
@@ -394,124 +652,8 @@
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
                     
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-index" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-index" class="next-btn">
-                </div>
-            </div>
-
-
-            <!-- Вывод постов категории "Новости" в виде списка -->
-            <h5 class="mt-4">Новости</h5>
-            <hr>
-            <div id="news-block" class="py-2 my-2">
-                <div class="row">
-                    <div class="col p-3">
-                        <ul>
-                            {% for post in news_posts %}
-                                <li>
-                                    
-                                    <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">{{ post.title }}</a>
-                                    
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Второй баннер -->
-            <div class="my-3" id="banner-news">
-                {% get_banners 'news' as banners %}
-                
-                {% for banner in banners %}
-                    {% include "banner.html" %}
-                {% endfor %}
-            </div>
-
-            <!-- Вывод постов интервью -->
-            <h5 class="mt-4">Интервью</h5>
-            <hr>
-            <div id="interview" class="card-container d-flex flex-row overflow-hidden">
-                {% for post in interview_posts %}
-                <div class="col-12 col-sm-6 col-xl-4 px-1">
-                    <div id="cards-index" class="card">
-                        {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                            {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                            {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                            {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                            {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                        {% else %}
-                                        {% url 'paid_view' %}
-                                        {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-                                                                                        
-            </div>
-
-            
-            <div class="row justify-content-center mt-3">
-                <div class="col-auto">
-                    
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-interview" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-interview" class="next-btn">
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-interview" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-interview" class="next-btn">
                 </div>
             </div>
 
@@ -521,12 +663,85 @@
             <!-- Вывод постов книжный рынок -->
             <h5 class="mt-4">Книжный рынок</h5>
             <hr>
-            <div id="bookrinok" class="card-container d-flex flex-row overflow-hidden">
+            <div id="bookrinok" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in bookrinok_posts %}
                 <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -535,65 +750,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                            {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                            {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                        {% else %}
-                                        {% url 'paid_view' %}
-                                        {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-                                                                                        
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
+
 
             
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
                     
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-bookrinok" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-bookrinok" class="next-btn">
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-bookrinok" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-bookrinok" class="next-btn">
                 </div>
             </div>
 
@@ -613,12 +875,85 @@
             <!-- Вывод постов острая тема -->
             <h5>Острая тема</h5>
             <hr>
-            <div id="ostraya" class="card-container d-flex flex-row overflow-hidden">
+            <div id="ostraya" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in ostraya_posts %}
                 <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -627,65 +962,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                          {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                          {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                      {% else %}
-                                        {% url 'paid_view' %}
-                                      {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
-                                                                                       
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
+
 
             
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
                     
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-ostraya" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-ostraya" class="next-btn">
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-ostraya" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-ostraya" class="next-btn">
                 </div>
             </div>
 
@@ -695,12 +1077,85 @@
             <!-- Вывод постов Выставки и конференции -->
             <h5>Выставки и конференции</h5>
             <hr>
-            <div id="vistavki" class="card-container d-flex flex-row overflow-hidden">
+            <div id="vistavki" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in vistavki_posts %}
                 <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -709,76 +1164,127 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
+
+            
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-vistavki" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-vistavki" class="next-btn">
+                    
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-vistavki" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-vistavki" class="next-btn">
                 </div>
             </div>
+
 
             <!-- Вывод постов категории "Новости партнеров" в виде списка -->
             <h5 class="mt-4">Новости партнеров</h5>
             <hr>
-            <div id="partner-block" class="py-2 my-2">
+            <div id="partner-block" class='mb-5'>
                 <div class="row">
-                    <div class="col p-3">
+                    <div class="col">
                         <ul>
                             {% for post in partners_posts %}
                                 <li>
-                                    
-                                    <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {{ post.published_date|date:"d-m-Y" }}
+                                    <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -786,7 +1292,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">{{ post.title }}</a>
+                                    {% endif %}">: {{ post.title }}</a>
                                     
                                 </li>
                             {% endfor %}
@@ -810,12 +1316,85 @@
             <!-- Вывод постов Библиотеки -->
             <h5>Библиотеки</h5>
             <hr>
-            <div id="biblioteki" class="card-container d-flex flex-row overflow-hidden">
+            <div id="biblioteki" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in library_posts %}
-                <div class="col-12 col-md-6 col-xl-4 px-1">
+                <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -824,62 +1403,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
+
+            
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-biblioteki" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-biblioteki" class="next-btn">
+                    
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-biblioteki" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-biblioteki" class="next-btn">
                 </div>
             </div>
 
@@ -890,12 +1519,85 @@
             <!-- Вывод постов Наука и образование -->
             <h5>Наука и образование</h5>
             <hr>
-            <div id="nauka" class="card-container d-flex flex-row overflow-hidden">
+            <div id="nauka" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in nauka_posts %}
-                <div class="col-12 col-md-6 col-xl-4 px-1">
+                <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -904,62 +1606,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
+
+            
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-nauka" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-nauka" class="next-btn">
+                    
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-nauka" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-nauka" class="next-btn">
                 </div>
             </div>
 
@@ -979,12 +1731,85 @@
             <!-- Вывод постов Инновационные технологии -->
             <h5>Инновационные технологии</h5>
             <hr>
-            <div id="inovations" class="card-container d-flex flex-row overflow-hidden">
+            <div id="inovations" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in inovations_posts %}
-                <div class="col-12 col-md-6 col-xl-4 px-1">
+                <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -993,62 +1818,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
+
+            
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-inovations" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-inovations" class="next-btn">
+                    
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-inovations" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-inovations" class="next-btn">
                 </div>
             </div>
 
@@ -1057,12 +1932,85 @@
             <!-- Вывод постов Креативный контекст -->
             <h5>Креативный контекст</h5>
             <hr>
-            <div id="сreative" class="card-container d-flex flex-row overflow-hidden">
+            <div id="сreative" class="card-container py-2 d-flex flex-row overflow-hidden">
                 {% for post in сreative_posts %}
-                <div class="col-12 col-md-6 col-xl-4 px-1">
+                <div class="col-12 col-sm-6 col-xl-4 px-1">
                     <div id="cards-index" class="card">
+                        
+                        
+                        
+                        <!-- Фуллскрин -->
                         {% if post.card_display == 'fullscreen' %}
-                        <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+
+                            <div class="card-body"  id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+                                
+                                <div id="filter"></div>
+
+                                <div class="text-start">
+                                    <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                                </div>
+
+                                <div>
+                                <div class="text-start">
+                                    <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                                    <h5 class="mb-4">{{ post.title }}</h5></a>
+
+                                    <div class="container p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+    
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}" id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div> 
+
+
+                                </div>                               
+                                </div>
+                                
+                                           
+                            </div>
+
+
+
+
+
+                        <!-- Без фото -->
+                        {% elif post.card_display == 'NoFoto' %}
+
+                            <div class="card-body">
+                                <div id="center-text">
+                                    
+                                        <p style="font-size: 12px; padding: 3px">{{ post.published_date|date:"d-m-Y" }}</p>
+                                    
+                                    
+
+                                    <div id="center-nf">
+                                        <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                             {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -1071,62 +2019,112 @@
                                     {% else %}
                                         {% url 'paid_view' %}
                                     {% endif %}">
-                            <div id="body-full" class="card-body position-relative" style="height: 100%; background-image: url('{{ post.img.url }}');">
-                                <div id="filter"></div>
-                                <div id="full-content">
-                                    <p id="date-cat">
-                                        {% if post.category.count > 1 %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                            <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %} <br>
-                                        {{ post.published_date|date:"d-m-Y" }}
-                                    </p>
-                                    <h5 class="pe-3">{{ post.title }}</h5>
-                                    <a href="#" class="btn btn-light rounded mt-4" onclick="event.stopPropagation()">Добавить в избранное</a>
+                                    <h5>{{ post.title }}</h5>
+                                    <br>
+                                    <p>{{ post.description }}</p>
+                                    </a></div>   
+
+                                    <div class="container  p-0">
+                                        <div class="row d-flex align-items-center">
+                                            <div class="col-10">
+                                                {% if post.category.count > 1 %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                                {% else %}
+                                                    <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                                {% endif %} 
+                                            </div>
+
+                                            <div class="col-2 text-end">
+                                                <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                                    {% csrf_token %}
+                                                    {% if is_favorite %}
+                                                        <p>Уже добавлен в избранное</p>
+                                                    {% else %}
+                                                        <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                            <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                        </button>
+                                                    {% endif %}
+                                                </form>                                             
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </a>
-                        {% else %}
-                        <div id="card-default" class="card">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                        {% if post.category.count > 1 %}
-                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                        {% else %}
-                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% url 'paid_view' %}
-                                    {% endif %}">
-                                <div id="img-card-default">
-                                    <img src="{{ post.img.url }}" class="card-img" alt="{{ post.title }}">
-                                </div>
-                            </a>
-                            <div id="body-card-default" class="card-body position-relative">
-                                <div id="date-cat">
-                                    {% if post.category.count > 1 %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                    {% else %}
-                                        <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                    {% endif %} <br>
-                                    {{ post.published_date|date:"d-m-Y" }}
-                                </div>
-                                <h5 class="card-title">{{ post.title }}</h5>
-                                <div style="position: absolute; bottom: 10px;">
-                                    <a href="#" class="btn btn-custom rounded-0" >Добавить в избранное</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-                {% endfor %}
+                        
+                        
+                        
+                        
+                         <!-- Фото в половину -->
+                         {% else %}
+                         
+                         <div id="img-card-default" style="position: relative;">
+                             <div style="position: absolute; top: 0; left: 0; padding: 16px; font-size: 12px">
+                                 <p class="post-date">{{ post.published_date|date:"d-m-Y" }}</p>
+                             </div>
+                             <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <img src="{{ post.img.url }}" class="img-fluid" alt="{{ post.title }}"></a>
+                         </div>
+                         
+                         <div class="card-body" id="card-half">
+                            
+                            <a id="full-txt" style="color: black; " href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                {% if post.category.count > 1 %}
+                                    {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                {% else %}
+                                    {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                {% endif %}
+                            {% else %}
+                                {% url 'paid_view' %}
+                            {% endif %}">
+                             <h5>{{ post.title }}</h5></a>
+ 
+                             <div class="container p-0">
+                                 <div class="row d-flex align-items-center">
+                                     <div class="col-10">
+                                         {% if post.category.count > 1 %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                         {% else %}
+                                             <a style="color: black;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                         {% endif %} 
+                                     </div>
+ 
+                                     <div class="col-2 text-end">
+                                         <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                             {% csrf_token %}
+                                             {% if is_favorite %}
+                                                 <p>Уже добавлен в избранное</p>
+                                             {% else %}
+                                                 <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                     <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                                 </button>
+                                             {% endif %}
+                                         </form>                                             
+                                     </div>
+                                 </div>
+                             </div>
+ 
+                         </div>
+                         {% endif %}
+                     </div>
+                 </div>
+                 {% endfor %}
             </div>
 
+
+            
             <div class="row justify-content-center mt-3">
                 <div class="col-auto">
-                    <img src="{% static 'left-arr.png' %}" alt="Previous" id="prev-btn-сreative" class="prev-btn">
-                    <img src="{% static 'right-arr.png' %}" alt="Next" id="next-btn-сreative" class="next-btn">
+                    
+                    <img src="{% static 'left-arr.svg' %}" alt="Previous" id="prev-btn-сreative" class="prev-btn">
+                    <img src="{% static 'right-arr.svg' %}" alt="Next" id="next-btn-сreative" class="next-btn">
                 </div>
             </div>
 
@@ -1144,14 +2142,14 @@
             <!-- Вывод постов категории "Анонсы" в виде списка -->
             <h5 class="mt-4">Анонсы</h5>
             <hr>
-            <div id="partner-block" class="py-2 my-2">
+            <div id="partner-block" class='mb-5'>
                 <div class="row">
-                    <div class="col p-3">
+                    <div class="col">
                         <ul>
                             {% for post in anonced_posts %}
                                 <li>
-                                    
-                                    <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {{ post.published_date|date:"d-m-Y" }}
+                                    <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
                                         {% else %}
@@ -1159,7 +2157,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">{{ post.title }}</a>
+                                    {% endif %}">: {{ post.title }}</a>
                                     
                                 </li>
                             {% endfor %}

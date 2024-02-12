@@ -29,14 +29,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-FILEBROWSER_DIRECTORY = 'uploads/'
-
 # Application definition
 
 INSTALLED_APPS = [
     'filebrowser',
     'jet.dashboard',
     'jet',
+    'django_summernote',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,30 +60,30 @@ CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery
 CKEDITOR_IMAGE_BACKEND = "pillow"  # Используйте Pillow для обработки изображений
 CKEDITOR_CONFIGS = {
     "default": {
-        "toolbar": "Custom",  # Используйте свой собственный набор инструментов
-        "height": 800,  # Высота редактора
-        "width": 1200,   # Ширина редактора
-        # Добавьте настройку для поддержки загрузки изображений
-        "filebrowserImageUploadUrl": "/ckeditor/upload/",
-        'uiColor' : '#9ccde5',
-
-        # "extraPlugins": "codemirror", #добавляем плагин    
-
-
+        "toolbar": "Custom",
+        "height": 800,
+        "width": 1200,
+        "filebrowserBrowseUrl": '/admin/filebrowser/browse/',
+        "filebrowserUploadUrl": '/admin/filebrowser/upload/',
+        "filebrowserImageBrowseUrl": '/admin/filebrowser/browse/?type=Image',
+        "filebrowserImageUploadUrl": '/admin/filebrowser/upload/?type=Image',
+        'uiColor': '#9ccde5',
+        'extraPlugins': 'filebrowser',  # Включение плагина файлового браузера
     },
     'awesome_ckeditor': {
-            'toolbar': 'Custom',
-            'toolbar_Custom': [
-                ['Bold', 'Italic', 'Underline'],
-                ['NumberedList', 'BulletedList', 'Link'],
-                ['Image', 'FileBrowser'],
-            ],
-            'filebrowserBrowseUrl': '/admin/filebrowser/browse/',
-            'filebrowserUploadUrl': '/admin/filebrowser/upload/',
-            'filebrowserImageBrowseUrl': '/admin/filebrowser/browse/?type=Image',
-            'filebrowserImageUploadUrl': '/admin/filebrowser/upload/?type=Image',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', 'Link'],
+            ['Image', 'FileBrowser'],
+        ],
+        'filebrowserBrowseUrl': '/admin/filebrowser/browse/',
+        'filebrowserUploadUrl': '/admin/filebrowser/upload/',
+        'filebrowserImageBrowseUrl': '/admin/filebrowser/browse/?type=Image',
+        'filebrowserImageUploadUrl': '/admin/filebrowser/upload/?type=Image',
     },
 }
+
 # customColorPalette = [
 #         {
 #             'color': 'hsl(4, 90%, 58%)',

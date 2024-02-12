@@ -30,10 +30,10 @@ urlpatterns = [
     path('paid/', PaidView.as_view(), name='paid_view'),
     path('', PostView.as_view(), name='home'), #Главная
     path('password/', PasswordView.as_view(), name='password_protected'),
-    path('<slug:category_slug>/', views.category_posts, name='category_posts'),
+    re_path(r'^(?P<category_slug>[-\w]+)\.html$', views.category_posts, name='category_posts'),
     
-    path('<slug:category_slug>/<slug:secondary_category_slug>/<slug:slug>/', PostDetailView.as_view(), name='post_detail_multiple_categories'),
-    path('<slug:category_slug>/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
+    re_path(r'^(?P<category_slug>[-\w]+)/(?P<secondary_category_slug>[-\w]+)/(?P<slug>[-\w]+)\.html$', PostDetailView.as_view(), name='post_detail_multiple_categories'),
+    re_path(r'^(?P<category_slug>[-\w]+)/(?P<slug>[-\w]+)\.html$', PostDetailView.as_view(), name='post_detail'),
     
     
 ]

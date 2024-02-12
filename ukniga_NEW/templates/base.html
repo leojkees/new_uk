@@ -29,7 +29,10 @@
 			<nav class="navbar bg-white">
 				<div class="container-fluid">
 
-				  <a class="navbar-brand" href="{% url 'home' %}"><img  src="{% static 'logo.jpg' %}" alt="Университетская книга" width="125"></a>
+					<a class="navbar-brand" href="{% url 'home' %}">
+						<img src="{% static 'logo.jpg' %}" alt="Университетская книга" class="img-fluid d-lg-none" width="125">
+						<img src="{% static 'logo.jpg' %}" alt="Университетская книга" class="img-fluid d-none d-lg-inline" width="175">
+					</a>					
 
 				  
 				  <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">

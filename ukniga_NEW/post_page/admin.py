@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 import os
+from django_summernote.widgets import SummernoteWidget
 
 
 
@@ -73,7 +74,7 @@ class PostAdmin(admin.ModelAdmin):
         'published_date'  
     )
     formfield_overrides = {
-        'models.TextField': {'widget': CKEditorWidget},
+        'models.TextField': {'widget': SummernoteWidget()},
     }
 
     def display_categories(self, obj):
