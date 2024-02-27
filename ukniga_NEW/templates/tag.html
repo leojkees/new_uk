@@ -1,11 +1,14 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 {% block content %}
+{% load slider_tags %}
 
 
 <div class="container">
-    <div class="row">
+    <div class="row justify-content-center">
 
-        <div class="col-xl-2 mt-2">
+        <!-- секция слева -->
+        <div class="col-xl-3 mt-4">
 
             <form method="get" action="{% url 'tag' %}">
                 {% csrf_token %}
@@ -33,83 +36,297 @@
 
             </form>
 
+            <div class="div d-none d-xl-block">
+                <nav id="left-menu" class="nav flex-column shadow p-1 mb-5 bg-body">
+                    <div class="card" style="width: 100%">
+                        <ul class="list-group list-group-flush">
+        
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
+                            ИНТЕРВЬЮ
+                        </a>
+                        <div class="collapse" id="collapseNav1">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='face' %}">Интервью</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='personal-podhod' %}">Персональный подход</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='freemic' %}">Свободный микрофон</a>
+                            </div>
+                            </div>
+                        </li>
+        
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'category_posts' category_slug='ostraya-tema' %}">ОСТРАЯ ТЕМА</a>
+                        </li>
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav" aria-expanded="false" aria-controls="collapseNav">
+                            КНИЖНЫЙ РЫНОК
+                        </a>
+                        <div class="collapse" id="collapseNav">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='knigniy-rinok' %}">Книжный рынок</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookraspr' %}">Книгораспространение</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='mirizdat' %}">Мир издательств</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='zarubez' %}">Зарубежный опыт</a>
+                            </div>
+                            </div>
+                        </li>
+        
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav2" aria-expanded="false" aria-controls="collapseNav">
+                            ИСКУССТВО ИЗДАВАТЬ
+                        </a>
+                        <div class="collapse" id="collapseNav2">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuz' %}">Вузовские издательства</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='periodika' %}">Научная периодика</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='kultura' %}">Книжная культура</a>
+                            </div>
+                            </div>
+                        </li>
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav3" aria-expanded="false" aria-controls="collapseNav">
+                            БИБЛИОТЕКИ
+                        </a>
+                        <div class="collapse" id="collapseNav3">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотеки</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='fonds' %}">Формирование библиотечных фондов</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuzbiblio' %}">Вузовские библиотеки</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='biblworld' %}">Библиотеки мира</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='geniy-place' %}">Гений места</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='absolut-media' %}">Абсолютно медиа</a>
+                            </div>
+                            </div>
+                        </li>
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" href="{% url 'category_posts' category_slug='vishee' %}">НАУКА И ОБРАЗОВАНИЕ</a>
+                        </li>
+                          
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav4" aria-expanded="false" aria-controls="collapseNav">
+                            ИНОВАЦИОННЫЕ ТЕХНОЛОГИИ
+                        </a>
+                        <div class="collapse" id="collapseNav4">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='tehnology' %}">Инновационные технологии</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='print' %}">Технологии печати</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='electron' %}">Электронные библиотеки</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bookplus' %}">КНИГА+</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='ai' %}">Искусственный интеллект и нейросети</a>
+                            </div>
+                            </div>
+                        </li>
+        
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'category_posts' category_slug='vistavki-konferents' %}">ВЫСТАВКИ И КОНФЕРЕНЦИИ</a>
+                        </li>
+        
+                        <li class="list-group-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav5" aria-expanded="false" aria-controls="collapseNav">
+                            КОНКУРСЫ И ПРЕМИИ
+                        </a>
+                        <div class="collapse" id="collapseNav5">
+                            <div class="card card-body">
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='konkurs' %}">Конкурс «Университетская книга»</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='laborotary-liderstva' %}">Лаборатория лидерства</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='otraslevye-konkurs' %}">Отраслевые конкурсы</a>
+                                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='premiya' %}">Премии</a>
+                            </div>
+                            </div>
+                        </li>
+        
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'category_posts' category_slug='copyright' %}">COPYRIGHT</a>
+                        </li>
+        
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'category_posts' category_slug='creativ-context' %}">КРЕАТИВНЫЙ КОНТЕКСТ</a>
+                        </li>
+        
+                        <li class="list-group-item">
+                            <a class="nav-link" href="{% url 'category_posts' category_slug='biblio-kompetenciy' %}">БИБЛИОТЕКА КОМПЕТЕНЦИЙ</a>
+                        </li>
+    
+                        <li class="list-group-item" style="background-color:#c01826; border-top-left-radius: 0; border-top-right-radius: 0;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Это архив за последний месяц">
+    
+                            <h5 class="ps-3 pe-5 pt-3" style="color: aliceblue;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a> за {{ latest_post_month }} {{ latest_post_year }}</h5>
+    
+                            <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
+                                <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3">
+                            </a>
+                            <p class="p-3"><a style="color: aliceblue;" href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">
+                                {{ latest_post_title }}</a></p>						
+    
+                        </li>
+    
+                        <li class="list-group-item py-3" id="login">
+                            <div class="container">
+                                <h5>Вход</h5>
+                                <hr>
+                                {% if user.is_authenticated %}
+                                    <p>Вы вошли как: {{ user.username }}</p>
+                                    <p><a href="{% url 'account_profile' %}">Личный кабинет</a>
+                                    <a href="{% url 'account_logout' %}">Выйти</a></p>
+                                {% else %}
+                                    <form method="post" action="{% url 'custom-login' %}" class="mb-3">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="{{ form.login.id_for_label }}" class="form-label">Имя пользователя</label>
+                                            <input type="text" name="{{ form.login.name }}" class="form-control rounded-0" id="{{ form.login.id_for_label }}" placeholder="Введите логин">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="{{ form.password.id_for_label }}" class="form-label">Пароль</label>
+                                            <input type="password" name="{{ form.password.name }}" class="form-control rounded-0" id="{{ form.password.id_for_label }}" placeholder="Введите пароль">
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="{{ form.remember.name }}" name="{{ form.remember.name }}">
+                                            <label class="form-check-label" for="{{ form.remember.name }}">Запомнить меня</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-custom rounded-0">Войти</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </li>
+    
+    
+                        <li class="list-group-item p-0">
+                            <!-- баннер в меню -->
+                            <div id="banner-left">
+                                {% get_banners 'left' as header_banners %}
+                            
+                                {% for banner in header_banners %}
+                                    {% include "banner.html" %}
+                                {% endfor %}    
+                            </div>
+                        </li> 
+                        
+                        
+                    </div>
+                </nav>
+            </div>
+
         </div>
 
-        <div id="contain" class="col-xl-10 mt-3">
-                <div class="row">
+
+        <!-- Секция справа -->
+            <div class="col-12 col-xl-9 mt-4">
+
+                <!-- Первый баннер -->
+                <div class="mb-3" id="banner-head">
+                    {% get_banners 'header' as banners %}
+                
+                    {% for banner in banners %}
+                        {% if banner.show_on_main and request.path == '/' %}
+                            {% include "banner.html" %}
+                        {% elif not banner.show_on_main %}
+                            {% include "banner.html" %}
+                        {% endif %}
+                    {% endfor %}
+                
                 </div>
+
+                
                 {% for post in posts %}
-                      <div id="card" class="card mb-3 border-bottom border-0">
-                        <div class="row g-0">
-      
-                            <div class="col-lg-2 pt-2">
-                              <div class="card-body">
-                              <h5>{{ post.year }}</h5>
-                              <hr>
-                              <h5>{{ post.month }}</h5>
-                              </div>
-                            </div>
-      
-                            <div class="col-lg-4 d-flex align-items-center justify-content-center">
-                                <img src="{{ post.img.url }}" class="img-fluid w-100" alt="{{ post.title }}">
-                            </div>
-      
-                            <div class="col-lg-6 ps-2 pt-2">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ post.title }}</h5>
-                                        <hr>
-                                        <p>Рубрика:
-                                        {% if post.category.count > 1 %}
-                                          <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                                        {% else %}
-                                          <a href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                                        {% endif %}
-                                        </p>
-      
-                                    <p class="card-text">{{ post.content_preview|safe }}
-      
-                                      <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                                                        {% if post.category.count > 1 %}
-                                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
-                                                        {% else %}
-                                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
-                                                        {% endif %}
-                                                  {% else %}
-                                                  {% url 'paid_view' %}
-                                                  {% endif %}">
-                                                  {% if not post.is_paid %}
-                                                  Читать далее
-                                                  {% elif user.is_authenticated and user.subscribe %}
-                                                  Читать далее
-                                                  {% else %}
-                                                  Оплатить
-                                                  {% endif %}
-                                      </a>
-      
-                                  </p>
-      
-                                    <p>
-                                        <form method="post" action="{% url 'manage_favorite' post.id %}">
-                                            {% csrf_token %}
-                                            {% if is_favorite %}
-                                                <p>Уже добавлен в избранное</p>
-                                            {% else %}
-                                                <button type="submit" name="add_to_favorite" class="btn btn-custom rounded-0">Добавить в избранное</button>
-                                            {% endif %}
-                                        </form>
-                                    </p>
-      
-                                    <p>Теги:
-                                        {% for tag in post.tags.all %}
-                                            <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
-                                        {% endfor %}
-                                    </p>
+
+          <!-- Карточка -->
+          <div id="card" class="card mb-3 border-bottom border-0 rounded-0">
+            <div class="row g-0">
+
+
+                <!-- Первый блок -->
+                <div class="col-md-1 text-center">
+                  <div class="card-body">
+                    <a href="ссылка_на_telegram"><img src="{% static 'tg-ico.svg' %}" alt="Telegram" style="width: 25px; margin: 3px"></a>
+                    <a href="ссылка_на_вк"><img src="{% static 'vk-ico.svg' %}" alt="VKontakte" style="width: 25px; margin: 3px"></a>
+                  </div>
+                </div>
+
+                <!-- Блок с фото -->
+                <div class="col-md-5 d-flex align-items-center justify-content-center" style="overflow: hidden;">
+                  <img src="{{ post.img_card.url }}" class="img-fluid w-100 h-100" style="object-fit: cover" alt="{{ post.title }}">
+                </div>
+
+
+                <!-- Блок с текстом -->
+                <div class="col-md-6 ps-2">
+                    <div class="card-body d-flex flex-column" style="height: 100%;">
+
+                        
+                      <div class="flex-fill">
+                        <div class="row mb-4">
+                            <a id="full-txt" style="font-size: 11px;" href="">{{ post.published_date|date:"d-m-Y" }}</a>
+                            {% if post.category.count > 1 %}
+                                <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                            {% else %}
+                                <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                            {% endif %} 
+                        </div>
+                      </div>
+
+                        <hr>
+
+
+                      <div class="text-card">
+                        <h5>{{ post.title }}</h5>
+
+                        <p>{{ post.description }}</p>
+                      </div>
+
+                      
+                      <div class="flex-fill">
+                        <div class="container mt-5" style="background-image: linear-gradient(45deg, #95efff2a, #ecbdff38);">
+                            <div class="row d-flex align-items-center">
+                                
+                                <div class="col">
+                                    <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if post.category.count > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}" class="btn btn-custom rounded-0 my-2">Читать</a>
                                 </div>
+
+                                <div class="col text-center">
+                                    <form method="post" action="{% url 'manage_favorite' post.id %}"id="favoriteForm">
+                                        {% csrf_token %}
+                                        {% if is_favorite %}
+                                            <p>Уже добавлен в избранное</p>
+                                        {% else %}
+                                            <button type="submit" id="favoriteButton" name="add_to_favorite" class="btn">
+                                                <img src="{% static 'empty-1.png' %}" style="width: 15px;" alt="В избранном">
+                                            </button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+
+                                <div class="col text-center" style='font-size: 12px'>
+                                    {% for tag in post.tags.all|slice:":1" %}
+                                        Теги: <a id="full-txt" href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            
+                            
                             </div>
                         </div>
+                      </div>  
                     </div>
-                {% endfor %}
+                </div>
+            </div>
         </div>
+        <!-- Конец карточки --> 
+
+            {% endfor %}   
+
+
+            </div>
     </div>
 </div>
 

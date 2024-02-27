@@ -4,7 +4,9 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-3 mt-4">
+
+            <!-- секция слева -->
+            <div class="col-xl-3 mt-4">
 
 
                     <h5>Выберите год</h5>
@@ -15,10 +17,12 @@
                     </form>
                     </div>   
                     
-                    <div class="col-3 d-none d-xxl-block">
+
+                    <!-- Нав меню слева -->
+                    
 
 
-
+                    <div class="div d-none d-xl-block">
                         <nav id="left-menu" class="nav flex-column shadow p-1 mb-5 bg-body">
                             <div class="card" style="width: 100%">
                                 <ul class="list-group list-group-flush">
@@ -185,8 +189,8 @@
             </div>
 
 
-
-            <div class="col-lg-9 mt-4">
+            <!-- Первая секция -->
+            <div class="col-12 col-xl-9 mt-4">
                 <div class="row">
 
 
@@ -203,8 +207,10 @@
                         {% endfor %}
                     
                     </div>
+
+                    <!-- Обложки с картинками -->
                     {% for month, posts in posts_by_month.items %}
-                        <div class="col-lg-4 col-md-6 col-12 text-center">
+                        <div class="col-lg-4 col-sm-6 col-12 text-center">
 
 
 

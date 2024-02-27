@@ -71,7 +71,6 @@
     100% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
 }
 
-
 body {
     background-color: #f3f3f3;
     font-family: Lato, sans-serif;
@@ -80,7 +79,6 @@ body {
 
 #head-menu {
     background-color: #ffffff;
-    height: 85px;
 }
 
 .custom-tooltip {
@@ -101,11 +99,11 @@ body {
 }
 
 #card:hover {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3); /* Добавляем тень при наведении */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Добавляем тень при наведении */
 }
 
 #breadcrumbs {
-    background-color: #ffffff;
+    background-image: linear-gradient(45deg, #95efff2a, #ecbdff38);
     height: 40px;
     padding-top: 10px;
     margin-bottom: 25px;
@@ -150,7 +148,7 @@ body {
 }
 
 /* Медиазапрос для экранов с максимальной шириной 1869px */
-@media (max-width: 1399px) {
+@media (max-width: 1199px) {
     /* Показываем элемент с id="menu-down" при ширине экрана меньше 1869px */
     #menu-down {
         display: block; /* Показываем элемент */
@@ -450,10 +448,6 @@ strong {
 }
 
 
-#left-menu {
-    position: fixed; /* Фиксируем панель */
-    width: 306px;
-}
 
 
 
@@ -467,6 +461,11 @@ strong {
     height: 400px;
 }
 
+#cards-index:hover {
+    transform: scale(1.01); /* Увеличение масштаба на 10% */
+    transition: transform 0.1s; /* Добавляем плавное затухание на изменение масштаба */
+}
+
 #body-full {
     position: relative;
     border-radius: 5px;
@@ -474,8 +473,6 @@ strong {
     background-repeat: no-repeat;
     background-position: center bottom;
 }
-
-
 
 
 
@@ -497,14 +494,14 @@ strong {
 
 #card-default {
     height: 400px;
-}
+} */
 
 #img-card-default {
     height: 200px;
     overflow: hidden;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-} */
+}
 
 
 
@@ -537,9 +534,7 @@ strong {
     background: linear-gradient(rgba(0, 0, 0, 0), white); /* Градиент от прозрачного к белому */
 }
 
-#fullscreen {
-    position: relative;
-}
+
 
 /* Размещение филтра на фото */
 .card-body > * {
@@ -548,6 +543,7 @@ strong {
 }
 
 #fullscreen {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -568,14 +564,16 @@ strong {
 
 
  /* Цвет текста ссылки и при наведении */
-#full-txt {
-    color: black;
+ #full-txt {
+    color: rgb(94, 94, 94);
     text-decoration: none;
+    transition: color 0.3s; /* добавляем затухание на изменение цвета в течение 0.3 секунды */
 }
   
 #full-txt:hover {
     color: red; 
 }
+
 
 /* Для даты на карточках */
 .post-date {
@@ -583,4 +581,8 @@ strong {
     font-size: 12px;
     color: rgb(0, 0, 0);
     text-shadow: 0 0 7px white;
+}
+
+.text-card {
+    min-height:155px;
 }

@@ -81,9 +81,10 @@ class Post(models.Model):
     ]
     
     title = models.CharField('Заголовок записи', max_length=150)
-    description = models.CharField('Подзаголовок', max_length=150)
+    description = SummernoteTextField('Краткое описание', max_length=150)
     text = SummernoteTextField()
     img = models.ImageField('Главное изображение поста', upload_to='images/%Y/%m-%d')
+    img_card = models.ImageField('Фото для карточки категорий', upload_to='images/%Y/%m-%d', default=None)
     slug = models.SlugField(max_length=255, unique=True)
     category = models.ManyToManyField(Category, related_name='Category')
     tags = models.ManyToManyField('Tag', related_name='posts')
@@ -104,6 +105,9 @@ class Post(models.Model):
 
     card_display = models.CharField('Вид карточки', max_length=20, choices=CARD_DISPLAY_CHOICES, default='default')
 
+    def get_id(self):
+        return self.id
+    get_id.short_description = 'ID'
 
     class Meta:
         verbose_name = 'Запись'

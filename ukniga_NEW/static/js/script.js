@@ -300,103 +300,12 @@ window.onload = function() {
 //   // Настройка для блока с id="interview"
 //   setupCardScroll('interview', 'prev-btn-interview', 'next-btn-interview');
 // });
-document.addEventListener("DOMContentLoaded", function() {
-  function setupCardScroll(containerId, prevBtnId, nextBtnId) {
-    const cardContainer = document.getElementById(containerId);
-    const prevBtn = document.getElementById(prevBtnId);
-    const nextBtn = document.getElementById(nextBtnId);
-
-    if (!cardContainer || !prevBtn || !nextBtn) {
-      console.error('Не удалось найти контейнер или кнопки.');
-      return;
-    }
-
-    // Получаем ширину одной карточки
-    const firstCard = cardContainer.querySelector('.card');
-    const cardWidth = firstCard.offsetWidth + 8; // добавляем 8 пикселей
-
-    // Для хранения начальной позиции касания
-    let touchStartX = 0;
-
-    // Функция для обработки события начала касания
-    function onTouchStart(event) {
-      touchStartX = event.touches[0].clientX;
-    }
-
-    // Функция для обработки события окончания касания
-    function onTouchEnd(event) {
-      const touchEndX = event.changedTouches[0].clientX;
-      const deltaX = touchEndX - touchStartX;
-
-      if (deltaX > 50) {
-        // Свайп вправо, прокручиваем влево
-        cardContainer.scrollBy({
-          left: -cardWidth,
-          behavior: 'smooth'
-        });
-      } else if (deltaX < -50) {
-        // Свайп влево, прокручиваем вправо
-        cardContainer.scrollBy({
-          left: cardWidth,
-          behavior: 'smooth'
-        });
-      }
-    }
-
-    // Добавляем обработчики событий касания
-    cardContainer.addEventListener('touchstart', onTouchStart);
-    cardContainer.addEventListener('touchend', onTouchEnd);
-
-    // Функция для прокрутки влево
-    prevBtn.addEventListener('click', function() {
-      cardContainer.scrollBy({
-        left: -cardWidth,
-        behavior: 'smooth'
-      });
-    });
-
-    // Функция для прокрутки вправо
-    nextBtn.addEventListener('click', function() {
-      cardContainer.scrollBy({
-        left: cardWidth,
-        behavior: 'smooth'
-      });
-    });
-  }
-
-  // Настройка для блока с id="index"
-  setupCardScroll('index', 'prev-btn-index', 'next-btn-index');
-
-  // Настройка для блока с id="bookrinok"
-  setupCardScroll('bookrinok', 'prev-btn-bookrinok', 'next-btn-bookrinok');
-
-  // Настройка для блока с id="ostraya"
-  setupCardScroll('ostraya', 'prev-btn-ostraya', 'next-btn-ostraya');
-
-  // Настройка для блока с id="vistavki"
-  setupCardScroll('vistavki', 'prev-btn-vistavki', 'next-btn-vistavki');
-
-  // Настройка для блока с id="biblioteki"
-  setupCardScroll('biblioteki', 'prev-btn-biblioteki', 'next-btn-biblioteki');
-
-  // Настройка для блока с id="nauka"
-  setupCardScroll('nauka', 'prev-btn-nauka', 'next-btn-nauka');
-  
-  // Настройка для блока с id="inovations"
-  setupCardScroll('inovations', 'prev-btn-inovations', 'next-btn-inovations');
-
-  // Настройка для блока с id="сreative"
-  setupCardScroll('сreative', 'prev-btn-сreative', 'next-btn-сreative');
-  
-  // Настройка для блока с id="interview"
-  setupCardScroll('interview', 'prev-btn-interview', 'next-btn-interview');
-});
 
 
 
 
 const panel = document.getElementById('left-menu');
-const speedFactor = -0.8; // Отрицательная скорость прокрутки панели
+const speedFactor = 0.2; // Положительная скорость прокрутки панели
 
 window.addEventListener('scroll', function() {
   const offset = window.pageYOffset * speedFactor;

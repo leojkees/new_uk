@@ -8,7 +8,8 @@
 
       <div class="col-lg-3 mb-5">
 
-        <h2>Профиль пользователя</h2>
+        <h5>Профиль пользователя</h5>
+        <hr>
         <p>Имя: {{ user.first_name }}</p>
         <p>Фамилия: {{ user.last_name }}</p>
         <p>Адрес электронной почты: {{ user.email }}</p>
@@ -20,33 +21,40 @@
         <form method="post" action="{% url 'profile' %}">
           {% csrf_token %}
           {{ profile_form.as_p }}
-          <button type="submit">Сохранить изменения</button>
+          <button type="submit" class="btn btn-custom">Сохранить изменения</button>
         </form>
         <hr>
         <h5>Смена пароля</h5>
         <form method="post" action="{% url 'account_change_password' %}">
           {% csrf_token %}
           {{ password_change_form.as_p }}
-          <button type="submit">Сменить пароль</button>
+          <button type="submit" class="btn btn-custom">Сменить пароль</button>
         </form>
 
       </div>  
 
       <div class="col-lg-9">
-        <h2>Книжная полка</h2>
+        <h5>Книжная полка</h5>
+        <hr>
+        <!-- Контейнер -->
+        <div class="container">
         {% for favorite_post in request.user.favoritepost_set.all %}
-          <form method="post" action="{% url 'manage_favorite' favorite_post.post.id %}">
-            {% csrf_token %}
-            <p>
-              <a href="{% url 'post_detail' category_slug=favorite_post.post.category.first.slug slug=favorite_post.post.slug %}">
-                {{ favorite_post.post.title }}
-              </a>       
-              <button type="submit" name="remove_from_favorite">Удалить из избранного</button>
-            </p>
-            <!-- Здесь можно добавить другие данные по посту, которые вы хотите отобразить -->
-          </form>
+        <div class="row mb-4"> <!-- Начало строки -->
+          <div class="col-7"> <!-- 6 столбцов для заголовка -->
+            <a href="{% url 'post_detail' category_slug=favorite_post.post.category.first.slug slug=favorite_post.post.slug %}">
+              {{ favorite_post.post.title }}
+            </a>
+            {{ favorite_post.post.description }}   
+          </div>
+          <div class="col-3"> <!-- 3 столбца для кнопки -->
+            <form method="post" action="{% url 'manage_favorite' favorite_post.post.id %}">
+              <button type="submit" class="btn btn-custom" name="remove_from_favorite">Удалить из избранного</button>
+            </form>
+          </div>
+        </div> 
         {% endfor %}
-
+        </div>
+        <!-- Конец Контейнер -->
       </div>
 
 

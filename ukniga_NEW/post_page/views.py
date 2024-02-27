@@ -51,43 +51,43 @@ class PostView(View):
         ).order_by('-published_date')
 
         # Paginator с 5 постами на странице
-        paginator = Paginator(posts, 5)
+        paginator = Paginator(posts, 10)
         
         # Получите номер текущей страницы из параметра GET
         page = request.GET.get('page')
 
         # Получаем посты с категорией "Библиотеки"
-        library_posts = Post.objects.filter(category__name='Библиотеки', is_published=True)[:5]
+        library_posts = Post.objects.filter(category__name='Библиотеки', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Новости"
-        news_posts = Post.objects.filter(category__name='Новости', is_published=True)[:5]
+        news_posts = Post.objects.filter(category__name='Новости', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Интервью"
-        interview_posts = Post.objects.filter(category__name='Интервью', is_published=True)[:5]
+        interview_posts = Post.objects.filter(category__name='Интервью', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Книжный рынок"
-        bookrinok_posts = Post.objects.filter(category__name='Книжный рынок', is_published=True)[:5]
+        bookrinok_posts = Post.objects.filter(category__name='Книжный рынок', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Острая тема"
-        ostraya_posts = Post.objects.filter(category__name='Острая тема', is_published=True)[:5]
+        ostraya_posts = Post.objects.filter(category__name='Острая тема', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Выставки и конференции"
-        vistavki_posts = Post.objects.filter(category__name='Выставки и конференции', is_published=True)[:5]
+        vistavki_posts = Post.objects.filter(category__name='Выставки и конференции', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Новости партнеров"
-        partners_posts = Post.objects.filter(category__name='Новости партнеров', is_published=True)[:5]
+        partners_posts = Post.objects.filter(category__name='Новости партнеров', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Наука и образование"
-        nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True)[:5]
+        nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Иновационные технологии"
-        inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True)[:5]
+        inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Креативный контекст"
-        сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True)[:5]
+        сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Анонсы"
-        anonced_posts = Post.objects.filter(category__name='Анонсы', is_published=True)[:5]
+        anonced_posts = Post.objects.filter(category__name='Анонсы', is_published=True).order_by('-published_date')[:10]
 
         try:
             # Получите текущую страницу
@@ -206,10 +206,10 @@ class PaidView(View):
 #     return render(request, 'category_posts.html', {'category': category, 'posts': posts})
 def category_posts(request, category_slug):
     category = get_object_or_404(Category, slug=category_slug)
-    posts = Post.objects.filter(category=category)
+    posts = Post.objects.filter(category=category, is_published=True).order_by('-published_date')
 
     #Paginator с 5 постами на странице
-    paginator = Paginator(posts, 10)
+    paginator = Paginator(posts, 100)
     
     # Получите номер текущей страницы из параметра GET
     page = request.GET.get('page')
@@ -303,6 +303,9 @@ def posts_by_year(request):
             else:
                 # Этот фильтр применяется, если is_arhive=False или is_arhive не указан
                 posts = posts.filter(is_arhive=True)
+
+            # Добавляем сортировку по published_date
+            posts = posts.order_by('-published_date')
 
             # Получение изображения для выбранного месяца
             image_for_month = None
