@@ -83,6 +83,7 @@ class Post(models.Model):
     title = models.CharField('Заголовок записи', max_length=150)
     description = SummernoteTextField('Краткое описание', max_length=150)
     text = SummernoteTextField()
+    page = models.IntegerField('Номер страницы в журнале', default=None, blank=True, null=True)
     img = models.ImageField('Главное изображение поста', upload_to='images/%Y/%m-%d')
     img_card = models.ImageField('Фото для карточки категорий', upload_to='images/%Y/%m-%d', default=None)
     slug = models.SlugField(max_length=255, unique=True)

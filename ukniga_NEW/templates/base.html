@@ -124,7 +124,7 @@
 							<button class="btn mt-1 " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" style="border: 1px solid #c9c9c9; font-size: 13px;">РУБРИКИ</button>
 							<a href="{% url 'tag' %}" class="btn mt-1 " style="border: 1px solid #c9c9c9; font-size: 13px;">ТЕГИ</a>
 							<a href="{% url 'custom_signup' %}" class="btn mt-1 " style="border: 1px solid #c9c9c9; font-size: 13px;">КАБИНЕТ</a>
-							<a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}" class="btn mt-1 " style="background-color:#c01826; color: aliceblue; font-size: 13px;">АРХИВ</a>
+							<a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}" class="btn mt-1 " style="background-color:#c01826; color: aliceblue; font-size: 13px;">АРХИВ</a>
 	
 	
 						</div>

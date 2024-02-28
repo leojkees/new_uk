@@ -133,7 +133,7 @@ def menu_and_breadcrumbs(request):
         category = Category.objects.get(slug=category_slug)  # Предполагается, что у вас есть поле slug в модели Category
         category_name = category.name
         add_breadcrumb(breadcrumbs, 'category_posts', category_slug, title=f'Рубрика: {category_name}')
-        # add_breadcrumb(breadcrumbs, 'post_detail', category_slug, slug, title='Подробнее')
+        add_breadcrumb(breadcrumbs, 'post_detail', category_slug, slug, title='*')
 
     elif 'ckeditor_upload' in request.resolver_match.url_name:
         add_breadcrumb(breadcrumbs, 'ckeditor_upload', title='Загрузка CKEditor')

@@ -11,6 +11,7 @@ from .forms import PostFilterForm, TagFilterForm, PasswordForm, YearForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.http import HttpResponseRedirect
+from django.db.models import Case, When, IntegerField
 
 
 
@@ -305,7 +306,7 @@ def posts_by_year(request):
                 posts = posts.filter(is_arhive=True)
 
             # Добавляем сортировку по published_date
-            posts = posts.order_by('-published_date')
+            posts = posts.order_by('page')
 
             # Получение изображения для выбранного месяца
             image_for_month = None
@@ -530,11 +531,30 @@ def images_by_year(request):
     if form.is_valid():
         selected_year = form.cleaned_data['year']
         
+        # Определяем порядок сортировки для месяцев
+        month_ordering = Case(
+            When(month='Январь', then=1),
+            When(month='Февраль', then=2),
+            When(month='Март', then=3),
+            When(month='Апрель', then=4),
+            When(month='Май', then=5),
+            When(month='Июнь', then=6),
+            When(month='Июль', then=7),
+            When(month='Август', then=8),
+            When(month='Сентябрь', then=9),
+            When(month='Октябрь', then=10),
+            When(month='Ноябрь', then=11),
+            When(month='Декабрь', then=12),
+            default=0, 
+            output_field=IntegerField(),
+        )
+
         unique_images = (
             Post.objects.filter(year=selected_year)
                         .values('month')
                         .annotate(count=Count('image'))
                         .filter(count__gt=0)
+                        .order_by(month_ordering)  # Используем определенный порядок сортировки
         )
         
         posts_by_month = {}

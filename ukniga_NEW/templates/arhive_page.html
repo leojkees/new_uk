@@ -84,6 +84,13 @@
                     <button type="submit" class="btn btn-custom rounded-0">Поиск</button>
                     </div>
                 </form>
+
+                <div class="mt-2">
+                    {% if image_for_month %}
+                        <img src="{{ image_for_month.url }}" class="img-fluid w-100" alt="Обложка журнала за {{ form.month.value }}">
+                    {% endif %}
+                </div>
+
                 </div>
                 
 
@@ -96,14 +103,6 @@
                 <nav id="left-menu" class="nav flex-column shadow p-1 mb-5 bg-body">
                     <div class="card" style="width: 100%">
                         <ul class="list-group list-group-flush">
-                            
-
-                        <div class="row mb-2">
-                            {% if image_for_month %}
-                                <img src="{{ image_for_month.url }}" class="img-fluid" alt="Обложка журнала за {{ form.month.value }}">
-                            {% endif %}
-                        </div>
-
         
                         <li class="list-group-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
@@ -292,11 +291,16 @@
         
         
                         <!-- Первый блок -->
-                        <div class="col-md-1 text-center">
-                          <div class="card-body">
-                            <a href="ссылка_на_telegram"><img src="{% static 'tg-ico.svg' %}" alt="Telegram" style="width: 25px; margin: 3px"></a>
-                            <a href="ссылка_на_вк"><img src="{% static 'vk-ico.svg' %}" alt="VKontakte" style="width: 25px; margin: 3px"></a>
-                          </div>
+                        <div class="col-md-1 text-center d-flex flex-column">
+                            <div class="card-body" style="display: flex; flex-direction: column; height: 100%;">
+                              <div class="top-concard mb-2">
+                                <a href="ссылка_на_telegram"><img src="{% static 'tg-ico.svg' %}" alt="Telegram" style="width: 25px; margin: 3px"></a>
+                                <a href="ссылка_на_вк"><img src="{% static 'vk-ico.svg' %}" alt="VKontakte" style="width: 25px; margin: 3px"></a>
+                              </div>
+                              <div class="bottom-concard" style="margin-top: auto;">
+                                <p style="font-size: 10px;">Номер страницы</p><h5>{{ post.page }}</h5>
+                              </div>
+                            </div>
                         </div>
         
                         <!-- Блок с фото -->
@@ -314,9 +318,9 @@
                                 <div class="row mb-4">
                                     <a id="full-txt" style="font-size: 11px;" href="">{{ post.published_date|date:"d-m-Y" }}</a>
                                     {% if post.category.count > 1 %}
-                                        <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
+                                        <a id="full-txt" style="font-size: 15px; font-family: 'Play';" href="{% url 'category_posts' category_slug=post.category.last.slug %}">Рубрика: {{ post.category.last.name }}</a>
                                     {% else %}
-                                        <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
+                                        <a id="full-txt" style="font-size: 15px; font-family: 'Play';" href="{% url 'category_posts' category_slug=post.category.first.slug %}">Рубрика: {{ post.category.first.name }}</a>
                                     {% endif %} 
                                 </div>
                               </div>
