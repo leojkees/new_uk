@@ -12,6 +12,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.http import HttpResponseRedirect
 from django.db.models import Case, When, IntegerField
+from .models import StaticTemplate
+from subscriptions.models import Month
 
 
 
@@ -210,7 +212,7 @@ def category_posts(request, category_slug):
     posts = Post.objects.filter(category=category, is_published=True).order_by('-published_date')
 
     #Paginator с 5 постами на странице
-    paginator = Paginator(posts, 100)
+    paginator = Paginator(posts, 10)
     
     # Получите номер текущей страницы из параметра GET
     page = request.GET.get('page')
@@ -231,21 +233,65 @@ def category_posts(request, category_slug):
     return render(request, 'category_posts.html', {'category': category, 'posts': posts})
 
 
-
+#Шаблон страницы для контакты
 def contact(request):
-    return render(request, 'contacts.html')
+    # Получаем объект шаблона из базы данных
+    template = StaticTemplate.objects.get(name='contacts.html')
 
+    # Передаем содержимое шаблона в контекст
+    context = {
+        'content': template.content
+    }
+
+    return render(request, 'contacts.html', context)
+
+#Шаблон страницы для авторов
 def authors(request):
-    return render(request, 'forautors.html')
+    # Получаем объект шаблона из базы данных
+    template = StaticTemplate.objects.get(name='forautors.html')
 
+    # Передаем содержимое шаблона в контекст
+    context = {
+        'content': template.content
+    }
+
+    return render(request, 'forautors.html', context)
+
+
+#Шаблон страницы рекламы
 def reklama(request):
-    return render(request, 'reklama.html')
+    # Получаем объект шаблона из базы данных
+    template = StaticTemplate.objects.get(name='reklama.html')
+
+    # Передаем содержимое шаблона в контекст
+    context = {
+        'content': template.content
+    }
+
+    return render(request, 'reklama.html', context)
+
 
 def podpiska(request):
-    return render(request, 'podpiska.html')
+    months = Month.objects.all()
+    context = {
+        'months': months
+    }
 
+    return render(request, 'podpiska.html', context)
+
+
+#Шаблон страницы о нас
 def about(request):
-    return render(request, 'about.html')
+    # Получаем объект шаблона из базы данных
+    template = StaticTemplate.objects.get(name='about.html')
+
+    # Передаем содержимое шаблона в контекст
+    context = {
+        'content': template.content
+    }
+
+    # Рендерим шаблон, передавая контекст
+    return render(request, 'about.html', context)
 
 
 
@@ -535,22 +581,24 @@ def images_by_year(request):
         month_ordering = Case(
             When(month='Январь', then=1),
             When(month='Февраль', then=2),
-            When(month='Март', then=3),
-            When(month='Апрель', then=4),
-            When(month='Май', then=5),
-            When(month='Июнь', then=6),
-            When(month='Июль', then=7),
-            When(month='Август', then=8),
-            When(month='Сентябрь', then=9),
-            When(month='Октябрь', then=10),
-            When(month='Ноябрь', then=11),
-            When(month='Декабрь', then=12),
+            When(month='Январь/Февраль', then=3),
+            When(month='Март', then=4),
+            When(month='Апрель', then=5),
+            When(month='Май', then=6),
+            When(month='Июнь', then=7),
+            When(month='Июль', then=8),
+            When(month='Август', then=9),
+            When(month='Июль/Август', then=10),
+            When(month='Сентябрь', then=11),
+            When(month='Октябрь', then=12),
+            When(month='Ноябрь', then=13),
+            When(month='Декабрь', then=14),           
             default=0, 
             output_field=IntegerField(),
         )
 
         unique_images = (
-            Post.objects.filter(year=selected_year)
+            Post.objects.filter(year=selected_year, is_arhive=True)
                         .values('month')
                         .annotate(count=Count('image'))
                         .filter(count__gt=0)
@@ -559,8 +607,12 @@ def images_by_year(request):
         
         posts_by_month = {}
         for month_data in unique_images:
-            posts = Post.objects.filter(year=selected_year, month=month_data['month'], image__isnull=False).order_by('?')[:1]
-            posts_by_month[month_data['month']] = posts
+            posts = Post.objects.filter(year=selected_year, 
+                                        month=month_data['month'], 
+                                        image__isnull=False,
+                                        is_arhive=True).order_by('?')[:1]
+            if posts.exists():  # Проверяем, есть ли посты с is_arhive=True
+                posts_by_month[month_data['month']] = posts
         
         context = {'form': form, 'selected_year': selected_year, 'posts_by_month': posts_by_month}
         return render(request, 'arhiv-list.html', context)

@@ -8,6 +8,7 @@ import os
 from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django_summernote.fields import SummernoteTextField
+from django.core.exceptions import ValidationError
 
 
 
@@ -74,9 +75,9 @@ class Tag(models.Model):
 #данные о записи
 class Post(models.Model):
     MONTH_CHOICES = [
-        ('Январь', 'Январь'), ('Февраль', 'Февраль'), ('Март', 'Март'),
+        ('Январь', 'Январь'), ('Январь/Февраль', 'Январь/Февраль'), ('Февраль', 'Февраль'), ('Март', 'Март'),
         ('Апрель', 'Апрель'), ('Май', 'Май'), ('Июнь', 'Июнь'),
-        ('Июль', 'Июль'), ('Август', 'Август'), ('Сентябрь', 'Сентябрь'),
+        ('Июль', 'Июль'), ('Июль/Август', 'Июль/Август'), ('Август', 'Август'), ('Сентябрь', 'Сентябрь'),
         ('Октябрь', 'Октябрь'), ('Ноябрь', 'Ноябрь'), ('Декабрь', 'Декабрь')
     ]
     
@@ -89,7 +90,6 @@ class Post(models.Model):
     slug = models.SlugField(max_length=255, unique=True)
     category = models.ManyToManyField(Category, related_name='Category')
     tags = models.ManyToManyField('Tag', related_name='posts')
-    # Используем поля year, month, и image без внешнего ключа
     year = models.IntegerField('Год', validators=[MinValueValidator(2000), MaxValueValidator(2100)])
     month = models.CharField('Месяц', max_length=20, choices=MONTH_CHOICES)
     image = models.ImageField('Обложка архива', upload_to='date_images/', default='', blank=True, null=True)
@@ -97,6 +97,10 @@ class Post(models.Model):
     is_arhive = models.BooleanField('Архив', default=False)
     published_date = models.DateTimeField('Дата публикации', null=True, blank=True)
     is_published = models.BooleanField('Опубликовано', default=False)
+
+    def clean(self):
+        if self.is_arhive and not self.image:
+            raise ValidationError("Поле: Обложка архива - обязательно для архивной статьи.")    
 
     CARD_DISPLAY_CHOICES = [
         ('default', 'Фото + Заголовок'),
@@ -166,4 +170,13 @@ class FavoritePost(models.Model):
         return f"{self.user.username} - {self.post.title}"
     
     
-    
+class StaticTemplate(models.Model):
+    name = models.CharField(max_length=100, unique=True, verbose_name="Название шаблона")
+    content = SummernoteTextField(verbose_name="Содержимое")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Статический шаблон"
+        verbose_name_plural = "Статические шаблоны"

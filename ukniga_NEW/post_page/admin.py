@@ -6,7 +6,14 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 import os
 from django_summernote.widgets import SummernoteWidget
+from django_summernote.admin import SummernoteModelAdmin
+from .models import StaticTemplate
+from userprofile.models import Profile
 
+#редактирование содержимого шаблонов страниц
+class StaticTemplateAdmin(SummernoteModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -126,3 +133,4 @@ admin.site.register(User, CustomUserAdmin)  # Зарегистрируйте е�
 admin.site.register(Post, PostAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(MyFile, MyFileAdmin)
+admin.site.register(StaticTemplate, StaticTemplateAdmin)

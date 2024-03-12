@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load slider_tags %}
+{% load static %}
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xl-3 mt-4">
+            <!-- Навменю -->
+            {% include 'includes/menu.html' %}
+            <!-- Конец нав меню -->
+
+        </div>
+
+        <div class="col-12 col-xl-9 mt-4">
+
+            <h5>Форма подписки</h5>
+            <hr>
+
+            <form method="post" action="{% url 'subscribe' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="type" class="form-label">Варианты получения журнала</label>
+                    <select class="form-select" id="type" name="type" required>
+                        <option value="paper">Бумажный вариант</option>
+                        <option value="electronic">Электронный вариант</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="year" class="form-label">Год</label>
+                    <input type="text" class="form-control" id="year" name="year" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Выберите нужные номера</label>
+                    <div>
+                        {% for month in months %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="issues" value="{{ month.id }}" id="month{{ month.id }}">
+                            <label class="form-check-label" for="month{{ month.id }}">
+                                {{ month.name }}
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Количество экземпляров</label>
+                    <input type="number" class="form-control" id="amount" name="amount" min="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="orgName" class="form-label">Наименование организации</label>
+                    <textarea class="form-control" id="orgName" name="org_name" rows="1" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Телефон</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="mb-3">
+                    <label for="inn" class="form-label">ИНН</label>
+                    <input type="text" class="form-control" id="inn" name="inn" required>
+                </div>
+                <div class="mb-3">
+                    <label for="kpp" class="form-label">КПП</label>
+                    <input type="text" class="form-control" id="kpp" name="kpp" required>
+                </div>
+                <div class="mb-3">
+                    <label for="realAddress" class="form-label">Адрес фактический</label>
+                    <textarea class="form-control" id="realAddress" name="real_address" rows="2" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="corporateAddress" class="form-label">Адрес Юридический</label>
+                    <textarea class="form-control" id="corporateAddress" name="corporate_address" rows="2" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Электронный почтовый адрес e-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="contact" class="form-label">Контактное лицо</label>
+                    <input type="text" class="form-control" id="contact" name="contact" required>
+                </div>
+                <button type="submit" class="btn btn-custom">Отправить</button>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}

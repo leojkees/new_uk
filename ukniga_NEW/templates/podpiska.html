@@ -1,14 +1,74 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends "base.html" %}
 {% load static %}
+{% block content %}
+{% load slider_tags %}
 
 <div class="container">
     <div class="row">
-        <div class="col">
-            <h5>Подписка</h5>
+
+        <div class="col-3 d-none d-xl-block my-4">
+
+            <!-- Навменю -->
+            {% include 'includes/menu.html' %}
+            
+        </div>
+
+        <div class="col-12 col-xl-9 mt-4">
+
+            
+            <!-- Первый баннер -->
+            <div class="mb-3" id="banner-head">
+                {% get_banners 'header' as banners %}
+            
+                {% for banner in banners %}
+                    {% if banner.show_on_main and request.path == '/' %}
+                        {% include "banner.html" %}
+                    {% elif not banner.show_on_main %}
+                        {% include "banner.html" %}
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <h5>Выберите форму подписки</h5>
+
+            <select id="subscriptionType" class="form-select mb-3" onchange="toggleSubscriptionForm()">
+                <option value="fst">Выберите тип оплаты</option>
+                <option value="corporate">Юридическое лицо</option>
+                <option value="user">Физическое лицо</option>
+            </select>
+        
+            <div id="corporateForm" style="display: none;">
+                <h5>Подписка для юридического лица</h5>
+                <hr>
+                {% include 'subscriptions/sub_form.html' %}
+            </div>
+        
+            <div id="userForm" style="display: none;">
+                <h5>Подписка для физического лица</h5>
+                <hr>
+                {% include 'subscriptions/sub_usr_form.html' %}
+            </div>
 
         </div>
+    
     </div>
 </div>
 
+<script>
+    // Функция для скрытия/отображения формы в зависимости от выбора в выпадающем меню
+    function toggleSubscriptionForm() {
+        var subscriptionType = document.getElementById("subscriptionType").value;
+        var corporateForm = document.getElementById("corporateForm");
+        var userForm = document.getElementById("userForm");
+
+        if (subscriptionType === "corporate") {
+            corporateForm.style.display = "block";
+            userForm.style.display = "none";
+        } else if (subscriptionType === "user") {
+            corporateForm.style.display = "none";
+            userForm.style.display = "block";
+        }
+    }
+</script>
 {% endblock %}

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'filebrowser',
     'jet.dashboard',
     'jet',
+    'subscriptions',
     'django_summernote',
     'django.contrib.admin',
     'django.contrib.auth',

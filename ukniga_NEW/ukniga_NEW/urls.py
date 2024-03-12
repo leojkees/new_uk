@@ -23,8 +23,9 @@ from filebrowser.sites import site
 
 urlpatterns = [
         
-    path('ckeditor/', include('ckeditor_uploader.urls')), #добавляем путь к ckeditor
+    path('ckeditor/', include('ckeditor_uploader.urls')), #путь к ckeditor
     path('summernote/', include('django_summernote.urls')),
+    path('', include('subscriptions.urls')), #путь к форме подписки
     path('admin/filebrowser/', site.urls),
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load slider_tags %}
+{% load static %}
+
+<style>
+    /* Общие стили */
+    .invoice-container {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        width: 760px;
+        background-color: #FFF;
+        border: 1px solid #666;
+        border-style: dashed;
+        margin: 0 auto;
+        padding: 10px;
+    }
+    table {
+        width: 720px;
+        border-collapse: collapse;
+        border: 1px solid #000;
+    }
+    th, td {
+        border: 1px solid #000;
+        padding: 5px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+
+    /* Стили для печати */
+    @media print {
+        .invoice-container {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        th, td {
+            border: none;
+            padding: 5px;
+        }
+        th {
+            background-color: transparent;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xl-3 mt-4">
+            <!-- Навменю -->
+            {% include 'includes/menu.html' %}
+            <!-- Конец нав меню -->
+
+        </div>
+
+
+
+
+
+
+        <div class="col-12 col-xl-9 mt-4">
+
+            <h5>Счет на оплату</h5>
+            <hr>
+
+            <div class="print mb-3 text-end">
+                <button onclick="printInvoice()" class="btn btn-custom rounded-0">Распечатать</button>
+            </div>
+
+            <div id="invoice-container" class="invoice-container">
+
+                    <div class="text14">
+                        <table>
+                            <tr>
+                                <td width="220" valign="top" align="center">
+                                    <strong>Извещение</strong>
+                                </td>
+                                <td valign="top">
+                                    <p><strong>Получатель:</strong> ООО «ИД Университетская книга»</p>
+                                    <p><strong>КПП:</strong> __________ <strong>ИНН:</strong> 7720673482</p>
+                                    <p><strong>Код ОКАТО:</strong>___________ <strong>P/сч.:</strong> 40702810600310140454</p>
+                                    <p><strong>в:</strong> Филиал "Центральный" Банка ВТБ (ПАО) г.Москва</p>
+                                    <p><strong>БИК:</strong> 044525411 <strong>К/сч.:</strong> 30101810145250000411</p>
+                                    <p><strong>Код бюджетной классификации (КБК):</strong> ____________________</p>
+                                    <p><strong>Платеж:</strong> Журнал "Университетская книга" {{ type_caption }} {{ year }} год. За месяцы {{ selected_months }}</p>
+                                    <p><strong>Плательщик:</strong> {{ contact }}</p>
+                                    <p><strong>Адрес плательщика:</strong> {{ real_address }}</p>
+                                    <p><strong>ИНН плательщика:</strong> ____________ <strong>№ л/сч. плательщика:</strong> ______________</p>
+                                    <p><strong>Сумма:</strong> <strong><u>{{ total_cost }}</u></strong> руб. <strong><u>00</u></strong> коп.</p>
+                                    <p>Подпись:________________________ Дата: " ___ " ______________ </p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td width="220" valign="top" align="center">
+                                    <strong>Квитанция</strong>
+                                </td>
+                                <td valign="top">
+                                    <p><strong>Получатель:</strong> ООО «ИД Университетская книга»</p>
+                                    <p><strong>КПП:</strong> __________ <strong>ИНН:</strong> 7720673482</p>
+                                    <p><strong>Код ОКАТО:</strong>___________ <strong>P/сч.:</strong> 40702810600310140454</p>
+                                    <p><strong>в:</strong> Филиал "Центральный" Банка ВТБ (ПАО) г.Москва</p>
+                                    <p><strong>БИК:</strong> 044525411 <strong>К/сч.:</strong> 30101810145250000411</p>
+                                    <p><strong>Код бюджетной классификации (КБК):</strong> ____________________</p>
+                                    <p><strong>Платеж:</strong> Журнал "Университетская книга" {{ type_caption }} {{ year }} год. За месяцы {{ selected_months }}</p>
+                                    <p><strong>Плательщик:</strong> {{ contact }}</p>
+                                    <p><strong>Адрес плательщика:</strong> {{ real_address }}</p>
+                                    <p><strong>ИНН плательщика:</strong> ____________ <strong>№ л/сч. плательщика:</strong> ______________</p>
+                                    <p><strong>Сумма:</strong> <strong><u>{{ total_cost }}</u></strong> руб. <strong><u>00</u></strong> коп.</p>
+                                    <p>Подпись:________________________ Дата: " ___ " ______________ </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function printInvoice() {
+        var printWindow = window.open('', '_blank');
+        printWindow.document.write('<html><head><title>Печать счета</title>');
+        printWindow.document.write('<link rel="stylesheet" type="text/css" href="' + location.origin + '/static/css/print-style.css">');
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(document.getElementById("invoice-container").outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    }
+</script>
+
+{% endblock %}
+

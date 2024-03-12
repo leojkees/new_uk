@@ -1,15 +1,15 @@
 from allauth.account.views import SignupView, LoginView, LogoutView, PasswordChangeView
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
-from .forms import CustomSignupForm, CustomLoginForm, UserProfileForm, CustomChangePasswordForm
+from django.shortcuts import render, redirect
+from .forms import CustomSignupForm, CustomLoginForm, UserProfileForm, CustomChangePasswordForm, ProfileEditForm
 from django.urls import reverse_lazy
+from .models import Profile
 
-
-@login_required
-def profile(request):
-    user = request.user
-    context = {'user': user}
-    return render(request, 'profile.html', context)
+# @login_required
+# def profile(request):
+#     user = request.user
+#     context = {'user': user}
+#     return render(request, 'profile.html', context)
 
 
 class CustomSignupView(SignupView):
@@ -41,17 +41,37 @@ class CustomLoginView(LoginView):
     template_name = 'login-cs.html'
 
 
-def profile(request):
-    user = request.user
-    profile_form = UserProfileForm(instance=user)
+# def profile(request):
+#     user = request.user
+#     profile_form = UserProfileForm(instance=user)
 
-    if request.method == 'POST':
-        profile_form = UserProfileForm(request.POST, instance=user)
-        if profile_form.is_valid():
-            profile_form.save()
+#     if request.method == 'POST':
+#         profile_form = UserProfileForm(request.POST, instance=user)
+#         if profile_form.is_valid():
+#             profile_form.save()
 
-    return render(request, 'profile.html', {'profile_form': profile_form})
+#     return render(request, 'profile.html', {'profile_form': profile_form})
 
 class CustomPasswordChangeView(PasswordChangeView):
     form_class = CustomChangePasswordForm
+
+
+
+@login_required
+def profile(request):
+    user = request.user
+    try:
+        profile = Profile.objects.get(user=user)
+    except Profile.DoesNotExist:
+        profile = None
+
+    if request.method == 'POST':
+        profile_form = ProfileEditForm(request.POST, request.FILES, instance=profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('profile')
+
+    profile_form = ProfileEditForm(instance=profile)
+    context = {'user': user, 'profile': profile, 'profile_form': profile_form}
+    return render(request, 'profile.html', context)
 

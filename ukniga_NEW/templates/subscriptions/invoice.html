@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load slider_tags %}
+{% load static %}
+
+<style>
+    .invoice-table th, .invoice-table td {
+        vertical-align: middle;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xl-3 mt-4">
+            <!-- Навменю -->
+            {% include 'includes/menu.html' %}
+            <!-- Конец нав меню -->
+
+        </div>
+
+
+
+
+
+
+        <div class="col-12 col-xl-9 mt-4">
+
+            <h5>Счет на оплату</h5>
+            <hr>
+
+            <div class="print mb-3 text-end">
+                <a href="javascript:window.print()" class="btn btn-custom rounded-0">Распечатать</a>
+            </div>
+            <table class="table table-bordered border-dashed">
+                <tbody>
+                    <tr>
+                        <tr>
+                            <td colspan="2" class="text-center"><strong>СЧЕТ N {{ invoice_id }} от {{ date }}</strong></td>
+                        </tr>
+                        <td><strong>Поставщик:</strong></td>
+                        <td>
+                            <strong>ООО «ИД Университетская книга»</strong><br>
+                            Телефон: (967) 097-40-77<br>
+                            Банковские реквизиты:<br>
+                            Расчетный счет: 40702810600310140454<br>
+                            Филиал "Центральный" Банка ВТБ (ПАО) г.Москва<br>
+                            к/с 30101810145250000411,<br>
+                            БИК: 044525411<br>
+                            ИНН: 7720673482<br>
+                            КПП: 771401001
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Плательщик:</strong></td>
+                        <td>
+                            <strong>{{ org_name }}</strong><br>
+                            {{ corporate_address }}<br>
+                            Телефон: {{ phone }}<br>
+                            ИНН: {{ inn }}<br>
+                            КПП: {{ kpp }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="table-responsive">
+                <table class="table invoice-table">
+                    <thead>
+                        <tr>
+                            <th>Предмет счета</th>
+                            <th>ед</th>
+                            <th>кол-во</th>
+                            <th>цена</th>
+                            <th>Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ type_caption }} {{ year }} год. Месяцы: {{ selected_months }}</td>
+                            <td align="right">шт</td>
+                            <td align="right">{{ amount }}</td>
+                            <td align="right">{{ cost_per_issue }}</td>
+                            <td align="right">{{ total_cost }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">ИТОГО к оплате:</td>
+                            <td align="right">{{ total_with_nds }} руб.</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="align-middle">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>Генеральный директор&nbsp;ООО «ИД Университетская книга»</span>
+                                    <img src="http://www.unkniga.ru/image/podp5.png" alt="" style="width: 200px;"> <!-- Пример изменения размера -->
+                                    <span>Е.Н.&nbsp;Бейлина</span>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <p>Итого к оплате: <strong>{{ total_in_words }} 00 коп.</strong></p>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

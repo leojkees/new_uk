@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load slider_tags %}
 {% load static %}
 
 
@@ -8,321 +9,31 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3">
-                        <h5>Cостав редакции</h5>
-                        <hr>
+                    <div class="col-3 d-none d-xl-block mt-4">
+                        <!-- Нав меню -->
+                        {% include 'includes/menu.html' %}
                     </div>
 
-                    <div class="col-lg-9">
-                        
-                        
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/lena.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Бейлина Елена Николаевна</strong></p>
-                                
-                                <div id="card-about-d" class="div">Главный редактор</div>
-                                      
-
-
-                                <br>
-                                <p><a href="tel:+79099507911">+7(909) 950-79-11</a><br>
-                                    <a href="tel:+79152429556">+7(915) 242-95-56</a></p>
-
-
-                                <p><a href="mailto:editor@unkniga.ru">editor@unkniga.ru</a> <br>
-                                <a href="mailto:univerkniga@yandex.ru">univerkniga@yandex.ru</a></p>
-                            </div>
-
-                        </div>
+                    <div class="col-12 col-xl-9 mt-4">
                         
 
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/petrusenko.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Петрусенко Татьяна Викторовна</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущая рубрики «Формирование фондов»</div>
-                                          
-
-
-                                <br>
-                                <p>Заведующая ОК РНБ, председатель Секции РБА по формированию библиотечных фондов</p>
-
-
-                                <p><a href="t.petrusenko@nlr.ru">t.petrusenko@nlr.ru</a></p>
-                            </div>
+                        <!-- Первый баннер -->
+                        <div class="mb-3" id="banner-head">
+                            {% get_banners 'header' as banners %}
+                        
+                            {% for banner in banners %}
+                                {% if banner.show_on_main and request.path == '/' %}
+                                    {% include "banner.html" %}
+                                {% elif not banner.show_on_main %}
+                                    {% include "banner.html" %}
+                                {% endif %}
+                            {% endfor %}
 
                         </div>
 
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/lena.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Каплин Роман</strong></p>
-                                
-                                <div id="card-about-d" class="div">Выпускающий редактор</div>
-                                        
-
-
-                                <br>
-                                <p><a href="tel:+79670974077">+7(967) 097-40-77</a></p>
-
-
-                                <p><a href="mailto:vypusk-uk@yandex.ru">vypusk-uk@yandex.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/lena.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Каплина Оксана</strong></p>
-                                
-                                <div id="card-about-d" class="div">Руководитель отдела подписки, выставок и рекламы</div>
-                                       
-
-    
-                                <br>
-                                <p><a href="tel:+79670974077">+7(967) 097-40-77</a><br>
-                                <a href="tel:+79055247949">+7(905) 524-79-49</a></p>
-
-
-                                <p><a href="mailto:reklama@unkniga.ru">reklama@unkniga.ru</a><br>
-                                <a href="mailto:unkniga@mail.ru">unkniga@mail.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/lena.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong> Чалых Надежда</strong></p>
-                                
-                                <div id="card-about-d" class="div">Администратор сайта</div>
-                                      
-
-
-                                <br>
-                                <p><a href="tel:+79055268052">+7(905) 526-80-52</a></p>
-
-
-                                <p><a href="mailto:website@unkniga.ru">website@unkniga.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/eidemiller.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Эйдемиллер Ирина Всеволодовна</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущая рубрики «Формирование фондов»</div>
-                                         
-
-
-                                <br>
-                                <p>Заведующая НИОБФ РНБ, секретарь Секции РБА по формированию библиотечных фондов</p>
-
-
-                                <p><a href="mailto:i.eidemiller@nlr.ru">i.eidemiller@nlr.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/voropaev.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Воропаев Александр Николаевич</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущий рубрики «Книжный рынок»</div>
-                                        
-
-
-                                <br>
-                                <p>Начальник Отдела книжных выставок и пропаганды чтения Федерального агентства по печати и массовым коммуникациям, кандидат филологических наук</p>
-
-
-                                <p><a href="mailto:av@fapmc.ru">av@fapmc.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/haritonov.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Харитонов Владимир</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущий рубрики «Книжный рынок»</div>
-                                        
-
-
-                                <br>
-                                <p>Исполнительный директор Ассоциации интернет-издателей</p>
-
-
-                                <p><a href="mailto:vharitonov@gmail.com">vharitonov@gmail.com</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/skovorodina.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Сковородина Ирина Сергеевна</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущая рубрики «Вузовские издательства»</div>
-                                        
-
-
-                                <br>
-                                <p>Кандидат исторических наук, директор департамента агрегации научно-образовательного контента группы компаний «Контекстум»</p>
-
-
-                                <p><a href="mailto:skovorodina65@yandex.ru">skovorodina65@yandex.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/terletskiy.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Терлецкий Василий Витальевич</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущий рубрики «Copyright.ru»</div>
-                                        
-
-
-                                <br>
-                                <p>Кандидат юридических наук, руководитель проекта «Авторское право в России Copyright.ru»</p>
-
-
-                                <p><a href="mailto:9212231@gmail.com">9212231@gmail.com</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/gulmamedov.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Гюльмамедов Саттар Алекперович</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущий рубрики «Библиотехнологии»</div>
-                                        
-
-
-                                <br>
-                                <p>Заместитель генерального директора ЗАО «Авирса проекты», руководитель центра разработки ПО WEXLER</p>
-
-
-                                <p><a href="mailto:sattar.gyulmamedov@avirsa.ru">sattar.gyulmamedov@avirsa.ru</a></p>
-                            </div>
-
-                        </div>
-
-
-                        <div id="card" class="row mx-0 mb-3 bg-white">
-
-                            <div class="col-sm-4 d-flex align-self-center justify-content-center">
-                                <img src="{% static 'contacts/kasjanenko-foto.jpg' %}">  
-
-                            </div>
-
-                            
-                            <div class="col-sm-8 py-4">
-                                <p><strong>Касьяненко Александр</strong></p>
-                                
-                                <div id="card-about-d" class="div">Ведущий рубрики «КНИГА+ новая реальность»</div>
-                                        
-
-
-                                <br>
-                                <p>Основатель проекта Ridero</p>
-
-
-                                <p><a href="mailto:ak@izdat.ru">ak@izdat.ru</a></p>
-                            </div>
-
-                        </div>
-                    
-                    
-                    
-                    
-                    
+                        
+                        <!-- Редактируемый контент из админки -->
+                        {{ content|safe }}   
                     
                     
                     </div>

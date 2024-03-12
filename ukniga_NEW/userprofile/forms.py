@@ -1,6 +1,20 @@
 from django import forms
 from allauth.account.forms import SignupForm, LoginForm, ChangePasswordForm
 from django.contrib.auth.models import User
+from .models import Profile
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['position', 'phone', 'work_phone', 'bio', 'photo', 'cover_photo']
+        widgets = {
+            'position': forms.TextInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'work_phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'bio': forms.Textarea(attrs={'class': 'form-control'}),
+            'photo': forms.FileInput(attrs={'class': 'form-control'}),
+            'cover_photo': forms.FileInput(attrs={'class': 'form-control'}),
+        }
 
 
 
