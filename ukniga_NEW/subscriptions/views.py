@@ -3,6 +3,8 @@ from .forms import CorporateSubscriptionForm, UserSubscriptionForm
 from .models import Month
 from subscriptions.models import Month
 from datetime import datetime
+from django.contrib import messages
+
 
 # Функция для расчета стоимости подписки с учётом, что НДС уже включён
 def calculate_total_cost(subscription_type, number_of_issues, amount):
@@ -115,6 +117,14 @@ def subscription_company(request):
             }
 
             return render(request, 'subscriptions/invoice.html', context)
+        else:
+            months = Month.objects.all()
+            # Если форма недействительна, передайте ее обратно с сообщениями об ошибках
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Ошибка в поле '{form.fields[field].label}': {error}")
+            return render(request, 'subscriptions/subscription_form.html', {'form': form, 'months': months})
+
     else:
         form = CorporateSubscriptionForm()
         months = Month.objects.all()
@@ -168,6 +178,14 @@ def subscription_user(request):
             }
 
             return render(request, 'subscriptions/invoice_user.html', context)
+        else:
+            months = Month.objects.all()
+            # Если форма недействительна, передайте ее обратно с сообщениями об ошибках
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"Ошибка в поле '{form.fields[field].label}': {error}")
+                return render(request, 'subscriptions/subscription_form_user.html', {'form': form, 'months': months})
+
     else:
         form = UserSubscriptionForm()
         months = Month.objects.all()

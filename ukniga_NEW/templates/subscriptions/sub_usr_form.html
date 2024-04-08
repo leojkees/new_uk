@@ -1,59 +1,64 @@
 <form method="post" action="{% url 'subscribe_user' %}">
     {% csrf_token %}
-    <div class="mb-3">
-        <label for="type" class="form-label">Варианты получения журнала</label>
-        <select class="form-select" id="type" name="type" required>
-            <option value="paper">Бумажный вариант</option>
-            <option value="electronic">Электронный вариант</option>
-        </select>
-    </div>
-    <div class="mb-3">
-        <label for="year" class="form-label">Год</label>
-        <input type="text" class="form-control" id="year" name="year" required>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Выберите нужные номера</label>
-        <div>
-
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="selectAllCheckboxUsr">
-                <label class="form-check-label" for="selectAllCheckbox">Выбрать все</label>
-                
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="type" class="form-label">Варианты получения журнала</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="paper">Бумажный вариант</option>
+                    <option value="electronic">Электронный вариант</option>
+                </select>
             </div>
-            {% for month in months %}
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="issues" value="{{ month.id }}" id="month{{ month.id }}">
-                <label class="form-check-label" for="month{{ month.id }}">
-                    {{ month.name }}
-                </label>
+            <div class="mb-3">
+                <label for="year" class="form-label">Год</label>
+                <input type="text" class="form-control" id="year" name="year" required value="2024">
             </div>
-            {% endfor %}
+            <!-- Вторая половина полей формы -->
+            <div class="mb-3">
+                <label for="amount" class="form-label">Количество экземпляров</label>
+                <input type="number" class="form-control" id="amount" name="amount" min="1" required value="1">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Телефон</label>
+                <input type="text" class="form-control" id="phone" name="phone" required>
+            </div>
+            <div class="mb-3">
+                <label for="realAddress" class="form-label">Адрес фактический</label>
+                <textarea class="form-control" id="realAddress" name="real_address" rows="2" required></textarea>
+            </div>
         </div>
-    </div>
-
-    <div class="mb-3">
-        <label for="amount" class="form-label">Количество экземпляров</label>
-        <input type="number" class="form-control" id="amount" name="amount" min="1" required>
-    </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">Телефон</label>
-        <input type="text" class="form-control" id="phone" name="phone" required>
-    </div>
-    <div class="mb-3">
-        <label for="realAddress" class="form-label">Адрес фактический</label>
-        <textarea class="form-control" id="realAddress" name="real_address" rows="2" required></textarea>
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Электронный почтовый адрес e-mail</label>
-        <input type="email" class="form-control" id="email" name="email" required>
-    </div>
-    <div class="mb-3">
-        <label for="contact" class="form-label">ФИО</label>
-        <input type="text" class="form-control" id="contact" name="contact" required>
+        <div class="col-md-6">
+            <!-- Вторая половина полей формы -->
+            <div class="mb-3">
+                <label class="form-label">Выберите нужные номера</label>
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="selectAllCheckboxUsr">
+                        <label class="form-check-label" for="selectAllCheckbox">Выбрать все</label>
+                    </div>
+                    {% for month in months %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="issues" value="{{ month.id }}" id="month{{ month.id }}">
+                        <label class="form-check-label" for="month{{ month.id }}">
+                            {{ month.name }}
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Электронный почтовый адрес e-mail</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="contact" class="form-label">ФИО</label>
+                <input type="text" class="form-control" id="contact" name="contact" required>
+            </div>
+        </div>
     </div>
     <button type="submit" class="btn btn-custom">Отправить</button>
 </form>
+
 
 <script>
     document.getElementById('selectAllCheckboxUsr').addEventListener('change', function() {

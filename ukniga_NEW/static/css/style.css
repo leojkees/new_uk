@@ -71,8 +71,9 @@
     100% {background-image: linear-gradient(to left, violet, skyblue, lightblue, cyan, turquoise);}
 }
 
+
 body {
-    background-color: #f3f3f3;
+    background-color: #f6f6f6;
     font-family: Lato, sans-serif;
     font-weight: 300;
 }
@@ -99,7 +100,7 @@ body {
 }
 
 #card:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Добавляем тень при наведении */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3); /* Добавляем тень при наведении */
 }
 
 #breadcrumbs {
@@ -199,9 +200,9 @@ body {
 
 /* @media (max-width: 1779px) {
     #right-panel {
-        top: 400px;
-        right: auto;
-        left: 10px;
+        top: 400px; /* При ширине экрана меньше или равной 1779px, измените вертикальное положение элемента 
+        right: auto; /* Уберите прикрепление справа 
+        left: 10px; /* Прикрепите элемент к левому краю
     }
 } */
 
@@ -215,8 +216,6 @@ body {
     background-color: #f6f6f6; /* Цвет фона при наведении */
     color: #000; /* Цвет текста при наведении */
 }
-
-
 
 #main {
     margin-top: 100px; /* Отступ сверху 100px */
@@ -373,17 +372,13 @@ body {
 }
 
 
-
-
-
-
-
 hr {
     border: none;
     height: 1px;
     margin: 20px 0;
     animation: rainbow 7s linear infinite;
 }
+  
 
 h5 {
     font-family: 'Play', sans-serif;
@@ -395,6 +390,7 @@ h5 {
 }
 
 
+
 #search1 {
     display: flex;
     align-items: center; /* Выравнивание элементов формы по центру */
@@ -402,35 +398,39 @@ h5 {
 }
   
 #search1 input {
-flex-grow: 1; /* Input занимает доступное пространство */
-border: none; /* Убрать стандартную рамку */
-border-bottom: 1px solid rgb(173, 173, 173); /* Подчеркнутая линия снизу */
-height: 100%;
-padding: 0 10px; /* Небольшой отступ слева и справа */
-font-family: Play, sans-serif;
+    flex-grow: 1; /* Input занимает доступное пространство */
+    border: none; /* Убрать стандартную рамку */
+    border-bottom: 1px solid rgb(173, 173, 173); /* Подчеркнутая линия снизу */
+    height: 100%;
+    padding: 0 10px; /* Небольшой отступ слева и справа */
+    font-family: Play, sans-serif;
 }
 
 #search1 input::placeholder {
-color: rgb(173, 173, 173); /* Цвет текста плейсхолдера */
+    color: rgb(173, 173, 173); /* Цвет текста плейсхолдера */
 }
 
 #search1 button {
-background: url('/static/search-zoom.png') no-repeat center; /* Иконка вместо кнопки */
-border: none;
-width: 35px; /* Ширина кнопки */
-height: 100%; /* Высота кнопки */
-cursor: pointer; /* Курсор в виде указателя */
-padding: 0; /* Убрать стандартные отступы */
+    background: url('/static/search-zoom.png') no-repeat center; /* Иконка вместо кнопки */
+    border: none;
+    width: 35px; /* Ширина кнопки */
+    height: 100%; /* Высота кнопки */
+    cursor: pointer; /* Курсор в виде указателя */
+    padding: 0; /* Убрать стандартные отступы */
 }
 
 .form-control {
     font-family: 'Play', sans-serif;
-    font-size: 13px;
 }
 
 strong {
     font-weight: 600;
 }
+
+
+
+
+
 
 .card-container {
     scroll-behavior: smooth;
@@ -457,58 +457,38 @@ strong {
 
 
 
+
 #cards-index {
-    height: 400px;
+    height: 300px;
+    
 }
 
 #cards-index:hover {
     transform: scale(1.01); /* Увеличение масштаба на 10% */
-    transition: transform 0.1s; /* Добавляем плавное затухание на изменение масштаба */
+    transition: transform 0.2s; /* Добавляем плавное затухание на изменение масштаба */
 }
+
 
 #body-full {
     position: relative;
+    height: 100%;
     border-radius: 5px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center bottom;
+    color: white;
+    font-weight: bold;
 }
 
 
 
-
-
-
-
-
-
-/* #full-content {
-    position: absolute;
-    z-index: 1;
-    bottom: 10px;
-}
-
-#date-cat {
-    font-size: 12px;
-}
-
-#card-default {
-    height: 400px;
-} */
-
+/* Фото с оверфлоу на пол карточки */
 #img-card-default {
     height: 200px;
     overflow: hidden;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-
-
-
-
-
-
-
 
 
 
@@ -531,10 +511,8 @@ strong {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(rgba(0, 0, 0, 0), white); /* Градиент от прозрачного к белому */
+    background: linear-gradient(rgba(0, 0, 0, 0) 30%, white 100%); /* Градиент от прозрачного к белому */
 }
-
-
 
 /* Размещение филтра на фото */
 .card-body > * {
@@ -574,7 +552,6 @@ strong {
     color: red; 
 }
 
-
 /* Для даты на карточках */
 .post-date {
     padding-top: 3px;
@@ -585,4 +562,23 @@ strong {
 
 .text-card {
     min-height:155px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+    transition: color 0.3s; /* добавляем затухание на изменение цвета в течение 0.3 секунды */  
+}
+
+a:hover {
+    color: red; 
+}
+
+.page-link {
+    color: black; /* цвет ссылок */
+    transition: color 0.3s ease; /* анимация для цвета */
+}
+  
+.page-link:hover {
+    color: red; /* цвет при наведении */
 }
