@@ -1,7 +1,71 @@
+{% load static %}
+
+
 <div class="container">
     <div class="row">
-        <div class="col">
-            
+
+
+        <div class="col-3 d-flex align-items-center">
+            <a href="{% url 'home' %}">
+                <img class="img-fluid" src="{% static 'logo-nb.png' %}" alt="Университетская книга" width="270">
+            </a>
         </div>
+
+
+
+        <div class="col-6 p-3 rounded" style="background-color: #acacac;">
+
+            <div class="row">
+            <div class="col-9">
+                <h5 style="font-size: 14px;">{{ latest_post_month }} {{ latest_post_year }}</h5>
+                <p style="font-size: 14px;"><strong><a href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">{{ latest_post_title }}</a></strong></p>
+                
+                {% if latest_five_posts_info %}
+                <ul>
+                    {% for post_info in latest_five_posts_info %}
+                        <li style="font-size: 12px;">
+                            <a href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">{{ post_info.title }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No latest posts available.</p>
+                {% endif %}
+            </div>
+
+            <div class="col-3 d-flex justify-content-center align-items-center">
+                <h5 style="font-size: 13px;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a></h5>
+            </div>
+            </div>
+
+        </div>
+
+
+
+        <div class="col-3 d-flex flex-column justify-content-end">
+
+
+                <a href="{% url 'podpiska' %}" class="btn btn-primary mb-3">Подписка на журнал</a>
+
+
+        
+            <div class="row p-2 d-flex justify-content-center">
+                <div class="col-5">
+                    <h5 style="font-size: 15px;">Для физ. лиц</h5>
+
+                    <a style="font-size: 10px;" href="{% url 'podpiska' %}">Квитанция для оплаты</a>
+                    <a style="font-size: 10px;" href="{% url 'podpiska' %}">Онлайн оплата</a>
+
+                </div>
+                <div class="col-1 rectangle"></div>
+                <div class="col-5">
+                    <h5 style="font-size: 15px;">Для юр. лиц</h5>  
+                    <a style="font-size: 10px;" href="{% url 'podpiska' %}">Счет на оплату по б/н расчету</a>
+                </div>
+            </div>
+
+        </div>
+
+
     </div>
 </div>

@@ -27,7 +27,7 @@
 
                 <!-- секция слева -->
                 <div class="col-xl-3">
-                    <img src="{{ post.img.url }}" alt="" class="img-fluid w-100 mb-3"/>
+                    
 
 
                     <div class="div d-none d-xl-block">
@@ -40,7 +40,20 @@
                 <!-- секция справа -->
                 <div class="col-12 col-xl-9 text-justify">
 
+                    <!-- Первый баннер -->
+                    <div class="mb-3" id="banner-head">
+                        {% get_banners 'header' as banners %}
+                    
+                        {% for banner in banners %}
+                            {% if banner.show_on_main and request.path == '/' %}
+                                {% include "banner.html" %}
+                            {% elif not banner.show_on_main %}
+                                {% include "banner.html" %}
+                            {% endif %}
+                        {% endfor %}                    
+                    </div>
 
+                    <img src="{{ post.img.url }}" alt="" class="img-fluid w-100 mb-3"/>
                     <h5>{{ post.title }}</h5>
                     <hr>
                     <p>{{ post.text|safe }}</p>

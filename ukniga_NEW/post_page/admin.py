@@ -69,7 +69,7 @@ class MyFileAdmin(admin.ModelAdmin):
 #     display_tags.short_description = 'Теги'
 class PostAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 'get_id', 'display_categories', 'is_paid', 
+        'title', 'display_categories', 'is_paid', 
         'display_tags', 'is_arhive', 'month', 'year', 'image',
         'published_date', 'is_published'  # Добавленные поля
     )
@@ -77,7 +77,7 @@ class PostAdmin(admin.ModelAdmin):
         'category', 'tags', 'is_published', 'published_date', 'month', 'year',  # Добавленные фильтры
     )
     search_fields = (
-        'title', 'get_id', 'category__name', 'tags__name',
+        'title', 'category__name', 'tags__name',
         'published_date'  
     )
     formfield_overrides = {
@@ -124,7 +124,7 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)
-
+    list_filter = ('name',)
 
 
 # Зарегистрируйте модель User с кастомным административным классом

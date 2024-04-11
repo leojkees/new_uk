@@ -83,7 +83,7 @@ class PostView(View):
         # Получаем посты с категорией "Наука и образование"
         nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True).order_by('-published_date')[:10]
 
-        # Получаем посты с категорией "Иновационные технологии"
+        # Получаем посты с категорией "Инновационные технологии"
         inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Креативный контекст"

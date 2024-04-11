@@ -58,7 +58,7 @@
         </a>
         <div class="collapse" id="collapseNav3">
             <div class="card card-body">
-                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотеки</a>
+                <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотечное дело</a>
                 <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='fonds' %}">Формирование библиотечных фондов</a>
                 <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='vuzbiblio' %}">Вузовские библиотеки</a>
                 <a class="nav-link border-bottom" href="{% url 'category_posts' category_slug='biblworld' %}">Библиотеки мира</a>
@@ -117,16 +117,14 @@
             <a class="nav-link" href="{% url 'category_posts' category_slug='biblio-kompetenciy' %}">БИБЛИОТЕКА КОМПЕТЕНЦИЙ</a>
         </li>
 
-        <li class="list-group-item" style="background-color:#c01826; border-top-left-radius: 0; border-top-right-radius: 0;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Это архив за последний месяц">
+        <li class="list-group-item" style="background-color:#acacac; border-top-left-radius: 0; border-top-right-radius: 0;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Это архив за последний месяц">
 
-            <h5 class="ps-3 pe-5 pt-3" style="color: aliceblue;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a> за {{ latest_post_month }} {{ latest_post_year }}</h5>
+            <h5 class="ps-3 pe-5 pt-3">Новый номер: {{ latest_post_month }} {{ latest_post_year }}</h5>
 
             <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
                 <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3">
             </a>
-            <h5 class="ps-3" style="color: aliceblue;">В номере:</h5>
-            <p class="px-3"><a style="color: aliceblue;" href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">
-                {{ latest_post_title }}</a></p>						
+            <h5 class="ps-3 pe-5 py-3"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a></h5>					
 
         </li>
 

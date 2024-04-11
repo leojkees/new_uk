@@ -41,6 +41,22 @@ def latest_post_processor(request):
             image_url = None
             post_slug = None
             category_slug = None
+
+        
+        # Получаем информацию о последних пяти постах
+        latest_five_posts = year_posts.order_by('-id')[:5]
+        latest_five_posts_info = []
+        for post in latest_five_posts:
+            post_info = {
+                'title': post.title,
+                'image_url': post.image.url if post.image else None,
+                'post_slug': post.slug,
+                'category_slug': post.category.first().slug if post.category.exists() else None
+            }
+            latest_five_posts_info.append(post_info)
+
+
+
     else:
         title = None
         image_url = None
@@ -55,7 +71,8 @@ def latest_post_processor(request):
         'latest_post_slug': post_slug,
         'latest_post_category_slug': category_slug,
         'latest_post_year': latest_year,
-        'latest_post_month': latest_month
+        'latest_post_month': latest_month,
+        'latest_five_posts_info': latest_five_posts_info
     }
 
 
