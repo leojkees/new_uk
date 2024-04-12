@@ -1,10 +1,20 @@
 {% load slider_tags %}
+{% load static %}
 
 
 <!-- Нав меню без поля с архивом-->
 <nav id="left-menu" class="nav flex-column shadow p-1 mb-5 bg-body">
     <div class="card" style="width: 100%">
         <ul class="list-group list-group-flush">
+
+        <li class="list-group-item">
+            <div class="d-flex align-items-center justify-content-center">
+                <a href="{% url 'home' %}">
+                    <img class="img-fluid" src="{% static 'logo-nb.png' %}" alt="Университетская книга" width="270">
+                </a>
+            </div>
+        </li>
+
 
         <li class="list-group-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">

@@ -1,11 +1,19 @@
 {% load slider_tags %}
+{% load static %}
 
 
 <!-- Навменю с архивом -->
 <nav id="left-menu" class="nav flex-column shadow p-1 mb-5 bg-body">
     <div class="card" style="width: 100%">
         <ul class="list-group list-group-flush">
-
+        
+        <li class="list-group-item">
+            <div class="d-flex align-items-center justify-content-center">
+                <a href="{% url 'home' %}">
+                    <img class="img-fluid" src="{% static 'logo-nb.png' %}" alt="Университетская книга" width="270">
+                </a>
+            </div>
+        </li>
 
         <li class="list-group-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
@@ -117,7 +125,18 @@
             <a class="nav-link" href="{% url 'category_posts' category_slug='biblio-kompetenciy' %}">БИБЛИОТЕКА КОМПЕТЕНЦИЙ</a>
         </li>
 
-        <li class="list-group-item p-3 d-flex flex-column justify-content-end" style="background-color:#c4c4c4; border-top-left-radius: 0; border-top-right-radius: 0;">
+        <li class="list-group-item" style="background-color:#acacac; border-top-left-radius: 0; border-top-right-radius: 0;" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Это архив за последний месяц">
+
+            <h5 class="ps-3 pe-5 pt-3">Новый номер: {{ latest_post_month }} {{ latest_post_year }}</h5>
+
+            <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
+                <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3">
+            </a>
+            <h5 class="ps-3 pe-5 py-3"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a></h5>					
+
+        </li>
+
+        <li class="list-group-item p-3 d-flex flex-column justify-content-end" style="background-color:#ffffff; border-top-left-radius: 0; border-top-right-radius: 0;">
 
             <a href="{% url 'podpiska' %}" class="btn btn-primary mb-4">Подписка на журнал</a>
 

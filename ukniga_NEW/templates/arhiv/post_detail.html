@@ -7,38 +7,37 @@
         <div class="container">
             <div class="row mt-3">
 
-                <!-- Хлебные крошки -->
-                <div class="col-sm-12 d-none d-sm-block">
-                    {% if breadcrumbs %}
-                    <nav class="ps-1" id="breadcrumbs" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            {% for crumb in breadcrumbs %}
-                                {% if not forloop.last %}
-                                    <li class="breadcrumb-item"><a id="full-txt" href="{{ crumb.url }}">{{ crumb.title }}</a></li>
-                                {% else %}
-                                    <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
-                                {% endif %}
-                            {% endfor %}
-                        </ol>
-                    </nav>
-                    {% endif %}
-                </div>
+
 
 
                 <!-- секция слева -->
                 <div class="col-xl-3">
-                    
-
-
                     <div class="div d-none d-xl-block">
                         <!-- Нав меню слева -->
-                        {% include 'includes/menu.html' %}   
+                        {% include 'includes/menu-all.html' %}   
                     </div>
                 </div>
 
 
                 <!-- секция справа -->
                 <div class="col-12 col-xl-9 text-justify">
+
+                    <!-- Хлебные крошки -->
+                    <div class="col-sm-12 d-none d-sm-block">
+                        {% if breadcrumbs %}
+                        <nav class="ps-1" id="breadcrumbs" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                {% for crumb in breadcrumbs %}
+                                    {% if not forloop.last %}
+                                        <li class="breadcrumb-item"><a id="full-txt" href="{{ crumb.url }}">{{ crumb.title }}</a></li>
+                                    {% else %}
+                                        <li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ol>
+                        </nav>
+                        {% endif %}
+                    </div>
 
                     <!-- Первый баннер -->
                     <div class="mb-3" id="banner-head">
