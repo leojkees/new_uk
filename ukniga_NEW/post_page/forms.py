@@ -39,11 +39,18 @@ class PostFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostFilterForm, self).__init__(*args, **kwargs)
 
-        # Заполнение выбора года и месяца значениями из базы данных
-        years = Post.objects.values_list('year', flat=True).distinct()
+        # Заполнение выбора месяца значениями из предустановленных вариантов
         months = Post.MONTH_CHOICES
-        self.fields['year'].choices = [(year, year) for year in years]
         self.fields['month'].choices = months
+
+        # Получение списка уникальных годов из базы данных и сортировка их по убыванию
+        years = Post.objects.values_list('year', flat=True).order_by('-year').distinct()
+
+        # Преобразование списка годов в формат, понятный для ChoiceField
+        year_choices = [(year, year) for year in years]
+
+        # Присвоение отсортированных значений года полю year
+        self.fields['year'].choices = year_choices
 
         # Установка атрибутов для красивого отображения в HTML
         self.fields['year'].widget.attrs = {'class': 'form-select rounded-0'}

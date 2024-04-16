@@ -44,6 +44,12 @@ class PostView(View):
         
         current_time = timezone.now()
 
+        try:
+            template = StaticTemplate.objects.get(name='header.html')
+            header_content = template.content
+        except StaticTemplate.DoesNotExist:
+            header_content = None
+
         excluded_categories = ['Новости', 'Новости партнеров', 'Анонсы']
 
         posts = Post.objects.filter(
@@ -123,6 +129,7 @@ class PostView(View):
             'menu': menu,  # Ваша переменная menu
             'title': 'Главная страница',
             'form': form,  # Включение формы в контекст данных
+            'header_content': header_content,
         }
 
         return render(request, 'arhiv/index.html', context=context)
@@ -438,6 +445,12 @@ def manage_favorite(request, post_id):
 def search_posts(request):
     query = request.GET.get('q')  # Получение строки поиска из GET-параметра
 
+    try:
+        template = StaticTemplate.objects.get(name='header.html')
+        header_content = template.content
+    except StaticTemplate.DoesNotExist:
+        header_content = None
+
     if query:
         # Используйте Q-объекты для поиска по разным полям
         posts = Post.objects.filter(
@@ -455,6 +468,7 @@ def search_posts(request):
     context = {
         'posts': posts,
         'query': query,
+        'header_content': header_content,
     }
     
     return render(request, 'search.html', context)

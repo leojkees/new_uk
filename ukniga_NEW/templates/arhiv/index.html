@@ -10,7 +10,8 @@
 <!-- Второй хедер -->
 <div class="container my-3 d-none d-md-block">
 
-        {% include 'includes/header-second.html' %}
+        <!-- Включаемый шаблон для header-second с данными из header.html -->
+        {% include 'includes/header-second.html' with header_content=header_content %}
 
 </div>
 
@@ -90,7 +91,7 @@
                         <ul>
                             {% for post in news_posts %}
                                 <li>
-                                    {{ post.published_date|date:"d-m-Y" }} 
+                                    
                                     <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
@@ -99,7 +100,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">: {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
                                     
                                 </li>
                             {% endfor %}
@@ -206,7 +207,7 @@
                         <ul>
                             {% for post in partners_posts %}
                                 <li>
-                                    {{ post.published_date|date:"d-m-Y" }}
+                                    
                                     <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
@@ -215,7 +216,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">: {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
                                     
                                 </li>
                             {% endfor %}
@@ -351,7 +352,7 @@
                         <ul>
                             {% for post in anonced_posts %}
                                 <li>
-                                    {{ post.published_date|date:"d-m-Y" }}
+                                    
                                     <a id='full-txt' href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                                         {% if post.category.count > 1 %}
                                         {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
@@ -360,7 +361,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">: {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
                                     
                                 </li>
                             {% endfor %}

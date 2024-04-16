@@ -1,7 +1,7 @@
 {% load static %}
 
 
-<div class="container">
+<div class="container shadow rounded">
     <div class="row rounded" style="background-color: #cbd5e5;">
 
 
@@ -18,19 +18,10 @@
             <div class="row">
             <div class="col-9 p-4 d-flex flex-column justify-content-center">
                 <h5 style="font-size: 14px;">Новый номер: {{ latest_post_month }} {{ latest_post_year }}</h5>
-                <p style="font-size: 14px;"><strong><a href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">{{ latest_post_title }}</a></strong></p>
-                
-                {% if latest_five_posts_info %}
-                <ul>
-                    {% for post_info in latest_five_posts_info %}
-                        <li style="font-size: 12px;">
-                            <a href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">{{ post_info.title }}</a>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No latest posts available.</p>
-                {% endif %}
+                    
+                    <!-- Вывод данных из header.html -->
+                    {{ header_content | safe }}
+                    
             </div>        
 
 

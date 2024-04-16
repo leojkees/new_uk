@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.text import slugify
+from slugify import slugify
 from django_ckeditor_5.fields import CKEditor5Field
 from django.urls import reverse
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -87,7 +87,7 @@ class Post(models.Model):
     page = models.IntegerField('Номер страницы в журнале', default=None, blank=True, null=True)
     img = models.ImageField('Главное изображение поста', upload_to='images/%Y/%m-%d')
     img_card = models.ImageField('Фото для карточки категорий', upload_to='images/%Y/%m-%d', default=None)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
     category = models.ManyToManyField(Category, related_name='Category')
     tags = models.ManyToManyField('Tag', related_name='posts')
     year = models.IntegerField('Год', validators=[MinValueValidator(2000), MaxValueValidator(2100)])
@@ -120,6 +120,12 @@ class Post(models.Model):
 
 
     def save(self, *args, **kwargs):
+
+        # Если slug не был указан явно, генерируем его на основе title
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
         # Получаем оригинальный объект из базы данных для сравнения
         if self.pk:
             original = Post.objects.get(pk=self.pk)
