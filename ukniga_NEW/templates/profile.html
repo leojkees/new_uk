@@ -1,12 +1,16 @@
 {% extends 'base-account.html' %}
 {% block content %}
+{% load static %}
 
  <!-- Обложка -->
- <div class="container">
+ <div class="container mt-4">
   <div class="row">
     <div class="col d-flex align-items-center justify-content-center" style="height: 300px;">
       {% if profile.cover_photo %}
         <img class="w-100 h-100 rounded" style="object-fit: cover;" src="{{ profile.cover_photo.url }}" alt="Обложка профиля">
+      {% else %}
+        <!-- Если обложка профиля не загружена, отобразить дефолтное изображение из папки медиа -->
+        <img class="w-100 h-100 rounded" style="object-fit: cover;" src="{% static 'photo_2024-04-17_10-39-51.jpg' %}" alt="Дефолтная обложка">
       {% endif %}
     </div>
   </div>  
@@ -23,6 +27,9 @@
         <div class="photo-profile mb-3 d-flex align-items-center justify-content-center">
           {% if profile.photo %}
               <img class="w-75" src="{{ profile.photo.url }}" alt="Фото профиля">
+          {% else %}
+              <!-- Если фото профиля не загружено, отобразить дефолтное фото из папки медиа -->
+              <img class="w-75" src="{% static 'image_2024-04-17_10-43-44.png' %}" alt="Дефолтное фото">
           {% endif %}
         </div>
         <form method="post" enctype="multipart/form-data">
@@ -31,37 +38,43 @@
             <button type="submit" class="btn btn-custom">Сохранить изменения</button>
         </form>
         <hr>
-        <h5>Смена пароля</h5>
         <form method="post" action="{% url 'account_change_password' %}">
           {% csrf_token %}
           {{ password_change_form.as_p }}
           <button type="submit" class="btn btn-custom">Сменить пароль</button>
         </form>
-
+        <a href="{% url 'account_logout' %}" class="btn btn-custom rounded-0 my-2">Выйти</a>
       </div>  
 
       <div class="col-lg-9">
         <h5>Избранное</h5>
         <hr>
+
         <!-- Контейнер -->
         <div class="container">
-        {% for favorite_post in request.user.favoritepost_set.all %}
-        <div class="row mb-4"> 
-          <div class="col-7"> 
-            <a href="{% url 'post_detail' category_slug=favorite_post.post.category.first.slug slug=favorite_post.post.slug %}">
-              {{ favorite_post.post.title }}
-            </a>
-            {{ favorite_post.post.description }}   
+          <div class="row">
+            {% if request.user.favoritepost_set.all %}
+              {% for favorite_post in request.user.favoritepost_set.all %}
+                <div class="card p-0 m-1" style="width: 230px;">
+                  <img src="/media/{{ favorite_post.post.img }}" class="card-img-top img-fluid w-100" style="overflow: hidden;">
+                  <div class="card-body d-flex flex-column justify-content-between" style="height: 150px;">
+                    <h5 style="font-size: 15px;"><a href="{% url 'post_detail' category_slug=favorite_post.post.category.first.slug slug=favorite_post.post.slug %}">
+                      {{ favorite_post.post.title }}
+                    </a></h5>
+                    <form method="post" action="{% url 'manage_favorite' favorite_post.post.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-custom" name="remove_from_favorite">Удалить из избранного</button>
+                    </form>
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <h5 style="font-size: 15px;">Здесь будут материалы, которые вы добавите в Избранное</h5>
+            {% endif %}
           </div>
-          <div class="col-3"> 
-            <form method="post" action="{% url 'manage_favorite' favorite_post.post.id %}">
-              <button type="submit" class="btn btn-custom" name="remove_from_favorite">Удалить из избранного</button>
-            </form>
-          </div>
-        </div> 
-        {% endfor %}
         </div>
         <!-- Конец Контейнер -->
+
       </div>
 
 

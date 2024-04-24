@@ -4,37 +4,12 @@
 {% load slider_tags %}
 
 
-<div class="container">
+<div class="container" style="min-height: 2500px;">
     <div class="row justify-content-center">
 
         <!-- секция слева -->
         <div class="col-xl-3 mt-4">
-
-            <form method="get" action="{% url 'tag' %}">
-                {% csrf_token %}
-                
-                    <div class="m-1">
-                       <h5>Фильтр по тегам</h5>
-                       <p>Можно выбрать несколько</p>
-                    </div>
-                    
-                    <div class="mt-2 mb-4">
-                    <select class="form-select rounded-0" name="{{ form.tags.name }}" multiple>
-                        {% for tag in form.tags.field.queryset %}
-                            <option value="{{ tag.pk }}" {% if tag.pk in form.tags.value %}selected{% endif %}>{{ tag.name }}</option>
-                        {% endfor %}
-                    </select>
-                    </div>
-
-
-
-                    <div class="mt-2 mb-2">
-                    <button type="submit" class="btn btn-custom rounded-0">Применить фильтр</button>
-                    </div>
-
-
-
-            </form>
+           
 
             <div class="div d-none d-xl-block">
                 <!-- Нав меню -->
@@ -61,8 +36,20 @@
                 
                 </div>
 
+            <h5>Фильтр по тегам</h5>
+            <hr>    
+            <!-- Контейнер с тегами -->
+            <div class="container mb-4" style="height: 300px; overflow-y: auto;">
+
+                <input type="text" id="tag-search" class="form-control mb-2 w-50" placeholder="Поиск по тегам">
+
+                {% for tag in form.tags.field.queryset %}
+                    <a href="{% url 'tags' tag.name %}" class="custom-link {% if tag.pk in form.tags.value %}selected{% endif %}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
                 
-                {% for post in posts %}
+                
+            {% for post in posts %}
 
                 <!-- Карточка -->
                 {% include 'includes/category_card.html' %}
@@ -74,6 +61,45 @@
             </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Получаем ссылку на поле ввода для поиска тегов
+        const tagSearchInput = document.getElementById('tag-search');
+
+        // Назначаем обработчик события на изменение значения в поле ввода
+        tagSearchInput.addEventListener('input', function() {
+            const searchText = this.value.toLowerCase(); // Получаем текст для поиска
+
+            // Получаем все теги в контейнере
+            const tags = document.querySelectorAll('.custom-link');
+
+            // Проходим по каждому тегу и скрываем или показываем их в зависимости от поискового запроса
+            tags.forEach(function(tag) {
+                const tagName = tag.textContent.toLowerCase(); // Получаем текст тега
+
+                // Если текст тега содержит текст для поиска, то показываем его, иначе скрываем
+                if (tagName.includes(searchText)) {
+                    tag.style.display = '';
+                } else {
+                    tag.style.display = 'none';
+                }
+            });
+        });
+
+        // Обработчик события на очистку поля ввода
+        tagSearchInput.addEventListener('change', function() {
+            // Если значение поля ввода пустое, то показываем все теги и удаляем инлайн-стиль
+            if (this.value.trim() === '') {
+                const tags = document.querySelectorAll('.custom-link');
+                tags.forEach(function(tag) {
+                    tag.style.display = '';
+                });
+            }
+        });
+    });
+</script>
+
 
 
 {% endblock %}

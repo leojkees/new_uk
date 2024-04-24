@@ -418,6 +418,12 @@ h5 {
     padding: 0; /* Убрать стандартные отступы */
 }
 
+#search-card:hover {
+    /* Стили при наведении */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Изменение тени при наведении */
+    transition: box-shadow 0.3s ease; /* Анимация перехода тени */
+}
+
 .form-control {
     font-family: 'Play', sans-serif;
 }
@@ -607,4 +613,35 @@ a:hover {
     width: 1px; /* ширина прямоугольника */
     height: 100%; /* высота прямоугольника */
     background-color: rgb(0, 0, 0); /* цвет прямоугольника */
+}
+
+
+.custom-link {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 4px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Горизонтальная, вертикальная и радиус размытия */
+    text-decoration: none; /* Убираем подчеркивание по умолчанию */
+    color: black; /* Цвет текста */
+}
+  
+.custom-link:hover {
+    color: #ffffff;
+    background: linear-gradient(45deg, #95efff, #ecbdff); /* Цвет фона при наведении */
+    transition: background 0.3s ease; /* Анимация для фона */
+}
+
+.container::-webkit-scrollbar {
+    width: 5px; /* Ширина полосы прокрутки */
+  }
+  
+.container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Цвет полосы прокрутки */
+    border-radius: 5px; /* Радиус скругления углов */
+}
+  
+.container::-webkit-scrollbar-track {
+    background: linear-gradient(45deg, #95efff, #ecbdff);
 }

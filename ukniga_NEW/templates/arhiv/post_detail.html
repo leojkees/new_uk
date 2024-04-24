@@ -4,7 +4,7 @@
 {% block content %}
 
 
-        <div class="container">
+        <div class="container" style="min-height: 2000px;">
             <div class="row mt-3">
 
 
@@ -20,10 +20,23 @@
 
 
                 <!-- секция справа -->
-                <div class="col-12 col-xl-9 text-justify">
+                <div class="col-12 col-xl-9 text-justify mb-5">
+
+                    <!-- Первый баннер -->
+                    <div class="mb-3" id="banner-head">
+                        {% get_banners 'header' as banners %}
+                    
+                        {% for banner in banners %}
+                            {% if banner.show_on_main and request.path == '/' %}
+                                {% include "banner.html" %}
+                            {% elif not banner.show_on_main %}
+                                {% include "banner.html" %}
+                            {% endif %}
+                        {% endfor %}                    
+                    </div>
 
                     <!-- Хлебные крошки -->
-                    <div class="col-sm-12 d-none d-sm-block">
+                    <div class="col-sm-12 d-none d-md-block">
                         {% if breadcrumbs %}
                         <nav class="ps-1" id="breadcrumbs" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                             <ol class="breadcrumb">
@@ -39,26 +52,14 @@
                         {% endif %}
                     </div>
 
-                    <!-- Первый баннер -->
-                    <div class="mb-3" id="banner-head">
-                        {% get_banners 'header' as banners %}
-                    
-                        {% for banner in banners %}
-                            {% if banner.show_on_main and request.path == '/' %}
-                                {% include "banner.html" %}
-                            {% elif not banner.show_on_main %}
-                                {% include "banner.html" %}
-                            {% endif %}
-                        {% endfor %}                    
-                    </div>
-
-                    <img src="{{ post.img.url }}" alt="" class="img-fluid w-100 mb-3"/>
+                    <img src="{{ post.img.url }}" alt="" class="img-fluid w-100 mb-3 rounded"/>
                     <h5>{{ post.title }}</h5>
                     <hr>
+                    <div class="ya-share2 mb-3" data-services="vkontakte,telegram" data-color-scheme="blackwhite" data-direction="horizontal" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
                     <p>{{ post.text|safe }}</p>
                     
                     
-
+                    <hr>
                     <p>Рубрика:
                         {% if post.category.count > 1 %}
                           <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
@@ -74,7 +75,7 @@
 
                     <p>Теги:
                         {% for tag in post.tags.all %}
-                            <a href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+                            <a href="{% url 'tags' tag.name %}" class="custom-link">{{ tag.name }}</a>
                         {% endfor %}
                     </p> 
                 </div>

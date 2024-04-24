@@ -15,6 +15,16 @@
             </div>
         </li>
 
+        <li class="list-group-item">
+            <h5 class="ms-3 mt-3" style="font-weight: 15px;">Выберите год</h5>
+            <div class="card-body">
+            <form method="get" action="">
+                {{ form.year }}
+                <button type="submit" class="btn btn-custom rounded-0 my-2">Показать обложки</button>
+            </form>
+            </div>  
+        </li>
+
 
         <li class="list-group-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
@@ -132,8 +142,8 @@
                 <hr>
                 {% if user.is_authenticated %}
                     <p>Вы вошли как: {{ user.username }}</p>
-                    <p><a href="{% url 'account_profile' %}">Личный кабинет</a>
-                    <a href="{% url 'account_logout' %}">Выйти</a></p>
+                    <p><a href="{% url 'account_profile' %}" class="btn btn-custom rounded-0">Личный кабинет</a>
+                    <a href="{% url 'account_logout' %}" class="btn btn-custom rounded-0">Выйти</a></p>
                 {% else %}
                     <form method="post" action="{% url 'custom-login' %}" class="mb-3">
                         {% csrf_token %}
@@ -150,6 +160,7 @@
                             <label class="form-check-label" for="{{ form.remember.name }}">Запомнить меня</label>
                         </div>
                         <button type="submit" class="btn btn-custom rounded-0">Войти</button>
+                        <a class="btn btn-custom rounded-0 ms-1" href="{% url 'custom_signup' %}">Регистрация</a>
                     </form>
                 {% endif %}
             </div>

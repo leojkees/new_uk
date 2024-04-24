@@ -8,7 +8,7 @@
 
 			
 <!-- Второй хедер -->
-<div class="container my-3 d-none d-md-block">
+<div class="container my-1 d-none d-md-block">
 
         <!-- Включаемый шаблон для header-second с данными из header.html -->
         {% include 'includes/header-second.html' with header_content=header_content %}
@@ -71,14 +71,13 @@
  
 
              <!-- Архив для мобильной версии -->
-             <div class="mob-arhive d-block d-md-none rounded my-4 mx-1" style="background-color:#c01826;">
-                <h5 class="pt-3 text-center" style="color: aliceblue;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a> за {{ latest_post_month }} {{ latest_post_year }}</h5>
+             <div class="mob-arhive d-block d-md-none rounded my-4 mx-1" style="background: linear-gradient(45deg, #95efff79, #ecbdff7e);">
+                <h5 style="font-size: 15px;" class="pt-3 text-center">{{ latest_post_month }} {{ latest_post_year }}</h5>
 
                 <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
-                    <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid w-100 p-3">
+                    <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid w-100 px-3">
                 </a>
-                <p class="p-3"><a href="{% url 'post_detail' latest_post_category_slug latest_post_slug %}">
-                    {{ latest_post_title }}</a></p>		
+                <h5 class="p-3 text-center" style="font-size: 15px;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a></h5>		
             </div>
 
 

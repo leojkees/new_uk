@@ -6,10 +6,11 @@
 
 
         <!-- Первый блок -->
-        <div class="col-md-1 text-center">
+        <div class="col-md-1">
             <div class="card-body">
-            <a href="ссылка_на_telegram"><img src="{% static 'tg-ico.svg' %}" alt="Telegram" style="width: 25px; margin: 3px"></a>
-            <a href="ссылка_на_вк"><img src="{% static 'vk-ico.svg' %}" alt="VKontakte" style="width: 25px; margin: 3px"></a>
+                <div class="container d-flex justify-content-center align-items-center">
+                    <div class="ya-share2" data-services="vkontakte,telegram" data-color-scheme="blackwhite" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
+                </div>
             </div>
         </div>
 

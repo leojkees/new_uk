@@ -28,10 +28,12 @@
                 {% for post in posts %}
 
                 <!-- Карточка -->
-                <div class="search-card mb-4 p-4" style="background-color: white;">
+                <div id="search-card" class="search-card rounded mb-4 p-4" style="background-color: white;">
                     <h5>{{ post.title }}</h5>
                     <p>{{ post.description }}</p>
                     <div class="row">
+
+                        <div class="col-12 col-sm-6">
                             <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
                             {% if post.category.count > 1 %}
                                 {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
@@ -40,13 +42,17 @@
                             {% endif %}
                         {% else %}
                             {% url 'paid_view' %}
-                        {% endif %}" class="btn btn-custom rounded-0 my-2">Читать</a>
-                        <a id="full-txt" style="font-size: 11px;" href="">{{ post.published_date|date:"d-m-Y" }}</a>
+                        {% endif %}" class="btn btn-custom rounded-0 my-2">Читать</a></div>
+
+                        <div class="col d-flex align-items-center">
+                        <a class="m-2" style="font-size: 11px;" href="">{{ post.published_date|date:"d-m-Y" }}</a>
                         {% if post.category.count > 1 %}
                             <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
                         {% else %}
                             <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
                         {% endif %} 
+                        </div>
+
                     </div>
                 </div>
                 <!-- Конец карточки --> 

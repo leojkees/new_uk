@@ -15,7 +15,9 @@
 	<link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
     <link rel="shortcut icon" href="{% static 'css/images/favicon.ico' %}" />
     <meta name='description' content='{{ post.description }}'>
-	
+	<meta property="og:title" content="{{ post.title }}"/>
+	<meta property="og:description" content="{{ post.description }}"/>
+	<meta property="og:image" content="{{ post.img }}"/>
 
 </head>
 <body>
@@ -281,9 +283,25 @@
 			</div>
 
 		</div>
-	</div>
 
-
+		<div id='brc-container' class="container d-block d-md-none sticky-top" style="background-color: #f6f6f6;">
+			<!-- Хлебные крошки -->
+			{% if not request.path == '/' %}
+				{% if breadcrumbs %}
+				<nav class="ps-3 mb-0 mt-1 rounded" id="breadcrumbs" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						{% for crumb in breadcrumbs %}
+							{% if not forloop.last %}
+								<li class="breadcrumb-item"><a id="full-txt" href="{{ crumb.url }}">{{ crumb.title }}</a></li>
+							{% else %}
+								<li class="breadcrumb-item active" aria-current="page">{{ crumb.title }}</li>
+							{% endif %}
+						{% endfor %}
+					</ol>
+				</nav>
+				{% endif %}
+			{% endif %}		
+		</div>
 	
 
 
@@ -305,6 +323,7 @@
 </footer>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
+<script src="https://yastatic.net/share2/share.js" async></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 </body>

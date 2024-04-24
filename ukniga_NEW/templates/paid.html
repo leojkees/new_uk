@@ -1,20 +1,18 @@
-{% extends "base.html" %}
-{% load static %}
+{% extends 'base.html' %}
 {% block content %}
 {% load slider_tags %}
+{% load static %}
 
 <div class="container">
     <div class="row">
-
-        <div class="col-3 d-none d-xl-block my-4">
-            <!-- Навменю -->
+        <div class="col-3 d-none d-xl-block mt-4">
+            <!-- Нав меню -->
             {% include 'includes/menu-all.html' %}
-            
         </div>
 
         <div class="col-12 col-xl-9 mt-4">
-
             
+
             <!-- Первый баннер -->
             <div class="mb-3" id="banner-head">
                 {% get_banners 'header' as banners %}
@@ -29,18 +27,12 @@
 
             </div>
 
-
-            <div class="mb-4">
-            <a class="btn btn-custom rounded-0 my-1 me-2" href="#auditory">Читательская аудитория</a>
-            <a class="btn btn-custom rounded-0 my-1 me-2" href="#redsovet">Редакционный совет</a>
-            <a class="btn btn-custom rounded-0 my-1 me-2" href="#dostizheniya">Наши достижения</a>
-            </div>   
-
-
-            {{ content|safe }}
-
+            
+            <!-- Редактируемый контент из админки -->
+            {{ content|safe }}   
+        
+        
         </div>
-    
     </div>
 </div>
 

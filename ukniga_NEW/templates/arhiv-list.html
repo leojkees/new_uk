@@ -6,27 +6,12 @@
         <div class="row justify-content-center">
 
             <!-- секция слева -->
-            <div class="col-xl-3 mt-4">
-
-
-                    <h5>Выберите год</h5>
-                    <div class="card-body">
-                    <form method="get" action="">
-                        {{ form.year }}
-                        <button type="submit" class="btn btn-custom rounded-0 my-2">Показать обложки</button>
-                    </form>
-                    </div>   
-                    
+            <div class="col-xl-3 mt-4"> 
 
                     <!-- Нав меню слева -->
-                    
-
-
                     <div class="div d-none d-xl-block">
                         {% include 'includes/menu_va.html' %}
                     </div>
-                
-
 
             </div>
 
@@ -49,6 +34,22 @@
                         {% endfor %}
                     
                     </div>
+
+                    <div class="container">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="d-block col-12 d-xl-none col-sm-4 text-center">
+                                <h5 class="mt-3" style="font-weight: 15px;">Выберите год</h5>
+                                <div class="card-body">
+                                    <form method="get" action="">
+                                        {{ form.year }}
+                                        <button type="submit" class="btn btn-custom rounded-0 my-2">Показать обложки</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>                    
+
 
                     <!-- Обложки с картинками -->
                     {% for month, posts in posts_by_month.items %}

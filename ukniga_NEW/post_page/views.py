@@ -54,11 +54,11 @@ class PostView(View):
 
         posts = Post.objects.filter(
             is_published=True,
-            published_date__lte=current_time
+            published_date__lte=current_time,
+            is_featured=True  # Добавляем проверку на is_featured
         ).exclude(
             category__name__in=excluded_categories
         ).order_by('-published_date')
-
         # Paginator с 5 постами на странице
         paginator = Paginator(posts, 10)
         
@@ -66,37 +66,37 @@ class PostView(View):
         page = request.GET.get('page')
 
         # Получаем посты с категорией "Библиотеки"
-        library_posts = Post.objects.filter(category__name='Библиотеки', is_published=True).order_by('-published_date')[:10]
+        library_posts = Post.objects.filter(category__name='Библиотеки', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Новости"
-        news_posts = Post.objects.filter(category__name='Новости', is_published=True).order_by('-published_date')[:10]
+        news_posts = Post.objects.filter(category__name='Новости', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Интервью"
-        interview_posts = Post.objects.filter(category__name='Интервью', is_published=True).order_by('-published_date')[:10]
+        interview_posts = Post.objects.filter(category__name='Интервью', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Книжный рынок"
-        bookrinok_posts = Post.objects.filter(category__name='Книжный рынок', is_published=True).order_by('-published_date')[:10]
+        bookrinok_posts = Post.objects.filter(category__name='Книжный рынок', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Острая тема"
-        ostraya_posts = Post.objects.filter(category__name='Острая тема', is_published=True).order_by('-published_date')[:10]
+        ostraya_posts = Post.objects.filter(category__name='Острая тема', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Выставки и конференции"
-        vistavki_posts = Post.objects.filter(category__name='Выставки и конференции', is_published=True).order_by('-published_date')[:10]
+        vistavki_posts = Post.objects.filter(category__name='Выставки и конференции', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Новости партнеров"
-        partners_posts = Post.objects.filter(category__name='Новости партнеров', is_published=True).order_by('-published_date')[:10]
+        partners_posts = Post.objects.filter(category__name='Новости партнеров', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Наука и образование"
-        nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True).order_by('-published_date')[:10]
+        nauka_posts = Post.objects.filter(category__name='Наука и образование', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Инновационные технологии"
-        inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True).order_by('-published_date')[:10]
+        inovations_posts = Post.objects.filter(category__name='Инновационные технологии', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Креативный контекст"
-        сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True).order_by('-published_date')[:10]
+        сreative_posts = Post.objects.filter(category__name='Креативный контекст', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         # Получаем посты с категорией "Анонсы"
-        anonced_posts = Post.objects.filter(category__name='Анонсы', is_published=True).order_by('-published_date')[:10]
+        anonced_posts = Post.objects.filter(category__name='Анонсы', is_published=True, is_featured=True).order_by('-published_date')[:10]
 
         try:
             # Получите текущую страницу
@@ -202,7 +202,16 @@ class PostDetailView(View):
 
 class PaidView(View):
     def get(self, request):
-        return render(request, 'arhiv/paid.html', {'menu': menu_and_breadcrumbs(request)['menu'], 'title': 'Платный контент'})
+        # Получаем шаблон 'paid.html' из базы данных
+        template = StaticTemplate.objects.get(name='paid.html')
+
+        # Подготавливаем контекст для передачи в шаблон
+        context = {
+            'content': template.content
+        }
+
+        # Рендерим шаблон 'paid.html' с контекстом и дополнительными данными, такими как меню и заголовок
+        return render(request, 'paid.html', context)
 
 
 
@@ -280,8 +289,24 @@ def reklama(request):
 
 def podpiska(request):
     months = Month.objects.all()
+    form_type = request.GET.get('form')  # Получаем значение параметра 'form'
+
+    # Определяем, какую форму показать на основе значения параметра
+    if form_type == 'userForm':
+        user_form_display = True
+        corporate_form_display = False
+    elif form_type == 'corporateForm':
+        user_form_display = False
+        corporate_form_display = True
+    else:
+        # Если параметр не указан или имеет некорректное значение, показываем обе формы
+        user_form_display = True
+        corporate_form_display = True
+
     context = {
-        'months': months
+        'months': months,
+        'user_form_display': user_form_display,
+        'corporate_form_display': corporate_form_display,
     }
 
     return render(request, 'podpiska.html', context)
@@ -420,7 +445,6 @@ def manage_favorite(request, post_id):
             favorites_to_remove = FavoritePost.objects.filter(user=request.user, post=post)
             favorites_to_remove.delete()
     
-    print(is_favorite)  # Убедитесь, что is_favorite обновляется правильно
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # def search_posts(request):

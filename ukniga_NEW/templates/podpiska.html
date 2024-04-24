@@ -38,14 +38,14 @@
                 <option value="user">Физическое лицо</option>
             </select>
         
-            <div id="corporateForm" style="display: none;">
+            <div id="corporateForm" style="display: {% if corporate_form_display %}block{% else %}none{% endif %};">
                 <h5>Подписка для юридического лица</h5>
                 <p>Данная форма поможет Вам сделать счет для оплаты подписки. Все поля обязательны для заполнения. Cтоимость подписки одного экземпляра в месяц составляет 1300 руб (электронная версия 720 руб).</p>
                 <hr>
                 {% include 'subscriptions/sub_form.html' %}
             </div>
         
-            <div id="userForm" style="display: none;">
+            <div id="userForm" style="display: {% if user_form_display %}block{% else %}none{% endif %};">
                 <h5>Подписка для физического лица</h5>
                 <p>Данная форма поможет Вам сделать счет для оплаты подписки. Все поля обязательны для заполнения. Cтоимость подписки одного экземпляра в месяц составляет 1300 руб (электронная версия 720 руб).</p>
                 <hr>

@@ -127,14 +127,14 @@
                 <div class="col-5 text-center">
                     <h5 style="font-size: 14px;">Для физ. лиц</h5>
 
-                    <p class="mb-0"><a style="font-size: 10px;" href="{% url 'podpiska' %}">Квитанция для оплаты</a></p>
+                    <p class="mb-1" style="line-height: 10px;"><a style="font-size: 10px;" href="{% url 'podpiska' %}?form=userForm">Квитанция для оплаты</a></p>
                     <a style="font-size: 10px;" href="{% url 'podpiska' %}">Онлайн оплата</a>
 
                 </div>
                 <div class="col-1 rectangle"></div>
                 <div class="col-5 text-center">
                     <h5 style="font-size: 14px;">Для юр. лиц</h5>  
-                    <a style="font-size: 10px;" href="{% url 'podpiska' %}">Счет на оплату по б/н расчету</a>
+                    <p style="line-height: 10px;"><a style="font-size: 10px;" href="{% url 'podpiska' %}?form=corporateForm">Счет на оплату по б/н расчету</a></p>
                 </div>
             </div>				
 
@@ -146,8 +146,8 @@
                 <hr>
                 {% if user.is_authenticated %}
                     <p>Вы вошли как: {{ user.username }}</p>
-                    <p><a href="{% url 'account_profile' %}">Личный кабинет</a>
-                    <a href="{% url 'account_logout' %}">Выйти</a></p>
+                    <p><a href="{% url 'account_profile' %}" class="btn btn-custom rounded-0">Личный кабинет</a>
+                    <a href="{% url 'account_logout' %}" class="btn btn-custom rounded-0">Выйти</a></p>
                 {% else %}
                     <form method="post" action="{% url 'custom-login' %}" class="mb-3">
                         {% csrf_token %}
@@ -164,6 +164,7 @@
                             <label class="form-check-label" for="{{ form.remember.name }}">Запомнить меня</label>
                         </div>
                         <button type="submit" class="btn btn-custom rounded-0">Войти</button>
+                        <a class="btn btn-custom rounded-0 ms-1" href="{% url 'custom_signup' %}">Регистрация</a>
                     </form>
                 {% endif %}
             </div>

@@ -68,7 +68,9 @@ def profile(request):
     if request.method == 'POST':
         profile_form = ProfileEditForm(request.POST, request.FILES, instance=profile)
         if profile_form.is_valid():
-            profile_form.save()
+            profile_instance = profile_form.save(commit=False)
+            profile_instance.user = user  # Здесь устанавливаем пользователя
+            profile_instance.save()
             return redirect('profile')
 
     profile_form = ProfileEditForm(instance=profile)

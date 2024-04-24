@@ -67,39 +67,9 @@
             <!-- секция слева -->
             <div class="col-xl-3 mt-4">
 
-                <div class="row mb-2">
-                <form method="get" action="{% url 'posts_by_year' %}">
-                    <label for="{{ form.year.id_for_label }}" class="my-2">Год:</label>
-                    {{ form.year }}
-
-                    <label for="{{ form.month.id_for_label }}" class="my-2">Месяц:</label>
-                    {{ form.month }}
-                    
-                    <div class="col m-2">
-                    <label for="{{ form.is_arhive.id_for_label }}">Архив:</label>
-                      {{ form.is_arhive }}
-                    </div>
-
-                    <div class="col m-1">
-                    <button type="submit" class="btn btn-custom rounded-0">Поиск</button>
-                    </div>
-                </form>
-
-                <div class="mt-2">
-                    {% if image_for_month %}
-                        <img src="{{ image_for_month.url }}" class="img-fluid w-100" alt="Обложка журнала за {{ form.month.value }}">
-                    {% endif %}
-                </div>
-
-                </div>
-
-                <div class="col my-2 ms-1">
-                <button href="{% url 'arhiv-list' %}?year={{ latest_post_year }}" class="btn btn-custom rounded-0">Вернуться к списку номеров</button>
-                </div>    
-
                 <div class="div d-none d-xl-block">
                     <!-- Нав меню слева -->
-                    {% include 'includes/menu_va.html' %}
+                    {% include 'includes/menu-arhive.html' %}
                 </div>   
 
 
@@ -135,14 +105,16 @@
         
         
                         <!-- Первый блок -->
-                        <div class="col-md-1 text-center d-flex flex-column">
+                        <div class="col-md-1 d-flex flex-column">
                             <div class="card-body" style="display: flex; flex-direction: column; height: 100%;">
-                              <div class="top-concard mb-2">
-                                <a href="ссылка_на_telegram"><img src="{% static 'tg-ico.svg' %}" alt="Telegram" style="width: 25px; margin: 3px"></a>
-                                <a href="ссылка_на_вк"><img src="{% static 'vk-ico.svg' %}" alt="VKontakte" style="width: 25px; margin: 3px"></a>
-                              </div>
-                              <div class="bottom-concard" style="margin-top: auto;">
-                                <p style="font-size: 10px;">Номер страницы</p><h5>{{ post.page }}</h5>
+
+                            <div class="container d-flex justify-content-center align-items-center">
+                                <div class="ya-share2" data-services="vkontakte,telegram" data-color-scheme="blackwhite" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
+                            </div>
+
+
+                              <div class="text-center" style="margin-top: auto;">
+                                <p class="my-1" style="font-size: 10px;">Номер страницы</p><h5>{{ post.page }}</h5>
                               </div>
                             </div>
                         </div>

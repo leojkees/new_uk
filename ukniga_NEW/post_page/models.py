@@ -97,6 +97,7 @@ class Post(models.Model):
     is_arhive = models.BooleanField('Архив', default=False)
     published_date = models.DateTimeField('Дата публикации', null=True, blank=True)
     is_published = models.BooleanField('Опубликовано', default=False)
+    is_featured = models.BooleanField('Выводить на главной', default=False)
 
     def clean(self):
         if self.is_arhive and not self.image:

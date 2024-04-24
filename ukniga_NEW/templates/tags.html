@@ -5,14 +5,14 @@
 
 
 
-<div class="container">
+<div class="container" style="min-height: 3000px;">
   <div class="row justify-content-center">
 
         <!-- Левое меню -->  
         <div class="col-3 d-none d-xl-block">
 
           <div class="col my-4">
-          <p>Тег: {{ tag.name }}</p>
+          <h5 style="font-size: 15px;">Тег: {{ tag.name }}</h5>
           <a href="{% url 'tag' %}" class="btn btn-custom rounded-0">Все теги</a>
           </div>  
 
