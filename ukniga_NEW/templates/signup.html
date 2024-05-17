@@ -36,6 +36,24 @@
 
                         <form method="post">
                             {% csrf_token %}
+
+                            <!-- Поле username -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.username.id_for_label }}" class="mb-2">Логин пользоваля для входа на сайт</label>
+                                {{ form.username }}
+                                {% if form.username.errors %}
+                                    <div class="alert alert-danger">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Поле Имя и Фамилия -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.full_name.id_for_label }}" class="mb-2">Ваше имя и фамилия</label>
+                                {{ form.full_name }}
+                                {% if form.full_name.errors %}
+                                    <div class="alert alert-danger">{{ form.full_name.errors }}</div>
+                                {% endif %}
+                            </div>
                         
                             <!-- Поле email -->
                             <div class="form-group my-4">
@@ -48,28 +66,29 @@
                         
                             <!-- Поле password1 -->
                             <div class="form-group my-4">
-                                <label for="{{ form.password1.id_for_label }}" class="mb-2">Придумайте пароль</label>
-                                {{ form.password1 }}
+                                <label for="{{ form.password1.id_for_label }}" class="mb-2">{{ form.password1.label }}</label>
+                                <div class="input-group">
+                                    {{ form.password1 }}
+                                    <button type="button" class="btn btn-custom rounded-0" id="togglePassword1">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                                 {% if form.password1.errors %}
                                     <div class="alert alert-danger">{{ form.password1.errors }}</div>
                                 {% endif %}
                             </div>
-                        
+
                             <!-- Поле password2 -->
                             <div class="form-group my-4">
-                                <label for="{{ form.password2.id_for_label }}" class="mb-2">Повторите пароль</label>
-                                {{ form.password2 }}
+                                <label for="{{ form.password2.id_for_label }}" class="mb-2">{{ form.password2.label }}</label>
+                                <div class="input-group">
+                                    {{ form.password2 }}
+                                    <button type="button" class="btn btn-custom rounded-0" id="togglePassword2">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
                                 {% if form.password2.errors %}
                                     <div class="alert alert-danger">{{ form.password2.errors }}</div>
-                                {% endif %}
-                            </div>
-                        
-                            <!-- Поле username -->
-                            <div class="form-group my-4">
-                                <label for="{{ form.username.id_for_label }}" class="mb-2">Ваш логин</label>
-                                {{ form.username }}
-                                {% if form.username.errors %}
-                                    <div class="alert alert-danger">{{ form.username.errors }}</div>
                                 {% endif %}
                             </div>
                         
@@ -79,6 +98,15 @@
                                 {{ form.terms_accepted }}
                                 {% if form.terms_accepted.errors %}
                                     <div class="alert alert-danger">{{ form.terms_accepted.errors }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Поле captcha -->
+                            <div class="form-group my-4">
+                                <label for="{{ form.captcha.id_for_label }}" class="mb-2">Введите код с картинки</label>
+                                {{ form.captcha }}
+                                {% if form.captcha.errors %}
+                                    <div class="alert alert-danger">{{ form.captcha.errors }}</div>
                                 {% endif %}
                             </div>
                         
@@ -96,5 +124,33 @@
          </div>
     </div>
 </div>
+
+
+<script>
+    // Функция для переключения видимости пароля
+    function togglePassword(inputId) {
+        var passwordInput = document.getElementById(inputId);
+        var toggleButton = document.getElementById("toggle-" + inputId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleButton.innerHTML = '<i class="bi bi-eye-slash"></i>'; // Иконка скрытого пароля
+        } else {
+            passwordInput.type = "password";
+            toggleButton.innerHTML = '<i class="bi bi-eye"></i>'; // Иконка видимого пароля
+        }
+    }
+
+    // Обработчики событий для кнопок
+    document.getElementById("togglePassword1").addEventListener("click", function() {
+        togglePassword("id_password1");
+    });
+
+    document.getElementById("togglePassword2").addEventListener("click", function() {
+        togglePassword("id_password2");
+    });
+</script>
+
+
 
 {% endblock %}

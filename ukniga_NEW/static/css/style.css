@@ -133,6 +133,14 @@ body {
 }
 
 
+#brc-container{
+    z-index: 1010; /* Устанавливаем индекс z для определения слоя */ 
+}
+
+#container-logo {
+    z-index: 1010; /* Устанавливаем индекс z для определения слоя */ 
+}
+
 
 /* Общие стили для элемента с id="menu-down" */
 #menu-down {
@@ -267,7 +275,7 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: -5px;
     width: 1px; /* ширина вашего прямоугольника */
     height: 100%; /* высота вашего прямоугольника (здесь высота равна высоте строки) */
     background-color: rgb(199, 0, 0); /* цвет прямоугольника */
@@ -432,9 +440,10 @@ strong {
     font-weight: 600;
 }
 
-
-
-
+#search-card a, #search-card p, #search-card h5 {
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 .card-container {
@@ -619,7 +628,6 @@ a:hover {
 .custom-link {
     display: inline-block;
     padding: 4px 8px;
-    margin: 4px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Горизонтальная, вертикальная и радиус размытия */
@@ -644,4 +652,108 @@ a:hover {
   
 .container::-webkit-scrollbar-track {
     background: linear-gradient(45deg, #95efff, #ecbdff);
+}
+
+.ya-share2__container_size_m .ya-share2__badge .ya-share2__icon {
+    background-color: #9eb1cd;
+    margin-left: 0;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+#sec-social {
+    /* Основные стили */
+    transition: box-shadow 0.5s ease; /* Анимация перехода тени применяется всегда */
+}
+
+#sec-social:hover {
+    /* Стили при наведении */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Изменение тени при наведении */
+    transition: box-shadow 0.5s ease; /* Анимация перехода тени */
+}
+
+.icon-tg {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/telegram_icon.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-tg:hover {
+    background-image:url('/static/telegram_icon.png');
+}
+
+.icon-vk {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/vk_icon.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-vk:hover {
+    background-image:url('/static/vk_icon.png');
+}
+
+.icon-mail {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/mail.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-mail:hover {
+    background-image:url('/static/mail.png');
+}
+
+.icon-arh {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/archive-1.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-arh:hover {
+    background-image:url('/static/archive-1.png');
+}
+
+.icon-lk {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/person.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-lk:hover {
+    background-image:url('/static/person.png');
+}
+
+.icon-dol {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url('/static/dollar.svg');
+    background-size: cover;
+    transition: background-image 0.5s ease;
+    vertical-align: middle; /* Выравнивание по середине относительно соседних элементов */
+}
+
+.icon-dol:hover {
+    background-image:url('/static/dollar.png');
 }

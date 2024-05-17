@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from .views import PaidView, PostView, PostDetailView, PasswordView
+from .views import PaidView, PostView, PostDetailView, PasswordView, post_preview
 from . import views
 from ckeditor_uploader import views as ckeditor_uploader_views
 from ckeditor_uploader.views import upload
@@ -7,6 +7,7 @@ from django.contrib.auth.views import LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
 from ckeditor_uploader import views as ckeditor_views
+from django.conf.urls import handler404
 
 
 
@@ -34,9 +35,12 @@ urlpatterns = [
     
     re_path(r'^(?P<category_slug>[-\w]+)/(?P<secondary_category_slug>[-\w]+)/(?P<slug>[-\w]+)\.html$', PostDetailView.as_view(), name='post_detail_multiple_categories'),
     re_path(r'^(?P<category_slug>[-\w]+)/(?P<slug>[-\w]+)\.html$', PostDetailView.as_view(), name='post_detail'),
-    
+    re_path(r'^(?P<category_slug>[-\w]+)/(?P<slug>[-\w]+)\.html/preview/$', post_preview, name='post-preview'),
     
 ]
 
+handler404 = 'post_page.views.custom_404'
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

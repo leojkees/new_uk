@@ -2,6 +2,7 @@
 {% block content %}
 {% load slider_tags %}
 {% load static %}
+{% load highlight %}
 
 <!-- Второй хедер -->
 <div class="container my-3 d-none d-md-block">
@@ -11,7 +12,7 @@
 
 </div>
 
-<div class="container text-left"  style="min-height: 2000px;">
+<div class="container text-left" style="min-height: 2500px;">
     <div class="row justify-content-center">
 
         <!-- секция слева -->
@@ -23,48 +24,144 @@
         
         <div class="col-12 col-xl-9 mt-4">
 
-                <h5>Результаты поиска</h5>
-                <hr>
-                {% for post in posts %}
 
-                <!-- Карточка -->
-                <div id="search-card" class="search-card rounded mb-4 p-4" style="background-color: white;">
-                    <h5>{{ post.title }}</h5>
-                    <p>{{ post.description }}</p>
-                    <div class="row">
 
-                        <div class="col-12 col-sm-6">
-                            <a href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}
-                            {% if post.category.count > 1 %}
-                                {% url 'post_detail_multiple_categories' category_slug=post.category.all.0.slug secondary_category_slug=post.category.last.slug slug=post.slug %}
+                
+                <h5>Результаты поиска для "{{ query }}":</h5>
+                <hr>            
+                {% if posts_with_snippets %}
+                    {% for item in posts_with_snippets %}
+                    <div id="search-card" class="search-card rounded mb-4 p-4" style="background-color: white;">
+                        <a href="{% if not item.post.is_paid or user.is_authenticated and user.subscribe %}
+                                    {% if item.categories|length > 1 %}
+                                        {% url 'post_detail_multiple_categories' category_slug=item.categories.0.slug secondary_category_slug=item.categories.last.slug slug=item.post.slug %}
+                                    {% else %}
+                                        {% url 'post_detail' category_slug=item.categories.0.slug slug=item.post.slug %}
+                                    {% endif %}
+                                {% else %}
+                                    {% url 'paid_view' %}
+                                {% endif %}">
+                            <h5>{{ item.post.title }}</h5>
+                        </a>
+                        <hr>
+                        {% for snippet in item.snippets %}
+                            <p>{{ snippet|safe }}</p>
+                        {% endfor %}
+                        <div class="col d-flex align-items-center" style="background: linear-gradient(45deg, #95efff27, #ecbdff28)">
+                            {% if item.categories|length > 1 %}
+                                <a id="full-txt" style="font-size: 13px; margin-left: 5px" href="{% url 'category_posts' category_slug=item.categories.last.slug %}">{{ item.categories.last.name }}</a>
                             {% else %}
-                                {% url 'post_detail' category_slug=post.category.first.slug slug=post.slug %}
+                                <a id="full-txt" style="font-size: 13px; margin-left: 5px" href="{% url 'category_posts' category_slug=item.categories.0.slug %}">{{ item.categories.0.name }}</a>
                             {% endif %}
-                        {% else %}
-                            {% url 'paid_view' %}
-                        {% endif %}" class="btn btn-custom rounded-0 my-2">Читать</a></div>
-
-                        <div class="col d-flex align-items-center">
-                        <a class="m-2" style="font-size: 11px;" href="">{{ post.published_date|date:"d-m-Y" }}</a>
-                        {% if post.category.count > 1 %}
-                            <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>
-                        {% else %}
-                            <a id="full-txt" style="font-size: 13px;" href="{% url 'category_posts' category_slug=post.category.first.slug %}">{{ post.category.first.name }}</a>
-                        {% endif %} 
                         </div>
-
-                    </div>
-                </div>
-                <!-- Конец карточки --> 
-
-                {% endfor %}   
+                        <p class="m-1" style="font-size: 10px;">Опубликовано: {{ item.post.published_date|date:"d M Y H:i" }}</p>
+                    </div>    
+                    {% endfor %}
+                {% else %}
+                    {% if query %}
+                        <p>По вашему запросу ничего не найдено.</p>
+                    {% endif %}
+                {% endif %}
                     
-                    
+               
+                <!-- Пагинация --> 
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <!-- Первые две кнопки для перехода к началу и предыдущей странице -->
+                        {% if posts_with_snippets.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ posts_with_snippets.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;&laquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;</span>
+                        </li>
+                        {% endif %}
+                        
+                        <!-- Отображение текущих страниц -->
+                        {% for i in posts_with_snippets.paginator.page_range %}
+                            {% if i <= 10 %}
+                                {% if posts_with_snippets.number == i %}
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">{{ i }} <span class="sr-only"></span></span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?q={{ query }}&page={{ i }}">{{ i }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <!-- Кнопка для отображения дополнительных страниц -->
+                        <li class="page-item" id="morePagesButton">
+                            <a class="page-link" href="#" onclick="showMorePages()" aria-label="More">
+                                <span aria-hidden="true">...</span>
+                            </a>
+                        </li>
+                        
+                        <!-- Кнопки для перехода к следующей и последней странице -->
+                        {% if posts_with_snippets.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ posts_with_snippets.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?q={{ query }}&page={{ posts_with_snippets.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;</span>
+                        </li>
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+
+
+
+
         </div>
+
 
 
     </div>
 </div>
 
+<script>
+    function showMorePages() {
+        // Показать следующие страницы после первых 10
+        var paginationList = document.querySelector('.pagination');
+        var morePagesButton = document.getElementById('morePagesButton');
+        for (var i = 11; i <= {{ posts.paginator.num_pages }}; i++) {
+            var listItem = document.createElement('li');
+            listItem.classList.add('page-item');
+            var link = document.createElement('a');
+            link.classList.add('page-link');
+            link.href = "?q={{ query }}&page=" + i;
+            link.textContent = i;
+            listItem.appendChild(link);
+            paginationList.insertBefore(listItem, morePagesButton);
+        }
+        // Скрыть кнопку "Еще страницы"
+        morePagesButton.style.display = 'none';
+    }
+</script>
 
 {% endblock %}

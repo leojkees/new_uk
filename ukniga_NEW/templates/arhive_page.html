@@ -182,7 +182,7 @@
         
                                         <div class="col text-center" style='font-size: 12px'>
                                             {% for tag in post.tags.all|slice:":1" %}
-                                                Теги: <a id="full-txt" href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
+                                                <a id="full-txt" href="{% url 'tags' tag.name %}">{{ tag.name }}</a>
                                             {% endfor %}
                                         </div>
                                     

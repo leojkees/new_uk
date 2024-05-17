@@ -39,8 +39,9 @@ class PostFilterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PostFilterForm, self).__init__(*args, **kwargs)
 
-        # Заполнение выбора месяца значениями из предустановленных вариантов
-        months = Post.MONTH_CHOICES
+        # Фильтрация списка месяцев, исключая определенные месяцы
+        excluded_months = ['Январь', 'Февраль', 'Июль', 'Август']
+        months = [(value, label) for value, label in Post.MONTH_CHOICES if label not in excluded_months]
         self.fields['month'].choices = months
 
         # Получение списка уникальных годов из базы данных и сортировка их по убыванию

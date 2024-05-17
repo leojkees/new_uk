@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'filebrowser',
     'jet.dashboard',
     'jet',
+    'captcha',
     'subscriptions',
     'django_summernote',
     'django.contrib.admin',
@@ -53,8 +54,18 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'userprofile.apps.UserprofileConfig',
     'tinymce',
-
+    'django_q',
 ]
+
+Q_CLUSTER = {
+    'name': 'DjangoORM',
+    'workers': 4,
+    'timeout': 90,
+    'retry': 120,
+    'queue_limit': 50,
+    'bulk': 10,
+    'orm': 'default',  # использует базу данных Django для хранения задач
+}
 
 SUMMERNOTE_CONFIG = {
     # Using SummernoteWidget - iframe mode, default
@@ -405,6 +416,9 @@ MIDDLEWARE = [
 
 ]
 
+ACCOUNT_FORMS = {
+    'signup': 'userprofile.forms.CustomSignupForm',
+}
 
 # Настройки для Django Allauth
 ACCOUNT_EMAIL_VERIFICATION = 'MANDATORY'  # Обязательная верификация по email
@@ -414,3 +428,4 @@ ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5  # Лимит попыток входа
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300  # Время блокировки после лимита попыток входа (в секундах)
 
 
+SITE_URL = 'http://127.0.0.1:8000/'

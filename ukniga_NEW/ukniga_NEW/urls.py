@@ -31,6 +31,7 @@ urlpatterns = [
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')), #добавляем путь к allauth
+    path('captcha/', include('captcha.urls')), #добавляем путь к капче
     path('', include('userprofile.urls')),
     path('', include('post_page.urls')), #include принимает набор маршрутов из файла блог пэйдж\
     path('', include('slider.urls')), #include принимает набор маршрутов из файла блог пэйдж\

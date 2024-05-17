@@ -55,11 +55,20 @@
                     <img src="{{ post.img.url }}" alt="" class="img-fluid w-100 mb-3 rounded"/>
                     <h5>{{ post.title }}</h5>
                     <hr>
-                    <div class="ya-share2 mb-3" data-services="vkontakte,telegram" data-color-scheme="blackwhite" data-direction="horizontal" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
+
+                    <div class="container p-2" style="background: linear-gradient(45deg, #95efff2f, #ecbdff2d);">
+                        <div class="ya-share2" data-services="vkontakte,telegram,whatsapp,odnoklassniki" data-color-scheme="blackwhite" data-direction="horizontal" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
+                        
+                    </div>
+
                     <p>{{ post.text|safe }}</p>
                     
-                    
+                    <div class="container p-2" style="background: linear-gradient(45deg, #95efff2f, #ecbdff2d);">
+                        <div class="ya-share2" data-services="vkontakte,telegram,whatsapp,odnoklassniki" data-color-scheme="blackwhite" data-direction="horizontal" data-shape="normal" data-title="{{ post.title }}" data-description="{{ post.description }}" data-image="{{ post.img }}"></div>
+                        
+                    </div>
                     <hr>
+                    
                     <p>Рубрика:
                         {% if post.category.count > 1 %}
                           <a href="{% url 'category_posts' category_slug=post.category.last.slug %}">{{ post.category.last.name }}</a>

@@ -57,23 +57,22 @@ class CustomPasswordChangeView(PasswordChangeView):
 
 
 
-@login_required
+
+@login_required  # Проверка, что пользователь аутентифицирован, прежде чем доступ к этой функции
 def profile(request):
-    user = request.user
+    user = request.user  # Получаем текущего пользователя из запроса
     try:
-        profile = Profile.objects.get(user=user)
-    except Profile.DoesNotExist:
+        profile = Profile.objects.get(user=user)  # Пытаемся получить профиль пользователя из базы данных
+    except Profile.DoesNotExist:  # Если профиль не существует, устанавливаем его значение None
         profile = None
 
-    if request.method == 'POST':
-        profile_form = ProfileEditForm(request.POST, request.FILES, instance=profile)
-        if profile_form.is_valid():
-            profile_instance = profile_form.save(commit=False)
-            profile_instance.user = user  # Здесь устанавливаем пользователя
-            profile_instance.save()
-            return redirect('profile')
+    if request.method == 'POST':  # Проверяем, был ли запрос методом POST
+        profile_form = ProfileEditForm(request.POST, request.FILES, instance=profile)  # Создаем форму редактирования профиля с данными из запроса
+        if profile_form.is_valid():  # Проверяем валидность данных формы
+            profile_form.save()  # Сохраняем данные профиля, если форма валидна
+            return redirect('profile')  # Перенаправляем пользователя на страницу профиля после успешного сохранения
 
-    profile_form = ProfileEditForm(instance=profile)
-    context = {'user': user, 'profile': profile, 'profile_form': profile_form}
-    return render(request, 'profile.html', context)
+    profile_form = ProfileEditForm(instance=profile)  # Создаем форму редактирования профиля с существующими данными профиля
+    context = {'user': user, 'profile': profile, 'profile_form': profile_form}  # Создаем контекст для передачи данных в шаблон
+    return render(request, 'profile.html', context)  # Отображаем страницу профиля с переданным контекстом
 

@@ -16,11 +16,11 @@
         <div class="col-9">
 
             <div class="row">
-            <div class="col-9 p-4 d-flex flex-column justify-content-center">
+            <div class="col-9 d-flex flex-column justify-content-center" style="padding: 1.5rem 1.5rem 0 1.5rem;">
                 <h5 style="font-size: 14px;">Новый номер: {{ latest_post_month }} {{ latest_post_year }}</h5>
                     
                     <!-- Вывод данных из header.html -->
-                    {{ header_content | safe }}
+                    {{ header_content | safe }}                
                     
             </div>        
 
@@ -33,13 +33,27 @@
 
             <div class="col-3 p-2 d-flex flex-column justify-content-center align-items-center">
                 <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
-                    <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3" style="height: 170px;">
+                    <img src="{{ latest_post_image }}" alt="Изображение последнего месяца" class="img-fluid p-3" style="height: 250px;">
                 </a>
-                <h5 style="font-size: 15px;"><a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}">Архив</a></h5>
             </div>
             </div>
         </div>
 
+        <div id="sec-social" class="container rounded-bottom" style="display: flex; justify-content: space-between; background: linear-gradient(45deg, #95efff3b, #ecbdff3d);">
+
+            <div class="ms-1">
+                <a href="#" class="icon-vk m-2" title="Группа Вконтакте"></a>
+                <a href="https://t.me/unkniga/" class="icon-tg m-2" title="Телеграм канал"></a>
+                <a href="mailto:unkniga@mail.ru" class="icon-mail m-2" title="Написать письмо"></a>
+            </div>
+            
+            <div class="me-3">
+                <a href="{% url 'podpiska' %}" class="icon-dol m-2" title="Оплатить подписку"></a>
+                <a href="{% url 'arhiv-list' %}?year={{ latest_post_year }}" class="icon-arh m-2" title="Архив"></a>
+                <a href="{% url 'account_profile' %}" class="icon-lk m-2" title="Личный кабинет"></a>
+            </div>
+        
+        </div>     
 
     </div>
 </div>

@@ -6,6 +6,9 @@
     <div class="card" style="width: 100%">
         <ul class="list-group list-group-flush">
 
+        <li class="list-group-item">
+            <a class="nav-link" href="{% url 'category_posts' category_slug='news' %}">НОВОСТИ</a>
+        </li>
 
         <li class="list-group-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#collapseNav1" aria-expanded="false" aria-controls="collapseNav">
@@ -119,7 +122,7 @@
 
         <li class="list-group-item p-3 d-flex flex-column justify-content-end" style="background-color:#c4c4c4; border-top-left-radius: 0; border-top-right-radius: 0;">
 
-            <a href="{% url 'podpiska' %}" class="btn btn-primary mb-4">Подписка на журнал</a>
+            <a href="{% url 'podpiska' %}" class="btn btn-custom rounded-0 mb-4">Подписка на журнал</a>
 
 
         

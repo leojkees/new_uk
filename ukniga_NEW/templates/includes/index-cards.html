@@ -8,7 +8,7 @@
         <!-- Фуллскрин -->
         {% if post.card_display == 'fullscreen' %}
 
-        <div class="card-body" id="fullscreen" style="background-image: url('{{ post.img.url }}'); border-radius: 5px;">
+        <div class="card-body" id="fullscreen" style="background-image: url('{{ post.get_image_absolute_url }}'); border-radius: 5px;">
             <div id="filter"></div>
             <div class="container p-3" style="position: absolute; bottom: 0; left: 0; right: 0;">
                 <a id="full-txt" style="color: black;" href="{% if not post.is_paid or user.is_authenticated and user.subscribe %}

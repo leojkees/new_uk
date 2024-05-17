@@ -39,23 +39,23 @@
             <h5>Фильтр по тегам</h5>
             <hr>    
             <!-- Контейнер с тегами -->
-            <div class="container mb-4" style="height: 300px; overflow-y: auto;">
+            <div class="container mb-4" style="height: 2200px; overflow-y: auto;">
 
                 <input type="text" id="tag-search" class="form-control mb-2 w-50" placeholder="Поиск по тегам">
 
                 {% for tag in form.tags.field.queryset %}
-                    <a href="{% url 'tags' tag.name %}" class="custom-link {% if tag.pk in form.tags.value %}selected{% endif %}">{{ tag.name }}</a>
+                    <a href="{% url 'tags' tag.name %}" class="custom-link my-1 {% if tag.pk in form.tags.value %}selected{% endif %}">{{ tag.name }}</a>
                 {% endfor %}
             </div>
                 
                 
-            {% for post in posts %}
+            <!-- {% for post in posts %}
 
-                <!-- Карточка -->
+
                 {% include 'includes/category_card.html' %}
-                <!-- Конец карточки --> 
 
-            {% endfor %}   
+
+            {% endfor %}    -->
 
 
             </div>

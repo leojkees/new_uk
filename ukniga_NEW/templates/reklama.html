@@ -7,11 +7,6 @@
     <div class="row">
 
         <div class="col-3 d-none d-xl-block mt-4 mb-3">
-            <p><a href="#obshee">Общие правила</a></p>
-            <p><a href="#price">Расценки</a></p>
-            <p><a href="#maket">Требования к макету</a></p>
-            <p><a href="#site">Реклама на сайте</a></p>
-
             <!-- Нав меню -->
             {% include 'includes/menu-all.html' %}
         </div>
@@ -32,7 +27,13 @@
 
             </div>
 
-            
+            <div class="mb-4">
+                <a class="btn btn-custom rounded-0 my-1 me-2" href="#obshee">Общие правила</a>
+                <a class="btn btn-custom rounded-0 my-1 me-2" href="#price">Расценки</a>
+                <a class="btn btn-custom rounded-0 my-1 me-2" href="#maket">Требования к макету</a>
+                <a class="btn btn-custom rounded-0 my-1 me-2" href="#site">Реклама на сайте</a>
+            </div> 
+
             <!-- Редактируемый контент из админки -->
             {{ content|safe }}   
 

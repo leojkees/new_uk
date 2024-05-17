@@ -9,6 +9,11 @@ from django.utils import timezone
 from ckeditor.fields import RichTextField
 from django_summernote.fields import SummernoteTextField
 from django.core.exceptions import ValidationError
+from django.conf import settings
+from django_q.tasks import schedule
+from .tasks import check_and_publish_post
+from django.db import connection
+
 
 
 
@@ -23,20 +28,33 @@ class MyPermissions(models.Model):
         ]
 
 
+#Файловый браузер
+def upload_to_folder(instance, filename):
+    return f'{instance.upload_folder}/{filename}'
+
 class MyFile(models.Model):
     name = models.CharField(max_length=100)
-    file = models.FileField(upload_to='uploads/')
+    file = models.FileField(upload_to=upload_to_folder)
+    wrap_image = models.BooleanField(default=False, verbose_name='Картинка с обтеканием')
+    upload_folder = models.CharField(max_length=100, default='uploads', verbose_name='Папка загрузки')
 
-    def save(self, *args, **kwargs):
-        original_filename = self.file.name
-        extension = os.path.splitext(original_filename)[1]
-        # Сохраняем только расширение оригинального файла
-        self.file.name = self.name + extension
-        super(MyFile, self).save(*args, **kwargs)
-        
     class Meta:
         verbose_name = "Файл"
         verbose_name_plural = "Файловый браузер"
+# class MyFile(models.Model):
+#     name = models.CharField(max_length=100)
+#     file = models.FileField(upload_to='uploads/')
+
+#     def save(self, *args, **kwargs):
+#         original_filename = self.file.name
+#         extension = os.path.splitext(original_filename)[1]
+#         # Сохраняем только расширение оригинального файла
+#         self.file.name = self.name + extension
+#         super(MyFile, self).save(*args, **kwargs)
+        
+#     class Meta:
+#         verbose_name = "Файл"
+#         verbose_name_plural = "Файловый браузер"
 
 
 class Category(models.Model):
@@ -81,8 +99,8 @@ class Post(models.Model):
         ('Октябрь', 'Октябрь'), ('Ноябрь', 'Ноябрь'), ('Декабрь', 'Декабрь')
     ]
     
-    title = models.CharField('Заголовок записи', max_length=150)
-    description = SummernoteTextField('Краткое описание', max_length=150)
+    title = models.CharField('Заголовок записи', max_length=200)
+    description = models.TextField('Краткое описание', max_length=200)
     text = SummernoteTextField()
     page = models.IntegerField('Номер страницы в журнале', default=None, blank=True, null=True)
     img = models.ImageField('Главное изображение поста', upload_to='images/%Y/%m-%d')
@@ -98,6 +116,30 @@ class Post(models.Model):
     published_date = models.DateTimeField('Дата публикации', null=True, blank=True)
     is_published = models.BooleanField('Опубликовано', default=False)
     is_featured = models.BooleanField('Выводить на главной', default=False)
+
+
+    @staticmethod
+    def search(query):
+        # Разбиваем запрос на отдельные слова и формируем строку с учетом весов полей
+        words = query.split()
+        query_with_weights = ' '.join([f'+{word}' for word in words])
+
+        # Формируем условие для поиска, где оба слова должны встречаться в одном поле
+        query_condition = ' '.join([f'(+{word})' for word in words])
+
+        # Составляем SQL запрос с учетом весов полей и условия поиска
+        sql_query = (
+            "SELECT *, MATCH(title, description, text) AGAINST (%s IN BOOLEAN MODE) AS relevance "
+            "FROM post_page_post "
+            "WHERE MATCH(title, description, text) AGAINST (%s IN BOOLEAN MODE) AND "
+            f"(MATCH(title, description, text) AGAINST ('{query_condition}' IN BOOLEAN MODE)) AND is_published = True "
+            "ORDER BY relevance DESC"
+        )
+
+        return Post.objects.raw(sql_query, [query_with_weights, query_with_weights])
+
+
+        
 
     def clean(self):
         if self.is_arhive and not self.image:
@@ -121,45 +163,65 @@ class Post(models.Model):
 
 
     def save(self, *args, **kwargs):
-
         # Если slug не был указан явно, генерируем его на основе title
         if not self.slug:
             self.slug = slugify(self.title)
-        super().save(*args, **kwargs)
 
-        # Получаем оригинальный объект из базы данных для сравнения
-        if self.pk:
-            original = Post.objects.get(pk=self.pk)
-        else:
-            original = None
+        # Текущее время
+        local_time = timezone.localtime(timezone.now())
 
-        # Автоматическая установка is_published в True, если наступила дата публикации
-        # и если поле is_published не было изменено вручную на False
-        if self.published_date and self.published_date <= timezone.now():
-            if original is None or original.is_published:
+        # Логика публикации
+        if self.is_published:
+            if self.published_date and self.published_date > local_time:
+                # Если время публикации в будущем, делаем пост невидимым на публичных страницах
+                self.is_published = False
+            else:
+                # Время текущее или прошлое, пост публикуется
                 self.is_published = True
+        else:
+            # Если чекбокс не выбран или снят, пост не виден на публичных страницах
+            self.is_published = False
 
-        super().save(*args, **kwargs)
+        # Сохраняем изменения
+        super(Post, self).save(*args, **kwargs)
+
+        # Планирование задачи на будущее время, если нужно
+        if self.published_date and self.published_date > timezone.localtime():
+            schedule('post_page.tasks.check_and_publish_post', self.id, schedule_type='O', next_run=self.published_date)
+
+        # Логика снятия с публикации
+        if self.unpublished_date:
+            if self.unpublished_date <= local_time:
+                # Если дата окончания публикации в прошлом или настоящем, снимаем пост с публикации
+                self.is_published = False
+                super(Post, self).save(*args, **kwargs)
+            else:
+                # Планирование задачи на будущее время для снятия с публикации
+                schedule('post_page.tasks.check_and_unpublish_post', self.id, schedule_type='O', next_run=self.unpublished_date)
+        
+
+    def get_image_absolute_url(self):
+        return f"{settings.SITE_URL}{self.img.url}"
         
     
     def get_absolute_url(self):
-        # Если self.slug определен, используйте URL-паттерн 'post_detail'
-        # if self.slug:
-        #     return reverse('post_detail', kwargs={'slug': self.slug})
-        if self.slug:
-            return reverse('post_detail', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
-        
-        # Если self.date определен, используйте URL-паттерн 'posts_by_year' с годом
-        # if self.date:
-        #     return reverse('posts_by_year', args=[str(self.date.year)])
-        if self.date:
-            return reverse('posts_by_year', args=[str(self.date.year), str(self.date.month)])
+        # Используем URL-паттерн 'post_detail' если у поста есть slug и хотя бы одна категория
+        if self.slug and hasattr(self, 'category') and self.category.exists():
+            category_slug = self.category.all().order_by('slug').first().slug
+            return reverse('post_detail', kwargs={'category_slug': category_slug, 'slug': self.slug})
 
-        
-        if self.author.subscribe:
-            return reverse('post_detail', args=[str(self.id)])
+        # Используем URL-паттерн 'posts_by_year' если у поста есть дата
+        if hasattr(self, 'date') and self.date:
+            return reverse('posts_by_year', kwargs={'year': self.date.year, 'month': self.date.month})
+
+        # Возвращаем URL для просмотра деталей поста или платного контента в зависимости от подписки автора
+        if hasattr(self, 'author') and self.author.subscribe:
+            return reverse('post_detail', kwargs={'post_id': self.id})
         else:
             return reverse('paid')
+
+        # Если ни одно из условий не выполнено, можно вернуть главную страницу или другой стандартный URL
+        return reverse('home')
  
     
     #отображение записей в админке?    

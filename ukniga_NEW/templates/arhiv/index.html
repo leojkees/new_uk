@@ -51,7 +51,7 @@
 
 
             <!-- Вывод постов интервью -->
-            <h5 class="ms-1">Интервью</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='face' %}">Действующие лица</a></h5>
             <hr>
             <div id="interview" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in interview_posts %}
@@ -71,7 +71,7 @@
  
 
              <!-- Архив для мобильной версии -->
-             <div class="mob-arhive d-block d-md-none rounded my-4 mx-1" style="background: linear-gradient(45deg, #95efff79, #ecbdff7e);">
+             <div class="mob-arhive d-block d-md-none rounded my-4 mx-1 shadow" style="background: linear-gradient(45deg, #95efff79, #ecbdff7e);">
                 <h5 style="font-size: 15px;" class="pt-3 text-center">{{ latest_post_month }} {{ latest_post_year }}</h5>
 
                 <a href="{% url 'posts_by_year' %}?year={{ latest_post_year }}&month={{ latest_post_month }}">
@@ -82,7 +82,7 @@
 
 
             <!-- Вывод постов категории "Новости" в виде списка -->
-            <h5 class="ms-1">Новости</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='news' %}">Новости</a></h5>
             <hr>
             <div id="news-block" class='mb-5'>
                 <div class="row">
@@ -99,7 +99,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"m-Y" }} : <strong>{{ post.title }}</strong></a>
                                     
                                 </li>
                             {% endfor %}
@@ -121,7 +121,7 @@
 
 
             <!-- Вывод постов книжный рынок -->
-            <h5 class="ms-1">Книжный рынок</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='knigniy-rinok' %}">Книжный рынок</a></h5>
             <hr>
             <div id="bookrinok" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in bookrinok_posts %}
@@ -144,7 +144,7 @@
 
 
             <!-- Вывод постов острая тема -->
-            <h5 class="ms-1">Острая тема</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='ostraya-tema' %}">Острая тема</a></h5>
             <hr>
             <div id="ostraya" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in ostraya_posts %}
@@ -178,7 +178,7 @@
 
 
             <!-- Вывод постов Выставки и конференции -->
-            <h5 class="ms-1">Выставки и конференции</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='vistavki-konferents' %}">Выставки и конференции</a></h5>
             <hr>
             <div id="vistavki" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in vistavki_posts %}
@@ -215,7 +215,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"m-Y" }} : <strong>{{ post.title }}</strong></a>
                                     
                                 </li>
                             {% endfor %}
@@ -237,7 +237,7 @@
 
 
             <!-- Вывод постов Библиотеки -->
-            <h5 class="ms-1">Библиотеки</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='bibdelo' %}">Библиотеки</a></h5>
             <hr>
             <div id="biblioteki" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in library_posts %}
@@ -260,7 +260,7 @@
 
 
             <!-- Вывод постов Наука и образование -->
-            <h5 class="ms-1">Наука и образование</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='vishee' %}">Наука и образование</a></h5>
             <hr>
             <div id="nauka" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in nauka_posts %}
@@ -292,7 +292,7 @@
 
 
             <!-- Вывод постов Инновационные технологии -->
-            <h5 class="ms-1">Инновационные технологии</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='tehnology' %}">Инновационные технологии</a></h5>
             <hr>
             <div id="inovations" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in inovations_posts %}
@@ -313,7 +313,7 @@
 
 
             <!-- Вывод постов Креативный контекст -->
-            <h5 class="ms-1">Креативный контекст</h5>
+            <h5 class="ms-1"><a href="{% url 'category_posts' category_slug='creativ-context' %}">Креативный контекст</a></h5>
             <hr>
             <div id="сreative" class="card-container py-1 d-flex flex-row overflow-hidden">
                 {% for post in сreative_posts %}
@@ -360,7 +360,7 @@
                                         {% endif %}
                                     {% else %}
                                         {% url 'paid_view' %}
-                                    {% endif %}">{{ post.published_date|date:"d-m-Y" }} : {{ post.title }}</a>
+                                    {% endif %}">{{ post.published_date|date:"m-Y" }} : <strong>{{ post.title }}</strong></a>
                                     
                                 </li>
                             {% endfor %}
